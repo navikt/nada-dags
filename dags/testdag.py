@@ -7,7 +7,7 @@ default_args = {
     'start_date': datetime(2019, 4, 1)
 }
 
-with DAG('dagtest', default_args=default_args, schedule_interval=timedelta(days=1)) as dag:
+with DAG('eksempel', default_args=default_args, schedule_interval=timedelta(days=1)) as dag:
     t1 = BashOperator(
         task_id='hellotask',
         bash_command='echo "Hello world"',
