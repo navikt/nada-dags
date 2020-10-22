@@ -1,8 +1,8 @@
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
 from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
-from airflow.kubernetes.volume import Volume
-from airflow.kubernetes.volume_mount import VolumeMount
+from airflow.contrib.kubernetes.volume import Volume
+from airflow.contrib.kubernetes.volume_mount import VolumeMount
 from datetime import datetime, timedelta
 
 
