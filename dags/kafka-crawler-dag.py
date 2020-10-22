@@ -42,7 +42,7 @@ with DAG('kafka-indexer', default_args=default_args, schedule_interval=timedelta
         ],
         volumes=[
             Volume(name='dags-data', configs={}),
-            Volume(name="airflow-git-keys", configs={
+            Volume(name="git-clone-secret", configs={
                 "secret": {
                     "defaultMode": 448,
                     "secretName": "airflow-git-keys"
