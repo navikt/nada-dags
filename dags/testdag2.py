@@ -13,11 +13,7 @@ with DAG('eriktester', default_args=default_args, schedule_interval=timedelta(da
         task_id='erik',
         bash_command='echo "Erik"',
         dag=dag)
-    t2 = BashOperator(
-        task_id='tester',
-        bash_command='echo "tester"',
-        dag=dag)
-    t3 = KubernetesPodOperator(
+    t2 = KubernetesPodOperator(
         dag=dag,
         name='test',
         namespace='nada',
@@ -27,4 +23,4 @@ with DAG('eriktester', default_args=default_args, schedule_interval=timedelta(da
         arguments=["Hello world"]
     )
 
-    t1 >> t2 >> t3
+    t1 >> t2
