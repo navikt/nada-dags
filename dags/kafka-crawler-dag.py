@@ -4,6 +4,7 @@ from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOpera
 from airflow.contrib.kubernetes.volume import Volume
 from airflow.contrib.kubernetes.volume_mount import VolumeMount
 from datetime import datetime, timedelta
+from kubernetes.client import V1Container
 
 
 default_args = {
@@ -16,6 +17,16 @@ with DAG('kafka-indexer', default_args=default_args, schedule_interval=timedelta
         bash_command='echo "test"',
         dag=dag)
     t2 = KubernetesPodOperator(
+        init_containers=[V1Container(
+            name="init-clone-repo",
+            image="navikt/knada-git-sync:9",
+            volume_mounts=[
+                VolumeMount("dags-data", mount_path="/dags", sub_path=None, read_only=False),
+                VolumeMount("git-clone-secret", mount_path="/keys", sub_path=None, read_only=False)
+            ],
+            command=["/bin/sh", "/git-clone.sh"],
+            args=["navikt/nada-dags", "main", "/dags"],
+        )],
         dag=dag,
         name='kafka-indexer',
         namespace='nada',
@@ -29,7 +40,13 @@ with DAG('kafka-indexer', default_args=default_args, schedule_interval=timedelta
             VolumeMount("dags-data", mount_path="/dags", sub_path=None, read_only=True)
         ],
         volumes=[
-            Volume(name='dags-data', configs={})
+            Volume(name='dags-data', configs={}),
+            Volume(name="airflow-git-keys", configs={
+                "secret": {
+                    "defaultMode": 448,
+                    "secretName": "airflow-git-keys"
+                }
+            })
         ],
         annotations={
             "sidecar.istio.io/inject": "false"
