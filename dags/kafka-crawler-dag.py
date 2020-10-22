@@ -4,20 +4,13 @@ from airflow.contrib.kubernetes.volume_mount import VolumeMount
 from airflow.operators.bash_operator import BashOperator
 from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
 from datetime import datetime, timedelta
-from kubernetes.client.models import V1Container
-
+import kubernetes.client as k8s
 
 default_args = {
     'start_date': datetime(2020, 10, 21)
 }
 
-with DAG('kafka-indexer', default_args=default_args, schedule_interval=timedelta(days=1)) as dag:
-    t1 = BashOperator(
-        task_id='testinit',
-        bash_command='echo "test"',
-        dag=dag)
-    t2 = KubernetesPodOperator(
-        init_containers=[V1Container(
+git_clone_init_container = k8s.V1Container(
             name="init-clone-repo",
             image="navikt/knada-git-sync:9",
             volume_mounts=[
@@ -26,7 +19,15 @@ with DAG('kafka-indexer', default_args=default_args, schedule_interval=timedelta
             ],
             command=["/bin/sh", "/git-clone.sh"],
             args=["navikt/nada-dags", "main", "/dags"]
-        )],
+        )
+
+with DAG('kafka-indexer', default_args=default_args, schedule_interval=timedelta(days=1)) as dag:
+    t1 = BashOperator(
+        task_id='testinit',
+        bash_command='echo "test"',
+        dag=dag)
+    t2 = KubernetesPodOperator(
+        init_containers=[git_clone_init_container],
         dag=dag,
         name='kafka-indexer',
         namespace='nada',
