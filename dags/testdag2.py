@@ -23,7 +23,7 @@ with DAG('eriktester', default_args=default_args, schedule_interval=timedelta(da
         namespace='nada',
         task_id='k8s_task',
         image='busybox',
-        cmds=['bash'],
+        cmds=['/bin/sh'],
         arguments=["echo", "Hello world"]
     )
 
