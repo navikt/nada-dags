@@ -29,7 +29,7 @@ with DAG('kafka-indexer', default_args=default_args, schedule_interval=timedelta
             VolumeMount("dags-data", mount_path="/dags", sub_path=None, read_only=True)
         ],
         volumes=[
-            Volume(name='dags_data', configs={
+            Volume(name='dags-data', configs={
                 "emptyDir": {}
             })
         ]
