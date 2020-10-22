@@ -32,7 +32,10 @@ with DAG('kafka-indexer', default_args=default_args, schedule_interval=timedelta
             Volume(name='dags-data', configs={
                 "emptyDir": {}
             })
-        ]
+        ],
+        annotations={
+            "sidecar.istio.io/inject": "false"
+        }
     )
 
     t1 >> t2
