@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 
 default_args = {
-    'start_date': datetime(2019, 4, 1)
+    'start_date': datetime(2020, 10, 21)
 }
 
 with DAG('eriktester', default_args=default_args, schedule_interval=timedelta(days=1)) as dag:
@@ -16,5 +16,12 @@ with DAG('eriktester', default_args=default_args, schedule_interval=timedelta(da
         task_id='tester',
         bash_command='echo "tester"',
         dag=dag)
+    t3 = KubernetesPodOperator(
+        dag=dag,
+        task_id='k8s_task',
+        image='busybox',
+        cmds=['bash'],
+        arguments=["echo", "Hello world"]
+    )
 
     t1 >> t2
