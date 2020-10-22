@@ -10,6 +10,9 @@ default_args = {
     'start_date': datetime(2020, 10, 21)
 }
 
+envs = [k8s.V1EnvVar(name='HTTPS_PROXY', value='http://webproxy.nais:8088'),
+        k8s.V1EnvVar(name='https_proxy', value='http://webproxy.nais:8088')]
+
 git_clone_init_container = k8s.V1Container(
             name="init-clone-repo",
             image="navikt/knada-git-sync:9",
@@ -17,6 +20,7 @@ git_clone_init_container = k8s.V1Container(
                 k8s.V1VolumeMount(name="dags-data", mount_path="/dags", sub_path=None, read_only=False),
                 k8s.V1VolumeMount(name="git-clone-secret", mount_path="/keys", sub_path=None, read_only=False)
             ],
+            env=envs,
             command=["/bin/sh", "/git-clone.sh"],
             args=["navikt/nada-dags", "main", "/dags"]
         )
