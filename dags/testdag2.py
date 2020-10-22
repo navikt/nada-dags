@@ -25,4 +25,4 @@ with DAG('eriktester', default_args=default_args, schedule_interval=timedelta(da
         arguments=["echo", "Hello world"]
     )
 
-    t1 >> t2
+    t1 >> t2 >> t3
