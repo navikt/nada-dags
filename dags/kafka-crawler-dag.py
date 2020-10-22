@@ -14,8 +14,8 @@ git_clone_init_container = k8s.V1Container(
             name="init-clone-repo",
             image="navikt/knada-git-sync:9",
             volume_mounts=[
-                VolumeMount("dags-data", mount_path="/dags", sub_path=None, read_only=False),
-                VolumeMount("git-clone-secret", mount_path="/keys", sub_path=None, read_only=False)
+                k8s.V1VolumeMount(name="dags-data", mount_path="/dags", sub_path=None, read_only=False),
+                k8s.V1VolumeMount(name="git-clone-secret", mount_path="/keys", sub_path=None, read_only=False)
             ],
             command=["/bin/sh", "/git-clone.sh"],
             args=["navikt/nada-dags", "main", "/dags"]
@@ -38,7 +38,7 @@ with DAG('kafka-indexer', default_args=default_args, schedule_interval=timedelta
             "NOTEBOOK_NAME": "/dags/notebooks/kafka/kafka_crawler.ipynb"
         },
         volume_mounts=[
-            VolumeMount("dags-data", mount_path="/dags", sub_path=None, read_only=True)
+            VolumeMount(name="dags-data", mount_path="/dags", sub_path=None, read_only=True)
         ],
         volumes=[
             Volume(name='dags-data', configs={}),
