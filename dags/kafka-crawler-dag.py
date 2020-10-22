@@ -4,7 +4,7 @@ from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOpera
 from airflow.contrib.kubernetes.volume import Volume
 from airflow.contrib.kubernetes.volume_mount import VolumeMount
 from datetime import datetime, timedelta
-from kubernetes.client import V1Container
+from kubernetes.client.models import V1Container
 
 
 default_args = {
@@ -25,7 +25,7 @@ with DAG('kafka-indexer', default_args=default_args, schedule_interval=timedelta
                 VolumeMount("git-clone-secret", mount_path="/keys", sub_path=None, read_only=False)
             ],
             command=["/bin/sh", "/git-clone.sh"],
-            args=["navikt/nada-dags", "main", "/dags"],
+            args=["navikt/nada-dags", "main", "/dags"]
         )],
         dag=dag,
         name='kafka-indexer',
