@@ -19,6 +19,8 @@ with DAG('eriktester', default_args=default_args, schedule_interval=timedelta(da
         dag=dag)
     t3 = KubernetesPodOperator(
         dag=dag,
+        name='test',
+        namespace='nada',
         task_id='k8s_task',
         image='busybox',
         cmds=['bash'],
