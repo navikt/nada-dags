@@ -20,7 +20,7 @@ with DAG('kafka-indexer', default_args=default_args, schedule_interval=timedelta
         name='kafka-indexer',
         namespace='nada',
         task_id='kafka-indexer',
-        image='navikt/knada-airflow-nb:3',
+        image='navikt/knada-airflow-nb:4',
         env_vars={
             "LOG_ENABLED": "false",
             "NOTEBOOK_NAME": "/dags/notebooks/kafka/kafka_crawler.ipynb"
