@@ -15,7 +15,7 @@ def print_context():
     print(df)
 
 
-with DAG('eksempel', default_args=default_args, schedule_interval=timedelta(days=1)) as dag:
+with DAG('pythonoperatortest', default_args=default_args, schedule_interval=timedelta(days=1)) as dag:
     run_this = PythonOperator(
         task_id='test',
         python_callable=print_context,
