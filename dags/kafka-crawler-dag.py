@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 import kubernetes.client as k8s
 
 default_args = {
-    'start_date': datetime(2020, 10, 21)
+    'start_date': datetime(2020, 10, 28)
 }
 
 envs = [k8s.V1EnvVar(name='HTTPS_PROXY', value='http://webproxy.nais:8088'),
@@ -25,7 +25,7 @@ git_clone_init_container = k8s.V1Container(
             args=["navikt/nada-dags", "main", "/dags"]
         )
 
-with DAG('kafka-indexer', default_args=default_args, schedule_interval=timedelta(days=1)) as dag:
+with DAG('kafka-indexer', default_args=default_args, schedule_interval=None) as dag:
     t1 = BashOperator(
         task_id='testinit',
         bash_command='echo "test"',
