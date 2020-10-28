@@ -10,7 +10,7 @@ def print_context():
     print(df)
 
 
-with DAG('eksempel', start_date=datetime(2020, 10, 28), schedule_interval=None) as dag:
+with DAG('pythonoperatortest', start_date=datetime(2020, 10, 28), schedule_interval=None) as dag:
     run_this = PythonOperator(
         task_id='test',
         python_callable=print_context,
