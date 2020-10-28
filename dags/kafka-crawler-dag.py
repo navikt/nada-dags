@@ -34,7 +34,7 @@ with DAG('kafka-indexer', default_args=default_args, schedule_interval=timedelta
         init_containers=[git_clone_init_container],
         dag=dag,
         name='kafka-indexer',
-        namespace='nada',
+        namespace='opendata',
         task_id='kafka-indexer',
         image='navikt/knada-airflow-nb:5',
         env_vars={
