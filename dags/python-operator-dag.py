@@ -1,5 +1,6 @@
 import pandas as pd
 
+from dataverk_vault import api as vault_api
 from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
@@ -11,6 +12,7 @@ default_args = {
 
 
 def print_context():
+    vault_api.set_secrets_as_envs()
     df = pd.DataFrame({"test": ["1", "2", "3"]})
     print(df)
 
