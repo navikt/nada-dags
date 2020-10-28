@@ -1,4 +1,5 @@
 import pandas as pd
+from airflow.operators.email_operator import EmailOperator
 
 from dataverk_vault import api as vault_api
 from datetime import datetime, timedelta
@@ -24,4 +25,11 @@ with DAG('pythonoperatortest', default_args=default_args, schedule_interval=None
         dag=dag
     )
 
-    run_this
+    t1 = EmailOperator(
+        task_id="send_mail",
+        to='erik.vattekar@nav.no',
+        subject='Test mail',
+        html_content='<p> You have got mail! <p>',
+        dag=dag)
+
+    run_this >> t1
