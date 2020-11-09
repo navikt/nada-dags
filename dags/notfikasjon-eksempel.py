@@ -6,12 +6,7 @@ from datetime import datetime
 from airflow import DAG
 
 
-default_args = {
-    'start_date': datetime(2020, 11, 9)
-}
-
-
-with DAG('notifikasjon-eksempel', default_args=default_args, schedule_interval=None) as dag:
+with DAG('notifikasjon-eksempel', start_date=datetime(2020, 11, 9), schedule_interval=None) as dag:
     email_notification = EmailOperator(
         dag=dag,
         task_id="send_email",

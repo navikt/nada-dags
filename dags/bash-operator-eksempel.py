@@ -1,13 +1,9 @@
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
-from datetime import datetime, timedelta
+from datetime import datetime
 
 
-default_args = {
-    'start_date': datetime(2020, 11, 9)
-}
-
-with DAG('bash-operator-eksempel', default_args=default_args, schedule_interval=None) as dag:
+with DAG('bash-operator-eksempel', start_date=datetime(2020, 11, 9), schedule_interval=None) as dag:
     t1 = BashOperator(
         task_id='hellotask',
         bash_command='echo "Hello world"',
