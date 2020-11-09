@@ -7,7 +7,7 @@ from dataverk_airflow.knada_operators import create_knada_nb_pod_operator
 
 with DAG('sammensatt-eksempel', start_date=datetime(2020, 11, 9), schedule_interval=None) as dag:
     pretask1 = create_knada_nb_pod_operator(dag=dag,
-                                            name="knada-pod-operator",
+                                            name="pretask1",
                                             repo="navikt/nada-dags",
                                             nb_path="notebooks/PreTransformationTask1.ipynb",
                                             email="erik.vattekar@nav.no",
@@ -17,7 +17,7 @@ with DAG('sammensatt-eksempel', start_date=datetime(2020, 11, 9), schedule_inter
                                             log_output=False)
 
     pretask2 = create_knada_nb_pod_operator(dag=dag,
-                                            name="knada-pod-operator",
+                                            name="pretask2",
                                             repo="navikt/nada-dags",
                                             nb_path="notebooks/PreTransformationTask1.ipynb",
                                             email="erik.vattekar@nav.no",
@@ -27,7 +27,7 @@ with DAG('sammensatt-eksempel', start_date=datetime(2020, 11, 9), schedule_inter
                                             log_output=False)
 
     transformation = create_knada_nb_pod_operator(dag=dag,
-                                                  name="knada-pod-operator",
+                                                  name="transformasjon",
                                                   repo="navikt/nada-dags",
                                                   nb_path="notebooks/Transformation.ipynb",
                                                   email="erik.vattekar@nav.no",
@@ -37,7 +37,7 @@ with DAG('sammensatt-eksempel', start_date=datetime(2020, 11, 9), schedule_inter
                                                   log_output=False)
 
     posttask = create_knada_nb_pod_operator(dag=dag,
-                                            name="knada-pod-operator",
+                                            name="posttask",
                                             repo="navikt/nada-dags",
                                             nb_path="notebooks/PostTransformationTask.ipynb",
                                             email="erik.vattekar@nav.no",
