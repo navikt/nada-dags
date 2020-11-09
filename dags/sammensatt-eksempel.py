@@ -53,4 +53,4 @@ with DAG('sammensatt-eksempel', start_date=datetime(2020, 11, 9), schedule_inter
         subject='Great success!',
         html_content='<p> Airflow dag succeeded <p>')
 
-    [pretask1, pretask2] >> transformation >> posttask >> email_notification
+    pretask1, pretask2 >> transformation >> posttask >> email_notification

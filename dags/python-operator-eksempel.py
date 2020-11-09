@@ -16,5 +16,4 @@ with DAG('python-operator-eksempel', start_date=datetime(2020, 11, 9), schedule_
     run_this = PythonOperator(
         task_id='test',
         python_callable=print_df,
-        dag=dag
-    )
+        dag=dag)
