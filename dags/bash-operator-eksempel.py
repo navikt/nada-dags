@@ -4,10 +4,10 @@ from datetime import datetime, timedelta
 
 
 default_args = {
-    'start_date': datetime(2019, 4, 1)
+    'start_date': datetime(2020, 11, 9)
 }
 
-with DAG('eksempel', default_args=default_args, schedule_interval=timedelta(days=1)) as dag:
+with DAG('bash-operator-eksempel', default_args=default_args, schedule_interval=None) as dag:
     t1 = BashOperator(
         task_id='hellotask',
         bash_command='echo "Hello world"',
