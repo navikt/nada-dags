@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from dataverk_airflow.knada_operators import create_knada_nb_pod_operator
 
 
-with DAG('knada-pod-operator-eksempel', start_date=datetime(2020, 11, 9), schedule_interval="0 0 * * *") as dag:
+with DAG('knada-pod-operator-eksempel', start_date=datetime(2020, 11, 9), schedule_interval=None) as dag:
     task = create_knada_nb_pod_operator(dag=dag,
                                         name="knada-pod-operator",
                                         repo="navikt/nada-dags",
