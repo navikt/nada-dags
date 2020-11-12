@@ -21,7 +21,7 @@ with DAG('notifikasjon-eksempel', start_date=datetime(2020, 11, 9), schedule_int
         message=f"Melding",
         channel="#kubeflow-cron-alerts",
         link_names=True,
-        icon_emoji=":sadpanda:",
+        icon_emoji=":tada:",
         proxy=os.environ["HTTPS_PROXY"]
     )
 
