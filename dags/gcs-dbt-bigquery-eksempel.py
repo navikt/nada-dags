@@ -8,7 +8,7 @@ with DAG('gcs-dbt-bigquery-eksempel', start_date=days_ago(0), schedule_interval=
     task = create_knada_nb_pod_operator(dag=dag,
                                         name="read-ssb-write-gcs",
                                         repo="navikt/nada-dags",
-                                        nb_path="notebooks/FetchStyrkUploadGCS",
+                                        nb_path="notebooks/FetchStyrkUploadGCS.ipynb",
                                         email="erik.vattekar@nav.no",
                                         namespace="nada",
                                         branch="main",
