@@ -26,3 +26,5 @@ with DAG('gcs-dbt-bigquery-eksempel', start_date=days_ago(0), schedule_interval=
                                                               log_output=True,
                                                               retries=1,
                                                               retry_delay=timedelta(seconds=5))
+
+    read_ssb_store_gcs >> read_gcs_process_store_gbq
