@@ -130,3 +130,6 @@ dmypy.json
 
 # creds
 **/creds.json
+
+# ide
+.idea
