@@ -10,5 +10,6 @@ with DAG('dtp-bigquery-eksempel', start_date=days_ago(0), schedule_interval=None
                                               dbt_dir="styrk",
                                               seed_source={"gcs_bucket": "styrk-bucket",
                                                            "blob_name": "styrk-kode/styrk.csv"},
+                                              delete_on_finish=False,
                                               email="erik.vattekar@nav.no",
                                               branch="main")
