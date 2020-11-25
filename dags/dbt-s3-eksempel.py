@@ -9,7 +9,7 @@ with DAG('dbt-s3-bigquery-eksempel', start_date=days_ago(0), schedule_interval=N
                                              namespace="nada",
                                              dbt_dir="styrk",
                                              seed_source={"host": "s3",
-                                                          "bucket": "styrk-bucket",
+                                                          "bucket": "nav-opendata",
                                                           "blob_name": "styrk-koder/styrk.csv"},
                                              email="erik.vattekar@nav.no",
                                              delete_on_finish=False,
