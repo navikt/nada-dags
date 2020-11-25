@@ -9,7 +9,7 @@ with DAG('dbt-bigquery-eksempel', start_date=days_ago(0), schedule_interval=None
                                               namespace="nada",
                                               dbt_dir="styrk",
                                               seed_source={"host": "gcs",
-                                                           "gcs_bucket": "styrk-bucket",
+                                                           "bucket": "styrk-bucket",
                                                            "blob_name": "styrk-koder/styrk.csv"},
                                               email="erik.vattekar@nav.no",
                                               branch="main")
