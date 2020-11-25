@@ -19,7 +19,6 @@ with DAG('dtp-bigquery-eksempel', start_date=days_ago(0), schedule_interval=None
                                             namespace="nada",
                                             dbt_dir="styrk",
                                             email="erik.vattekar@nav.no",
-                                            delete_on_finish=False,
                                             branch="main")
 
     seed_gcs >> dbt_run
