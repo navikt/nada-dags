@@ -8,7 +8,8 @@ with DAG('dtp-bigquery-eksempel', start_date=days_ago(0), schedule_interval=None
                                               repo="navikt/nada-dags",
                                               namespace="nada",
                                               dbt_dir="styrk",
-                                              seed_source={"gcs_bucket": "styrk-bucket",
+                                              seed_source={"host": "gcs",
+                                                           "bucket": "styrk-bucket",
                                                            "blob_name": "styrk-koder/styrk.csv"},
                                               email="erik.vattekar@nav.no",
                                               branch="main")
