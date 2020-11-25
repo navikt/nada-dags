@@ -4,7 +4,7 @@ from dataverk_airflow.knada_operators import create_knada_nb_pod_operator
 from airflow.utils.dates import days_ago
 
 
-with DAG('gcs-bigquery-eksempel', start_date=days_ago(1), schedule_interval="15 8 * * *") as dag:
+with DAG('gcs-bigquery-eksempel', start_date=days_ago(1), schedule_interval="25 8 * * *") as dag:
     read_ssb_store_gcs = create_knada_nb_pod_operator(dag=dag,
                                                       name="read-ssb-write-gcs",
                                                       repo="navikt/nada-dags",
