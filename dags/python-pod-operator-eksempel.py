@@ -12,4 +12,5 @@ with DAG('knada-python-pod-operator-eksempel', start_date=datetime(2020, 11, 9),
                                             namespace="nada",
                                             branch="main",
                                             retries=1,
+                                            delete_on_finish=False,
                                             retry_delay=timedelta(seconds=5))
