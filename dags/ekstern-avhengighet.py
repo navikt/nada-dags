@@ -7,6 +7,7 @@ from airflow.utils.dates import days_ago
 with DAG('ekstern-avhengighet', start_date=days_ago(1), schedule_interval="16 14 * * *") as dag:
     task = ExternalTaskSensor(
         external_dag_id="bash-operator-eksempel",
+        external_task_id="byetask",
         task_id="wait-for-external-task-completion"
     )
 
