@@ -7,7 +7,7 @@ from airflow.utils.dates import days_ago
 with DAG('ekstern-avhengighet', start_date=days_ago(0), schedule_interval="1/* * * * *", catchup=False) as dag:
     task = ExternalTaskSensor(
         external_dag_id="bash-operator-eksempel",
-        task_id=None
+        task_id="byetask"
     )
 
     t2 = BashOperator(
