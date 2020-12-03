@@ -12,7 +12,6 @@ with DAG('dbt-s3-bigquery-eksempel', start_date=days_ago(0), schedule_interval=N
                                                           "bucket": "nav-opendata",
                                                           "blob_name": "styrk-koder/styrk.csv"},
                                              email="erik.vattekar@nav.no",
-                                             delete_on_finish=False,
                                              branch="main")
 
     dbt_run = create_knada_dbt_run_operator(dag,
@@ -21,7 +20,6 @@ with DAG('dbt-s3-bigquery-eksempel', start_date=days_ago(0), schedule_interval=N
                                             namespace="nada",
                                             dbt_dir="styrk",
                                             email="erik.vattekar@nav.no",
-                                            delete_on_finish=False,
                                             branch="main")
 
     seed_s3 >> dbt_run

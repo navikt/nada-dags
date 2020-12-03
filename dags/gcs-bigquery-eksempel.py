@@ -14,7 +14,6 @@ with DAG('gcs-bigquery-eksempel', start_date=days_ago(1), schedule_interval="25 
                                                       branch="main",
                                                       log_output=True,
                                                       retries=1,
-                                                      delete_on_finish=False,
                                                       retry_delay=timedelta(seconds=5))
 
     read_gcs_process_store_gbq = create_knada_nb_pod_operator(dag=dag,
@@ -26,7 +25,6 @@ with DAG('gcs-bigquery-eksempel', start_date=days_ago(1), schedule_interval="25 
                                                               branch="main",
                                                               log_output=True,
                                                               retries=1,
-                                                              delete_on_finish=False,
                                                               retry_delay=timedelta(seconds=5))
 
     read_ssb_store_gcs >> read_gcs_process_store_gbq
