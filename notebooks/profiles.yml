@@ -1,0 +1,10 @@
+styrk:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+      project: dataplattform-dev-9da3
+      schema: styrk
+      threads: 4
+      keyfile: /home/jovyan/creds.json
