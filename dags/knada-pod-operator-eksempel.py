@@ -14,4 +14,5 @@ with DAG('knada-pod-operator-eksempel', start_date=datetime(2020, 11, 9), schedu
                                         branch="main",
                                         log_output=True,
                                         retries=1,
+                                        delete_on_finish=False,
                                         retry_delay=timedelta(seconds=5))
