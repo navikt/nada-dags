@@ -7,4 +7,4 @@ styrk:
       project: dataplattform-dev-9da3
       schema: styrk
       threads: 4
-      keyfile: /home/jovyan/creds.json
+      keyfile: "{{ env_var('GOOGLE_APPLICATION_CREDENTIALS') }}"
