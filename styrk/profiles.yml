@@ -5,6 +5,6 @@ styrk:
       type: bigquery
       method: service-account
       project: dataplattform-dev-9da3
-      schema: styrk
+      schema: dbt_demo
       threads: 4
       keyfile: "{{ env_var('GOOGLE_APPLICATION_CREDENTIALS') }}"

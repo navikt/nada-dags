@@ -1,4 +1,5 @@
 {{ config(materialized='table') }}
 
 select *
-from styrk.styrk
+from dbt_demo.styrk_s3
+where parentCode = 2
