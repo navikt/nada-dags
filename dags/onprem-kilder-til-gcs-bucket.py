@@ -30,7 +30,7 @@ with DAG('onprem-sources-to-gcs', start_date=days_ago(1), schedule_interval="0 1
                                                    retry_delay=timedelta(seconds=5))
 
     kafka_to_gcs = create_knada_nb_pod_operator(dag=dag,
-                                                name="postgres-to-gcs",
+                                                name="kafka-to-gcs",
                                                 repo="navikt/nada-dags",
                                                 nb_path="notebooks/MigrateKafkaToGCS.ipynb",
                                                 email="erik.vattekar@nav.no",
