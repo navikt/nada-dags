@@ -1,0 +1,9 @@
+{
+  "index_connections": {
+    "elastic_host": "${ELASTIC_HOST}"
+  },
+
+  "db_connection_strings": {
+    "datalab": "${DATALAB_CONNECTION_STRING}"
+  }
+}
