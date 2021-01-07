@@ -4,7 +4,7 @@ from airflow.utils.dates import days_ago
 from dataverk_airflow.knada_operators import create_knada_nb_pod_operator
 
 
-with DAG('oracle-to-gcs', start_date=days_ago(1), schedule_interval="0 0 * * *") as dag:
+with DAG('oracle-to-gcs', start_date=days_ago(1), schedule_interval="0 14 * * *") as dag:
     oracle_to_gcs = create_knada_nb_pod_operator(dag=dag,
                                                  name="oracle-to-gcs",
                                                  repo="navikt/nada-dags",
