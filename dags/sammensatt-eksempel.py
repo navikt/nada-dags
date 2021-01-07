@@ -52,7 +52,7 @@ with DAG('sammensatt-eksempel', start_date=datetime(2020, 11, 9), schedule_inter
                                             slack_channel="#kubeflow-cron-alerts",
                                             namespace="nada",
                                             branch="main",
-                                            log_output=False)
+                                            log_output=True)
 
     email_success = EmailOperator(
         dag=dag,
