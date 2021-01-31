@@ -14,6 +14,7 @@ with DAG('output-fra-pod-til-epost-operatah', start_date=days_ago(1), schedule_i
                                                   namespace="nada",
                                                   branch="main",
                                                   log_output=False,
+                                                  delete_on_finish=False,
                                                   retries=3,
                                                   retry_delay=timedelta(seconds=5))
 
