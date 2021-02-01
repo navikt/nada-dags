@@ -7,7 +7,7 @@ from airflow.utils.dates import days_ago
 from dataverk_airflow.knada_operators import create_knada_nb_pod_operator
 
 
-with DAG('ge-rapport-varsling', start_date=days_ago(1), schedule_interval="0 14 * * *") as dag:
+with DAG('ge-rapport-varsling', start_date=days_ago(1), schedule_interval=None) as dag:
     ge_validering = create_knada_nb_pod_operator(dag=dag,
                                                  name="ge-validation",
                                                  repo="navikt/nada-dags",
@@ -30,7 +30,7 @@ with DAG('ge-rapport-varsling', start_date=days_ago(1), schedule_interval="0 14 
 
     slack_notification = SlackWebhookOperator(
         dag=dag,
-        task_id="slack_notification_test",
+        task_id="slack_valideringsresultater",
         webhook_token=os.environ["SLACK_WEBHOOK_TOKEN"],
         message=f"{{ task_instance.xcom_pull(task_ids='ge-validering') }}",
         channel="#kubeflow-cron-alerts",
