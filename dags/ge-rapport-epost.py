@@ -26,13 +26,13 @@ with DAG('ge-rapport-varsling', start_date=days_ago(1), schedule_interval=None) 
                                to='erik.vattekar@nav.no',
                                subject='GE validering',
                                provide_context=True,
-                               html_content="<b><h1> {{ task_instance.xcom_pull(task_ids='ge-validering') }} </h1></b>")
+                               html_content="<b><h1> {{ task_instance.xcom_pull(task_ids='ge-validation') }} </h1></b>")
 
     slack_notification = SlackWebhookOperator(
         dag=dag,
         task_id="slack_valideringsresultater",
         webhook_token=os.environ["SLACK_WEBHOOK_TOKEN"],
-        message=f"{{ task_instance.xcom_pull(task_ids='ge-validering') }}",
+        message=f"{{ task_instance.xcom_pull(task_ids='ge-validation') }}",
         channel="#kubeflow-cron-alerts",
         link_names=True,
         icon_emoji=":page_with_curl:",
