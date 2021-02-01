@@ -10,8 +10,8 @@ from dataverk_airflow.knada_operators import create_knada_nb_pod_operator
 with DAG('ge-rapport-varsling', start_date=days_ago(1), schedule_interval=None) as dag:
     ge_validering = create_knada_nb_pod_operator(dag=dag,
                                                  name="ge-validation",
-                                                 repo="navikt/nada-dags",
-                                                 nb_path="notebooks/Validate.ipynb",
+                                                 repo="navikt/bq-dags",
+                                                 nb_path="validate/Validate.ipynb",
                                                  email="erik.vattekar@nav.no",
                                                  namespace="nada",
                                                  branch="main",
