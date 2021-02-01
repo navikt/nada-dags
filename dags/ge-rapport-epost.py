@@ -27,7 +27,7 @@ with DAG('ge-rapport-varsling', start_date=days_ago(1), schedule_interval=None) 
                                to='erik.vattekar@nav.no',
                                subject='GE validering',
                                provide_context=True,
-                               html_content="<h1> {{ task_instance.xcom_pull(task_ids='ge-validation') }} </h1>")
+                               html_content="{{ task_instance.xcom_pull(task_ids='ge-validation') }}")
 
     # slack_post = SlackAPIPostOperator(
     #     dag=dag,
