@@ -16,7 +16,7 @@ with DAG('ge-rapport-varsling', start_date=days_ago(1), schedule_interval=None) 
             val_args = results[val_error]['expectation_config']['expectation_type']['kwargs']
             del val_args['column']
             del val_args['result_format']
-            val_type = results['expectation_config']['expectation_type'] + " with args " + val_args
+            val_type = results[val_error]['expectation_config']['expectation_type'] + " with args " + val_args
             status = results[val_error]['success']
             err_msg += "\n" \
 f"""    _{val_error}_:
