@@ -1,25 +1,45 @@
 import os
-import json
 from datetime import timedelta
 from airflow import DAG
 from airflow.contrib.operators.slack_webhook_operator import SlackWebhookOperator
 from airflow.operators.email_operator import EmailOperator
-#from airflow.operators.slack_operator import SlackAPIPostOperator
 from airflow.utils.dates import days_ago
 from dataverk_airflow.knada_operators import create_knada_nb_pod_operator
 
 
 with DAG('ge-rapport-varsling', start_date=days_ago(1), schedule_interval=None) as dag:
 
+    def create_validation_report(results):
+        err_msg = ""
+        for val_error in results.keys():
+            val_res = results['error']['result']
+            val_args = results['expectation_config']['expectation_type']['kwargs']
+            del val_args['column']
+            del val_args['result_format']
+            val_type = results['expectation_config']['expectation_type'] + " with args " + val_args
+            status = results['success']
+            err_msg += "\n" \
+f"""    _{val_error}_:
+            Status: {status}
+            Testtype: {val_type}
+            Antall rader: {val_res['element_count']}
+            Rader med manglende verdi: {val_res['missing_count']}
+            Rader med manglende verdi (%): {val_res['missing_percent']}
+            Rader med uventet verdi: {val_res['unexpected_count']}
+            Rader med uventet verdi (%): {val_res['unexpected_percent']}
+            Utdrag av verdier som feiler test: {val_res['partial_unexpected_list']}
+            """
+        return err_msg
+
     def task_slack_msg(context):
-        slack_msg = """
-                Rapport 
-                *Task*: {task}  
-                *Message*: {message}
-                """.format(
-            task=context.get('task_instance').task_id,
-            message=context.get('task_instance').xcom_pull(task_ids='ge-validation'),
-        )
+        validate_res = context.get('task_instance').xcom_pull(task_ids='ge-validation')
+        slack_msg = f"""
+                *Rapport*: Valideringstester med avvik
+                *DAG*: {context.get('task_instance').dag_id} 
+                *Task*: {context.get('task_instance').task_id}  
+                *Tester som feiler*
+                    {create_validation_report(validate_res)} 
+                """
         varsling = SlackWebhookOperator(
             dag=dag,
             task_id="slack_valideringsresultater",
@@ -53,15 +73,5 @@ with DAG('ge-rapport-varsling', start_date=days_ago(1), schedule_interval=None) 
                                subject='GE validering',
                                provide_context=True,
                                html_content="{{ task_instance.xcom_pull(task_ids='ge-validation') }}")
-
-    # slack_post = SlackAPIPostOperator(
-    #     dag=dag,
-    #     username="Airflow DAG reporter",
-    #     task_id="slack_valideringsresultater",
-    #     token=os.environ["SLACK_WEBHOOK_TOKEN"],
-    #     text="{{ task_instance.xcom_pull(task_ids='ge-validation') }}",
-    #     channel="#kubeflow-cron-alerts",
-    #     icon_url="https://github.com/apache/airflow/raw/v1-10-stable/airflow/www/static/pin_100.png"
-    # )
 
     ge_validering >> send_epost
