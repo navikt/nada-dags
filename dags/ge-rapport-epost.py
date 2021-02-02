@@ -27,7 +27,7 @@ f"""    _{val_error}_:
             Rader med manglende verdi (%): {val_res['missing_percent']}
             Rader med uventet verdi: {val_res['unexpected_count']}
             Rader med uventet verdi (%): {val_res['unexpected_percent']}
-            Utdrag av verdier som feiler test: {val_res['partial_unexpected_list']}
+            Utdrag av verdier som feiler test: {val_res['partial_unexpected_list'][:5]}
             """
         return err_msg
 
