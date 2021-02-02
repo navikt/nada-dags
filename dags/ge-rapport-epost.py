@@ -12,7 +12,7 @@ with DAG('ge-rapport-varsling', start_date=days_ago(1), schedule_interval=None) 
     def create_validation_report(results):
         err_msg = ""
         for val_error in results.keys():
-            val_res = results['error']['result']
+            val_res = results[val_error]['result']
             val_args = results['expectation_config']['expectation_type']['kwargs']
             del val_args['column']
             del val_args['result_format']
