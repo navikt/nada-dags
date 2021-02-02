@@ -38,7 +38,7 @@ f"""    _{val_error}_:
                 *DAG*: {context.get('task_instance').dag_id} 
                 *Task*: {context.get('task_instance').task_id}  
                 *Tester som feiler*
-                    {create_validation_report(validate_res)} 
+                {create_validation_report(validate_res)} 
                 """
         varsling = SlackWebhookOperator(
             dag=dag,
