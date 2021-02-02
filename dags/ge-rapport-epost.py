@@ -15,14 +15,14 @@ with DAG('ge-rapport-varsling', start_date=days_ago(1), schedule_interval=None) 
         for val_error in results.keys():
             val_res = results[val_error]['result']
             val_args = results[val_error]['expectation_config']['kwargs']
-            del val_args['column']
             del val_args['result_format']
-            val_type = f"{results[val_error]['expectation_config']['expectation_type']} with args {val_args}"
+            val_type = f"*{results[val_error]['expectation_config']['expectation_type']}* med argumenter {val_args}"
             status = results[val_error]['success']
             err_msg += "\n" \
 f"""    _{val_error}_:
             Status: {status}
             Testtype: {val_type}
+            Kolonne: {val_args['column']}
             Antall rader: {val_res['element_count']}
             Rader med manglende verdi: {val_res['missing_count']}
             Rader med manglende verdi (%): {val_res['missing_percent']}
@@ -38,7 +38,6 @@ f"""    _{val_error}_:
                 *Rapport*: Valideringstester med avvik
                 *DAG*: {context.get('task_instance').dag_id} 
                 *Task*: {context.get('task_instance').task_id}  
-                *Tester som feiler*
                 {create_validation_report(validate_res)} 
                 """
         varsling = SlackWebhookOperator(
