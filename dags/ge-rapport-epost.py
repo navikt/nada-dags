@@ -46,7 +46,7 @@ with DAG('ge-rapport-varsling', start_date=days_ago(1), schedule_interval=None) 
         dag=dag,
         task_id="slack_valideringsresultater",
         webhook_token=os.environ["SLACK_WEBHOOK_TOKEN"],
-        message=f"{dag.get_task_instances().xcom_pull(task_ids='ge-validation')}",
+        message=f"{dag.get_task('ge-validation').xcom_pull(task_ids='ge-validation')}",
         channel="#kubeflow-cron-alerts",
         link_names=True,
         icon_emoji=":page_with_curl:",
