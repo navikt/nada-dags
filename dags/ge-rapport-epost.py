@@ -45,7 +45,7 @@ f"""    _{val_error}_:
                     *DAG*: {context.get('task_instance').dag_id} 
                     *Task*: {context.get('task_instance').task_id}
                     
-                    *{(validate_res.keys())} validation tests failed*
+                    *{(len(validate_res.keys()))} validation tests failed*
                     *Report*: https://data.adeo.no/api/nav-opendata/{context.get('task_instance').dag_id}/{context.get('task_instance').task_id}-{date.today().isoformat()}.json
                     """
             varsling = SlackWebhookOperator(
