@@ -38,14 +38,15 @@ f"""    _{val_error}_:
         if len(validate_res.keys()):
             res = requests.put(f"https://dv-resource-rw-api.nais.adeo.no/storage/"
                                f"nav-opendata/{context.get('task_instance').dag_id}/"
-                               f"{context.get('task_instance').task_id}-{date.today().isoformat()}.json")
+                               f"{context.get('task_instance').task_id}-{date.today().isoformat()}.json",
+                               json=validate_res)
             res.raise_for_status()
             slack_msg = f"""
                     *Rapport*: Valideringstester med avvik
                     *DAG*: {context.get('task_instance').dag_id} 
                     *Task*: {context.get('task_instance').task_id}
                     
-                    *{(len(validate_res.keys()))} validation tests failed*
+                    *{(len(validate_res.keys()))} validation test(s) failed*
                     *Report*: https://data.adeo.no/api/nav-opendata/{context.get('task_instance').dag_id}/{context.get('task_instance').task_id}-{date.today().isoformat()}.json
                     """
             varsling = SlackWebhookOperator(
