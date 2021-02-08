@@ -1,5 +1,6 @@
 import os
-import json
+import requests
+from datetime import date
 from datetime import timedelta
 from airflow import DAG
 from airflow.contrib.operators.slack_webhook_operator import SlackWebhookOperator
@@ -34,25 +35,31 @@ f"""    _{val_error}_:
 
     def task_slack_msg(context):
         validate_res = context.get('task_instance').xcom_pull(task_ids='ge-validation')
-        slack_msg = f"""
-                *Rapport*: Valideringstester med avvik
-                *DAG*: {context.get('task_instance').dag_id} 
-                *Task*: {context.get('task_instance').task_id}  
-                {create_validation_report(validate_res)} 
-                """
-        varsling = SlackWebhookOperator(
-            dag=dag,
-            task_id="slack_valideringsresultater",
-            webhook_token=os.environ["SLACK_WEBHOOK_TOKEN"],
-            message=slack_msg,
-            channel="#kubeflow-cron-alerts",
-            link_names=True,
-            icon_emoji=":page_with_curl:",
-            attachments=[{"tests": "test test test"}],
-            provide_context=True,
-            proxy=os.environ["HTTPS_PROXY"]
-        )
-        return varsling.execute(context=context)
+        if len(validate_res.keys()):
+            res = requests.put(f"https://dv-resource-rw-api.nais.adeo.no/storage/"
+                               f"nav-opendata/{context.get('task_instance').dag_id}/"
+                               f"{context.get('task_instance').task_id}-{date.today().isoformat()}.json")
+            res.raise_for_status()
+            slack_msg = f"""
+                    *Rapport*: Valideringstester med avvik
+                    *DAG*: {context.get('task_instance').dag_id} 
+                    *Task*: {context.get('task_instance').task_id}
+                    
+                    *{(validate_res.keys())} validation tests failed*
+                    *Report*: https://data.adeo.no/nav-opendata/{context.get('task_instance').dag_id}/{context.get('task_instance').task_id}-{date.today().isoformat()}.json"
+                    """
+            varsling = SlackWebhookOperator(
+                dag=dag,
+                task_id="slack_valideringsresultater",
+                webhook_token=os.environ["SLACK_WEBHOOK_TOKEN"],
+                message=slack_msg,
+                channel="#kubeflow-cron-alerts",
+                link_names=True,
+                icon_emoji=":page_with_curl:",
+                provide_context=True,
+                proxy=os.environ["HTTPS_PROXY"]
+            )
+            return varsling.execute(context=context)
 
     ge_validering = create_knada_nb_pod_operator(dag=dag,
                                                  name="ge-validation",
@@ -62,7 +69,6 @@ f"""    _{val_error}_:
                                                  namespace="nada",
                                                  branch="main",
                                                  log_output=True,
-                                                 delete_on_finish=False,
                                                  retries=0,
                                                  on_success_callback=task_slack_msg,
                                                  do_xcom_push=True,
