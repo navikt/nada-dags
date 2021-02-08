@@ -1,5 +1,6 @@
 import os
 import requests
+import json
 from datetime import date
 from datetime import timedelta
 from airflow import DAG
@@ -39,7 +40,7 @@ f"""    _{val_error}_:
             res = requests.put(f"https://dv-resource-rw-api.nais.adeo.no/storage/"
                                f"nav-opendata/{context.get('task_instance').dag_id}/"
                                f"{context.get('task_instance').task_id}-{date.today().isoformat()}.json",
-                               json=validate_res)
+                               data=json.dumps(validate_res))
             res.raise_for_status()
             slack_msg = f"""
                     *Rapport*: Valideringstester med avvik
