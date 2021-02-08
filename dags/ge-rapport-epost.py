@@ -48,7 +48,7 @@ f"""    _{val_error}_:
             channel="#kubeflow-cron-alerts",
             link_names=True,
             icon_emoji=":page_with_curl:",
-            attachments=[{"tests.json": validate_res}],
+            attachments=[{"tests": "test test test"}],
             provide_context=True,
             proxy=os.environ["HTTPS_PROXY"]
         )
