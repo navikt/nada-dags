@@ -10,7 +10,8 @@ dp = Datapackage({
     "modified": dt.datetime.now().isoformat(),
     "readme": "blahblahblah",
     "format": "datapackage",
-    "type": "datapackage"
+    "type": "datapackage",
+    "store": "nais"
 })
 
 print(dp.dp_id)
