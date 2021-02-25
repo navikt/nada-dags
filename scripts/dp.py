@@ -8,7 +8,9 @@ dp = Datapackage({
     "temporal": {"from": "2010", "to": "2020"},
     "issued": "2021-02-02",
     "modified": dt.datetime.now().isoformat(),
-    "readme": "blahblahblah"
+    "readme": "blahblahblah",
+    "format": "datapackage",
+    "type": "datapackage"
 })
 
 dv = Client()

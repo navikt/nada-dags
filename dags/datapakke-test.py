@@ -11,5 +11,6 @@ with DAG('dp-test', start_date=datetime(2020, 11, 9), schedule_interval=None) as
                                             email="erik.vattekar@nav.no",
                                             namespace="nada",
                                             branch="main",
+                                            delete_on_finish=False,
                                             retries=1,
                                             retry_delay=timedelta(seconds=5))
