@@ -13,5 +13,7 @@ dp = Datapackage({
     "type": "datapackage"
 })
 
+print(dp.dp_id)
+
 dv = Client()
 dv.publish(dp)
