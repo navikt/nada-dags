@@ -1,0 +1,5 @@
+{
+  "index_connections": {
+    "elastic_host": "https://dv-resource-rw-api.nais.adeo.no/index/write/dcat"
+  }
+}
