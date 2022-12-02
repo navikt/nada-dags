@@ -1,6 +1,7 @@
 from airflow import DAG
 
 from airflow.utils.dates import days_ago
+from kubernetes import client
 from dataverk_airflow.knada_operators import create_knada_nb_pod_operator
 
 
@@ -11,9 +12,10 @@ with DAG('test-nb-operator', start_date=days_ago(1), schedule_interval=None) as 
                                       repo="navikt/nada-dags",
                                       nb_path="notebooks/mynb.ipynb",
                                       delete_on_finish=False,
-                                      resources={
-                                        "limit_memory": "3G"
-                                      },
+                                      resources=client.V1ResourceRequirements(
+                                          requests={"memory": "3G"},
+                                          limits={"memory": "5G"}
+                                      ),
                                       branch="main")
 
     t1
