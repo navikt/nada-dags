@@ -13,7 +13,6 @@ with DAG('test-nb-operator', start_date=days_ago(1), schedule_interval=None) as 
                                       nb_path="notebooks/mynb.ipynb",
                                       delete_on_finish=False,
                                       resources=client.V1ResourceRequirements(
-                                          requests={"memory": "5G"},
                                           limits={"memory": "5G"}
                                       ),
                                       branch="main")
