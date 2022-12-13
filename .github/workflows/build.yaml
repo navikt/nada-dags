@@ -3,7 +3,7 @@ name: "Knada GKE: Build nks-statistikk jupyterhub image"
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - .github/workflows/build.yaml
       - Dockerfile
