@@ -1,3 +1,3 @@
-from utils import test
+from utils.test import testy
 
-test()
+testy()
