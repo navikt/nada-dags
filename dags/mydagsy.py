@@ -5,7 +5,7 @@ from kubernetes import client
 from dataverk_airflow.knada_operators import create_knada_python_pod_operator
 import os
 
-os.environ["KNADA_NOTEBOOK_OP_IMAGE"] = "ghcr.io/navikt/knada-airflow:2022-12-15-d6ba810"
+os.environ["KNADA_PYTHON_POD_OP_IMAGE"] = "ghcr.io/navikt/knada-airflow:2022-12-15-d6ba810"
 
 with DAG('test-python-operator', start_date=days_ago(1), schedule_interval=None) as dag:
     t1 = create_knada_python_pod_operator(dag=dag,
