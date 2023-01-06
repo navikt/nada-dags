@@ -12,7 +12,6 @@ with DAG('test-python-operator', start_date=days_ago(1), schedule_interval=None)
                                       name="knada-python-operator",
                                       repo="navikt/nada-dags",
                                       script_path="notebooks/script.py",
-                                      delete_on_finish=False,
                                       resources=client.V1ResourceRequirements(
                                           limits={"memory": "128M"}
                                       ),
