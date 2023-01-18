@@ -4,7 +4,7 @@ from dataverk_airflow.knada_operators import create_knada_python_pod_operator
 
 class CustomDag:
     def __init__(self, name) -> None:
-        self.dag = DAG(
+        self.dag: DAG = DAG(
             dag_id=name,
             description=self._repo,
             schedule_interval=None,
