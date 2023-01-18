@@ -41,12 +41,12 @@ class CustomDag2(DAG):
         )
 
     def __enter__(self):
-        self.dag.__enter__()
+        super().__enter__()
         return self
 
 
     def __exit__(self, _type, _value, _tb):
-        self.dag.__exit__(_type, _value, _tb)
+        super().__exit__(_type, _value, _tb)
 
     def create_python_operator(self):
         return create_knada_python_pod_operator(dag=self,
