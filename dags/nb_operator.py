@@ -12,9 +12,11 @@ with DAG('test-nb-operator', start_date=days_ago(1), schedule_interval="0 10 * *
                                       slack_channel="#kubeflow-cron-alerts",
                                       repo="navikt/nada-dags",
                                       nb_path="notebooks/mynb.ipynb",
+                                      retries=1,
                                       resources=client.V1ResourceRequirements(
                                           limits={"memory": "5G"}
                                       ),
+                                      delete_on_finish=False,
                                       branch="main")
 
     t1
