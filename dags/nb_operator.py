@@ -16,6 +16,7 @@ with DAG('test-nb-operator', start_date=days_ago(1), schedule_interval="0 10 * *
                                       resources=client.V1ResourceRequirements(
                                           limits={"memory": "5G"}
                                       ),
+                                      delete_on_finish=False,
                                       branch="main")
 
     t1
