@@ -10,6 +10,10 @@ def myfunc():
     logging.warning("team secret path", os.environ["KNADA_TEAM_SECRET"])
 
 with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag:
+    executor_config_template={
+        "pod_override": k8s.V1Pod(spec={serviceAccountName="testet-drdj"})
+    }
+    
     run_this = PythonOperator(
     task_id='test',
     python_callable=myfunc,
