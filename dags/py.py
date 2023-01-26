@@ -9,7 +9,7 @@ import logging
 
 def myfunc():
     logging.info("func")
-    logging.warning("team secret path", os.environ["KNADA_TEAM_SECRET"])
+    logging.warning(f"team secret path {os.environ['KNADA_TEAM_SECRET']}")
 
 with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag:
     executor_config_template={
