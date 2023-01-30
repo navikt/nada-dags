@@ -13,7 +13,8 @@ with DAG('test-python-operator', start_date=days_ago(1), schedule_interval=None)
                                       repo="navikt/nada-dags",
                                       script_path="notebooks/script.py",
                                       resources=client.V1ResourceRequirements(
-                                          limits={"memory": "128M"}
+                                          limits={"memory": "128M"},
+                                          requests={"memory": "128M"}
                                       ),
                                       branch="main")
 
