@@ -11,12 +11,11 @@ def myfunc():
     logging.info("func")
     logging.warning(f"team secret path {os.environ['KNADA_TEAM_SECRET']}")
 
-with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag:
-    executor_config_template={
-        "pod_override": k8s.V1Pod(metadata=k8s.V1ObjectMeta(labels={"mylabel": "value"}))
-    }
-    
+with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag:    
     run_this = PythonOperator(
     task_id='test',
     python_callable=myfunc,
+    executor_config={
+        "pod_override": k8s.V1Pod(metadata=k8s.V1ObjectMeta(labels={"mylabel": "value"}))
+    },
     dag=dag)
