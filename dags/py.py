@@ -25,6 +25,7 @@ with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag
                       image="apache/airflow:2.5.1-python3.9",
                    )
                 ]
+            )
         )
     },
     dag=dag)
