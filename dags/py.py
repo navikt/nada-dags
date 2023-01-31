@@ -13,7 +13,7 @@ def myfunc():
 
 with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag:
     executor_config_template={
-        "pod_override": k8s.V1Pod(spec={"image": "ghcr.io/navikt/knada-airflow:2023-01-10-442015d"})
+        "pod_override": k8s.V1Pod(metadata=k8s.V1ObjectMeta(labels={"mylabel": "value"}))
     }
     
     run_this = PythonOperator(
