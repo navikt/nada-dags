@@ -25,5 +25,7 @@ with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag
     run_this = PythonOperator(
     task_id='test',
     python_callable=myfunc,
+    wait_for_downstream=False,
+    provide_context=True,
     dag=dag)
     slack >> run_this
