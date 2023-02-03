@@ -25,22 +25,5 @@ with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag
     run_this = PythonOperator(
     task_id='test',
     python_callable=myfunc,
-    executor_config={
-        "pod_override": k8s.V1Pod(
-            metadata=k8s.V1ObjectMeta(labels={"mylabel": "value"}),
-            spec=k8s.V1PodSpec(
-                containers=[
-                   k8s.V1Container(
-                      name="base",
-                      resources={
-                        "requests": {
-                            "cpu": "2"
-                        }
-                      }
-                   )
-                ]
-            )
-        )
-    },
     dag=dag)
     slack >> run_this
