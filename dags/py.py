@@ -11,7 +11,18 @@ def myfunc():
     logging.info("func")
     logging.warning(f"team secret path {os.environ['KNADA_TEAM_SECRET']}")
 
-with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag:    
+with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag:
+    slack = SlackWebhookOperator(
+    http_conn_id=None,
+    task_id="slack-message",
+    webhook_token=os.environ["SLACK_TOKEN"],
+    message=message,
+    channel=channel,
+    link_names=True,
+    icon_emoji=emoji,
+    attachments=attachments
+    )
+    
     run_this = PythonOperator(
     task_id='test',
     python_callable=myfunc,
@@ -29,3 +40,4 @@ with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag
         )
     },
     dag=dag)
+    slack > run_this
