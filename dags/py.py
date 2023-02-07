@@ -7,8 +7,12 @@ from kubernetes import client as k8s
 import os
 import logging
 
-def noty():
-    return SlackWebhookOperator(
+def myfunc():
+    logging.info("func")
+    logging.warning(f"team secret path {os.environ['KNADA_TEAM_SECRET']}")
+
+with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag:
+    slack = SlackWebhookOperator(
     http_conn_id=None,
     task_id="slack-message",
     webhook_token=os.environ["SLACK_TOKEN"],
@@ -16,18 +20,6 @@ def noty():
     channel="#kubeflow-cron-alerts",
     link_names=True
     )
-    
-
-def myfunc():
-    logging.info("func")
-    logging.warning(f"team secret path {os.environ['KNADA_TEAM_SECRET']}")
-
-with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag:
-    
-    @task
-    def notify():
-        noty()
-    slack = notify()
     
     run_this = PythonOperator(
     task_id='test',
