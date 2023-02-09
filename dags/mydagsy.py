@@ -14,6 +14,7 @@ with DAG('test-python-operator', start_date=days_ago(1), schedule_interval=None)
                                           limits={"memory": "2Gi", "cpu": "1"},
                                           requests={"memory": "2Gi", "cpu": "1"}
                                       ),
+                                      startup_timeout_seconds=600,
                                       delete_on_finish=False,
                                       branch="main")
 
