@@ -14,9 +14,6 @@ def myfunc():
     res = requests.get("https://data.ssb.no")
     res.raise_for_status()
     print(res.status_code)
-    res = requests.get("https://data.nav.no/datapakke/7cfaccfe3ec04e2b93fab1c9e5117011")
-    res.raise_for_status()
-    print(res.status_code)
 
 with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag:
     #slack = SlackWebhookOperator(
