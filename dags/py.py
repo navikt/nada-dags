@@ -12,7 +12,7 @@ def myfunc():
     import requests
     logging.info("func")
     logging.warning(f"team secret path {os.environ['KNADA_TEAM_SECRET']}")
-    time.sleep(120)
+    #time.sleep(120)
     #res = requests.get("https://data.ssb.no")
     #res.raise_for_status()
     #print(res.status_code)
