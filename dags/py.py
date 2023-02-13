@@ -6,11 +6,13 @@ from airflow.contrib.operators.slack_webhook_operator import SlackWebhookOperato
 from kubernetes import client as k8s
 import os
 import logging
+import time
 
 def myfunc():
     import requests
     logging.info("func")
     logging.warning(f"team secret path {os.environ['KNADA_TEAM_SECRET']}")
+    time.sleep(120)
     #res = requests.get("https://data.ssb.no")
     #res.raise_for_status()
     #print(res.status_code)
