@@ -18,14 +18,14 @@ def myfunc():
     #print(res.status_code)
 
 with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag:
-    #slack = SlackWebhookOperator(
-    #http_conn_id=None,
-    #task_id="slack-message",
-    #webhook_token=os.environ["SLACK_TOKEN"],
-    #message="asdf",
-    #channel="#kubeflow-cron-alerts",
-    #link_names=True
-    #)
+    slack = SlackWebhookOperator(
+    http_conn_id=None,
+    task_id="slack-message",
+    webhook_token=os.environ["SLACK_TOKEN"],
+    message="asdf",
+    channel="#kubeflow-cron-alerts",
+    link_names=True
+    )
     
     run_this = PythonOperator(
     task_id='test',
