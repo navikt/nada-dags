@@ -10,7 +10,7 @@ with DAG('bash-operator-eksempel', start_date=datetime(2023, 2, 14), schedule_in
 
     t1 = BashOperator(
         task_id='hello_task',
-        bash_command='echo "$TEST world at ${date}"',
+        bash_command='echo "$TEST world at $(date)"',
         dag=dag)
     t2 = BashOperator(
         task_id='bye_task',
