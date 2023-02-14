@@ -29,6 +29,7 @@ with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag
         "pod_override": k8s.V1Pod(
             metadata=k8s.V1ObjectMeta(annotations={"allowlist": "hooks.slack.com"})
         )
+    }
     )
     
     run_this = PythonOperator(
