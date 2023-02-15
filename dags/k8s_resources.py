@@ -1,8 +1,10 @@
 from airflow import DAG
 from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
+from datetime import datetime
 from kubernetes.client import models as client
 
 with DAG('k8s_resource_example',
+         start_date=datetime(2023, 2, 15),
          schedule_interval="@daily") as dag:
     task_1 = KubernetesPodOperator(
         cmds=["bash", "-cx"],
