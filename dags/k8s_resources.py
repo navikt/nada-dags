@@ -15,4 +15,5 @@ with DAG('k8s_resource_example',
         container_resources=client.V1ResourceRequirements(
             requests={"ephemeral-storage": "2Gi"}
         ),
+        annotations={"allowlist": "https://g.nav.no"},
     )
