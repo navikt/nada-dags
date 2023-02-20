@@ -3,6 +3,7 @@ from airflow import DAG
 from airflow.utils.dates import days_ago
 from airflow.operators.python_operator import PythonOperator
 from airflow.contrib.operators.slack_webhook_operator import SlackWebhookOperator
+from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
 from kubernetes import client as k8s
 import os
 import logging
@@ -56,4 +57,13 @@ with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag
     },
     dag=dag)
     
-    slack >> run_this
+    then_this = KubernetesPodOperator(
+        dag=dag,
+        name=name,
+        task_id=name,
+        annotations={
+            "allowlist": "data.ssb.no"
+        }
+    )
+
+    slack >> run_this >> then_this
