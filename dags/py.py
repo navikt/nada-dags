@@ -40,7 +40,7 @@ with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag
     provide_context=True,
     executor_config={
         "pod_override": k8s.V1Pod(
-            metadata=k8s.V1ObjectMeta(annotations={"allowlist": "data.ssb.no,dm07-scan.adeo.no:1521"}),
+            metadata=k8s.V1ObjectMeta(annotations={"allowlist": "data.ssb.no,ssb.no,dm07-scan.adeo.no:1521"}),
             spec=k8s.V1PodSpec(
                 containers=[
                    k8s.V1Container(
