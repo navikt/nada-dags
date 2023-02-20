@@ -59,8 +59,7 @@ with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag
     
     then_this = KubernetesPodOperator(
         dag=dag,
-        name=name,
-        task_id=name,
+        task_id="tasken",
         annotations={
             "allowlist": "data.ssb.no"
         }
