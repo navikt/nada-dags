@@ -65,7 +65,7 @@ with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag
                                         nb_path="notebooks/mynb.ipynb",
                                         retries=1,
                                         delete_on_finish=False,
-                                        allowlist=["ssb.no", "dm07-scan.adeo.no:1521"]
+                                        allowlist=["ssb.no", "dm07-scan.adeo.no:1521"],
                                         branch="main")
     
     #then_this = KubernetesPodOperator(
