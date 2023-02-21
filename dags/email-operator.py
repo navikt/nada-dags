@@ -1,5 +1,6 @@
 from airflow import DAG
 from airflow.operators.email import EmailOperator
+from datetime import datetime
 
 with DAG(dag_id="epost", start_date=datetime(2023, 2, 21)) as dag:
     
