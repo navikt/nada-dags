@@ -1,6 +1,7 @@
 from airflow import DAG
 from airflow.operators.email import EmailOperator
 from datetime import datetime
+from kubernetes import client as k8s
 
 with DAG(dag_id="epost", start_date=datetime(2023, 2, 21)) as dag:
     
