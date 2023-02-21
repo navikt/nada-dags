@@ -14,7 +14,7 @@ def myfunc():
     logging.info("func")
     logging.warning(f"team secret path {os.environ['KNADA_TEAM_SECRET']}")
     #time.sleep(120)
-    res = requests.get("https://data.ssb.no")
+    res = requests.get("https://ssb.no/api")
     res.raise_for_status()
     print(res.status_code)
 
@@ -40,7 +40,7 @@ with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag
     provide_context=True,
     executor_config={
         "pod_override": k8s.V1Pod(
-            metadata=k8s.V1ObjectMeta(annotations={"allowlist": "data.ssb.no,ssb.no,dm07-scan.adeo.no:1521"}),
+            metadata=k8s.V1ObjectMeta(annotations={"allowlist": "ssb.no,dm07-scan.adeo.no:1521"}),
             spec=k8s.V1PodSpec(
                 containers=[
                    k8s.V1Container(
@@ -64,7 +64,7 @@ with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag
         arguments=["echo", "hello"],
         executor_config={
             "pod_override": k8s.V1Pod(
-                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "data.ssb.no,dm07-scan.adeo.no:1521"})
+                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "ssb.no,dm07-scan.adeo.no:1521"})
             )
         }
     )
