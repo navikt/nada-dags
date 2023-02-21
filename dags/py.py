@@ -59,6 +59,7 @@ with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag
     
     then_this = KubernetesPodOperator(
         dag=dag,
+        name="tasken",
         task_id="tasken",
         cmds=["/bin/bash", "-cx"],
         arguments=["echo", "hello"],
