@@ -19,7 +19,21 @@ def myfunc():
     res.raise_for_status()
     print(res.status_code)
 
-with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag:    
+with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag:
+    slack = SlackWebhookOperator(
+    http_conn_id=None,
+    task_id="slack-message",
+    webhook_token=os.environ["SLACK_TOKEN"],
+    message="asdf",
+    channel="#kubeflow-cron-alerts",
+    link_names=True,
+    executor_config={
+        "pod_override": k8s.V1Pod(
+            metadata=k8s.V1ObjectMeta(annotations={"allowlist": "hooks.slack.com"})
+        )
+    }
+    )
+    
     run_this = PythonOperator(
     task_id='test',
     python_callable=myfunc,
@@ -68,4 +82,4 @@ with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag
     #    }
     #)
 
-    run_this >> then #>> then_this
+    slack >> run_this >> then #>> then_this
