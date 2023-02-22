@@ -20,43 +20,43 @@ def myfunc():
     print(res.status_code)
 
 with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag:
-    slack = SlackWebhookOperator(
-    http_conn_id=None,
-    task_id="slack-message",
-    webhook_token=os.environ["SLACK_TOKEN"],
-    message="asdf",
-    channel="#kubeflow-cron-alerts",
-    link_names=True,
-    executor_config={
-        "pod_override": k8s.V1Pod(
-            metadata=k8s.V1ObjectMeta(annotations={"allowlist": "hooks.slack.com"})
-        )
-    }
-    )
+    #slack = SlackWebhookOperator(
+    #http_conn_id=None,
+    #task_id="slack-message",
+    #webhook_token=os.environ["SLACK_TOKEN"],
+    #message="asdf",
+    #channel="#kubeflow-cron-alerts",
+    #link_names=True,
+    #executor_config={
+    #    "pod_override": k8s.V1Pod(
+    #        metadata=k8s.V1ObjectMeta(annotations={"allowlist": "hooks.slack.com"})
+    #    )
+    #}
+    #)
     
-    run_this = PythonOperator(
-    task_id='test',
-    python_callable=myfunc,
-    wait_for_downstream=False,
-    provide_context=True,
-    executor_config={
-        "pod_override": k8s.V1Pod(
-            metadata=k8s.V1ObjectMeta(annotations={"allowlist": "ssb.no,dm07-scan.adeo.no:1521"}),
-            spec=k8s.V1PodSpec(
-                containers=[
-                   k8s.V1Container(
-                      name="base",
-                      resources={
-                        "requests": {
-                            "cpu": "2"
-                        }
-                      }
-                   )
-                ]
-            )
-        )
-    },
-    dag=dag)
+    #run_this = PythonOperator(
+    #task_id='test',
+    #python_callable=myfunc,
+    #wait_for_downstream=False,
+    #provide_context=True,
+    #executor_config={
+    #    "pod_override": k8s.V1Pod(
+    #        metadata=k8s.V1ObjectMeta(annotations={"allowlist": "ssb.no,dm07-scan.adeo.no:1521"}),
+    #        spec=k8s.V1PodSpec(
+    #            containers=[
+    #               k8s.V1Container(
+    #                  name="base",
+    #                  resources={
+    #                    "requests": {
+    #                        "cpu": "2"
+    #                    }
+    #                  }
+    #               )
+    #            ]
+    #        )
+    #    )
+    #},
+    #dag=dag)
     
     then = create_knada_nb_pod_operator(dag=dag,
                                         name="knada-pod-operator",
@@ -81,4 +81,5 @@ with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag
     #    }
     #)
 
-    slack >> run_this >> then #>> then_this
+    #slack >> run_this >> then #>> then_this
+    then
