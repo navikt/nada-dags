@@ -67,4 +67,4 @@ with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag
     #    }
     #)
 
-    slack >> run_this >> then #>> then_this
+    run_this >> then #>> then_this
