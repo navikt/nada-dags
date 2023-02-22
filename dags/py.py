@@ -35,7 +35,7 @@ with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag
                       resources={
                         "requests": {
                             "cpu": "2",
-                            "memory": "3GiB"
+                            "memory": "3Gi"
                         }
                       }
                    )
