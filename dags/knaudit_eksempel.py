@@ -95,6 +95,11 @@ with DAG('k8s_knaudit_example',
                 ),
             ),
         ],
+        security_context={
+            "fsGroup": 0,
+            "runAsUser": 50000,
+            "runAsNonRoot": True,
+        },
         init_containers=[
             k8s.V1Container(
                 name="clone-repo",
