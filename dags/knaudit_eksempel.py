@@ -10,7 +10,7 @@ with DAG('k8s_knaudit_example',
         name="knaudit",
         task_id="task-one",
         get_logs=True,
-        image="europe-west1-docker.pkg.dev/knada-gcp/knada/knaudit:2023-03-09-982e142",
+        image="europe-west1-docker.pkg.dev/knada-gcp/knada/knaudit:2023-03-09-b13e388",
         env_vars=[
             k8s.V1EnvVar(
                 name="ELASTICSEARCH_URL",
@@ -27,6 +27,14 @@ with DAG('k8s_knaudit_example',
             k8s.V1EnvVar(
                 name="GIT_REPO_PATH",
                 value="/dags",
+            ),
+            k8s.V1EnvVar(
+                name="NAMESPACE",
+                value_from=k8s.V1EnvVarSource(
+                    field_ref=k8s.V1ObjectFieldSelector(
+                        field_path="metadata.namespace",
+                    ),
+                ),
             ),
             k8s.V1EnvVar(
                 name="AIRFLOW_DAG_ID",
