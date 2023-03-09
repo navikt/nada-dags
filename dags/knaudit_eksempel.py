@@ -36,7 +36,7 @@ with DAG('k8s_knaudit_example',
                     ),
                 ),
             ),
-            k8s.V1EnvFromSource(
+            k8s.V1EnvVar(
                 name="AIRFLOW_RUN_ID",
                 value_from=k8s.V1EnvVarSource(
                     field_ref=k8s.V1ObjectFieldSelector(
@@ -44,7 +44,7 @@ with DAG('k8s_knaudit_example',
                     ),
                 ),
             ),
-            k8s.V1EnvFromSource(
+            k8s.V1EnvVar(
                 name="AIRFLOW_TASK_ID",
                 value_from=k8s.V1EnvVarSource(
                     field_ref=k8s.V1ObjectFieldSelector(
