@@ -95,24 +95,26 @@ with DAG('k8s_knaudit_example',
                 ),
             ),
         ],
-        init_containers=k8s.V1Container(
-            name="clone-repo",
-            image="europe-west1-docker.pkg.dev/knada-gcp/knada/git-sync:2023-03-08-80342e3",
-            volume_mounts=[
-                k8s.V1VolumeMount(
-                    name="dags-data",
-                    mount_path="/dags",
-                    sub_path=None,
-                    read_only=False
-                ),
-                k8s.V1VolumeMount(
-                    name="airflow-git-secret",
-                    mount_path="/keys",
-                    sub_path=None,
-                    read_only=False,
-                ),
-            ],
-            command=["/bin/sh", "-c"],
-            args=["/git-clone.sh navikt/nada-dags main /dags; chmod -R 777 /dags"],
-        )
+        init_containers=[
+            k8s.V1Container(
+                name="clone-repo",
+                image="europe-west1-docker.pkg.dev/knada-gcp/knada/git-sync:2023-03-08-80342e3",
+                volume_mounts=[
+                    k8s.V1VolumeMount(
+                        name="dags-data",
+                        mount_path="/dags",
+                        sub_path=None,
+                        read_only=False
+                    ),
+                    k8s.V1VolumeMount(
+                        name="airflow-git-secret",
+                        mount_path="/keys",
+                        sub_path=None,
+                        read_only=False,
+                    ),
+                ],
+                command=["/bin/sh", "-c"],
+                args=["/git-clone.sh navikt/nada-dags main /dags; chmod -R 777 /dags"],
+            )
+        ]
     )
