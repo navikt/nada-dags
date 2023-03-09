@@ -119,7 +119,7 @@ with DAG('k8s_knaudit_example',
                     ),
                 ],
                 command=["/bin/sh", "-c"],
-                args=["/git-clone.sh navikt/nada-dags main /dags; chmod -R 777 /dags"],
+                args=["/git-clone.sh navikt/nada-dags main /dags"],
             )
         ]
     )
