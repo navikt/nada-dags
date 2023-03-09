@@ -12,25 +12,25 @@ with DAG('k8s_knaudit_example',
         get_logs=True,
         image="europe-west1-docker.pkg.dev/knada-gcp/knada/knaudit:2023-03-09-f174567",
         env_vars=[
-            k8s.V1EnvFromSource(
+            k8s.V1EnvVar(
                 name="ELASTICSEARCH_URL",
                 value="https://log-ingest.adeo.no",
             ),
-            k8s.V1EnvFromSource(
+            k8s.V1EnvVar(
                 name="ELASTICSEARCH_INDEX",
                 value="tjenestekall-knada-airflow-run-audit",
             ),
-            k8s.V1EnvFromSource(
+            k8s.V1EnvVar(
                 name="CA_CERT_PATH",
                 value="/etc/pki/tls/certs/ca-bundle.crt",
             ),
-            k8s.V1EnvFromSource(
+            k8s.V1EnvVar(
                 name="GIT_REPO_PATH",
                 value="/dags",
             ),
-            k8s.V1EnvFromSource(
+            k8s.V1EnvVar(
                 name="AIRFLOW_DAG_ID",
-                value_from=k8s.V1EnvFromSource(
+                value_from=k8s.V1EnvVarSource(
                     field_ref=k8s.V1ObjectFieldSelector(
                         field_path="metadata.labels['dag_id']",
                     ),
@@ -38,7 +38,7 @@ with DAG('k8s_knaudit_example',
             ),
             k8s.V1EnvFromSource(
                 name="AIRFLOW_RUN_ID",
-                value_from=k8s.V1EnvFromSource(
+                value_from=k8s.V1EnvVarSource(
                     field_ref=k8s.V1ObjectFieldSelector(
                         field_path="metadata.labels['run_id']",
                     ),
@@ -46,7 +46,7 @@ with DAG('k8s_knaudit_example',
             ),
             k8s.V1EnvFromSource(
                 name="AIRFLOW_TASK_ID",
-                value_from=k8s.V1EnvFromSource(
+                value_from=k8s.V1EnvVarSource(
                     field_ref=k8s.V1ObjectFieldSelector(
                         field_path="metadata.labels['task_id']",
                     ),
