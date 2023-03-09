@@ -2,7 +2,7 @@ from datetime import datetime
 
 from airflow import DAG
 from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
-from kubernetes.client import client as k8s
+from kubernetes import client as k8s
 
 with DAG('k8s_knaudit_example',
          start_date=datetime(2023, 3, 9)) as dag:
