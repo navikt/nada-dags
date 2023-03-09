@@ -52,12 +52,14 @@ with DAG('k8s_knaudit_example',
                     ),
                 ),
             ),
-        ],
-        env_from=[
-            k8s.V1EnvFromSource(
-                secret_ref=k8s.V1SecretEnvSource(
-                    name="airflow-db"
-                )
+            k8s.V1EnvVar(
+                name="AIRFLOW_DB_URL",
+                value_from=k8s.V1EnvVarSource(
+                    secret_key_ref=k8s.V1SecretKeySelector(
+                        name="airflow-db",
+                        key="connection"
+                    ),
+                ),
             ),
         ],
         volume_mounts=[
