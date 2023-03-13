@@ -10,7 +10,7 @@ with DAG('k8s_knaudit_example',
         name="knaudit",
         task_id="task-one",
         get_logs=True,
-        image="europe-west1-docker.pkg.dev/knada-gcp/knada/knaudit:2023-03-13-d311bb7",
+        image="europe-west1-docker.pkg.dev/knada-gcp/knada/knaudit:2023-03-13-2cc53c1",
         env_vars=[
             k8s.V1EnvVar(
                 name="ELASTICSEARCH_URL",
