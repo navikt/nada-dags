@@ -3,6 +3,7 @@ from airflow.operators.bash_operator import BashOperator
 from datetime import datetime
 from datetime import datetime
 from airflow.utils.dates import days_ago
+from kubernetes import client as k8s
 
 
 with DAG('bash-operator-notebook', start_date=days_ago(1), schedule_interval=None, catchup=False) as dag:
