@@ -1,7 +1,7 @@
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
 from datetime import datetime
-from datetime import datetimefrom kubernetes import client as k8s
+from datetime import datetime
 from airflow.utils.dates import days_ago
 
 
