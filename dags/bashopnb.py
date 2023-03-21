@@ -16,7 +16,7 @@ with DAG('bash-operator-notebook', start_date=days_ago(1), schedule_interval=Non
                    containers=[
                       k8s.V1Container(
                          name="base",
-                         image="europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-notebooks:2023-03-21-277baef"
+                         image="europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-notebooks:2023-03-21-cdaa0cd"
                       )
                    ]
                )
