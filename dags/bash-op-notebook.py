@@ -1,9 +1,11 @@
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
 from datetime import datetime
+from datetime import datetimefrom kubernetes import client as k8s
+from airflow.utils.dates import days_ago
 
 
-with DAG('bash-operator-eksempel', start_date=datetime(2023, 2, 14), schedule_interval="*/5 * * * *", catchup=False) as dag:
+with DAG('bash-operator-eksempel', start_date=days_ago(1), schedule_interval="*/5 * * * *", catchup=False) as dag:
 
     t1 = BashOperator(
         task_id='notebook',
@@ -21,4 +23,4 @@ with DAG('bash-operator-eksempel', start_date=datetime(2023, 2, 14), schedule_in
            )
         },
         dag=dag
-        )
+    )
