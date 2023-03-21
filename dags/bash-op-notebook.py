@@ -10,4 +10,17 @@ with DAG('bash-operator-eksempel', start_date=datetime(2023, 2, 14), schedule_in
     t1 = BashOperator(
         task_id='notebook',
         bash_command='papermill --log-output ../notebooks/mynb.ipynb ../output.ipynb',
-        dag=dag)
+        executor_config={
+           "pod_override": k8s.V1Pod(
+               spec=k8s.V1PodSpec(
+                   containers=[
+                      k8s.V1Container(
+                         name="base",
+                         image="europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-notebooks:2023-03-21-ed0d1e5"
+                      )
+                   ]
+               )
+           )
+        },
+        dag=dag
+        )
