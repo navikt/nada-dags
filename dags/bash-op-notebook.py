@@ -10,7 +10,7 @@ with DAG('bash-operator-notebook', start_date=days_ago(1), schedule_interval=Non
 
     t1 = BashOperator(
         task_id='notebook',
-        bash_command='papermill --log-output ../notebooks/mynb.ipynb ../output.ipynb',
+        bash_command='sleep 120 && papermill --log-output ../notebooks/mynb.ipynb ../output.ipynb',
         executor_config={
            "pod_override": k8s.V1Pod(
                spec=k8s.V1PodSpec(
