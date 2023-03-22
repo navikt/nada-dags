@@ -7,6 +7,7 @@ with DAG('k8s_resource_example',
          start_date=datetime(2023, 2, 15),
          schedule_interval="@daily") as dag:
     task_1 = KubernetesPodOperator(
+        image="bash:latest",
         cmds=["bash", "-cx"],
         arguments=["echo", "10", "echo pwd"],
         name="k8s_resource_example",
