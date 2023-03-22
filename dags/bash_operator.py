@@ -10,12 +10,12 @@ with DAG('BashOperator', start_date=datetime(2023, 2, 14), schedule_interval='*/
 
     t1 = BashOperator(
         task_id='hello_task',
-        bash_command="echo 'Hello $WORLD at $(date)'"
+        bash_command='echo "Hello $WORLD at $(date)"'
     )
 
     t2 = BashOperator(
         task_id='bye_task',
-        bash_command="echo 'Bye $WORLD'",
+        bash_command='echo "Bye $WORLD"',
         env={
             'WORLD': 'Earth'
         })
