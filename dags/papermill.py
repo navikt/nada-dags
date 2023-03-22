@@ -4,18 +4,18 @@ from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import Kubernete
 from datetime import datetime
 from kubernetes.client import models as k8s
 
-dockerImage = "europe-west1-docker.pkg.dev/knada-gcp/knada/papermill:2023-03-08-d3684b7"
+dockerImage = 'europe-west1-docker.pkg.dev/knada-gcp/knada/papermill:2023-03-22-8018f16'
 
-with DAG('Papermill', start_date=datetime(2023, 3, 21), schedule_interval="0 10 * * *") as dag:
+with DAG('Papermill', start_date=datetime(2023, 3, 21), schedule_interval='0 10 * * *') as dag:
     t1 = BashOperator(
-        task_id="bashmill",
-        bash_command="papermill --log-output ../notebooks/mynb.ipynb output.ipynb",
+        task_id='bashmill',
+        bash_command='papermill --log-output ../notebooks/mynb.ipynb output.ipynb',
         executor_config={
-           "pod_override": k8s.V1Pod(
+           'pod_override': k8s.V1Pod(
                spec=k8s.V1PodSpec(
                    containers=[
                       k8s.V1Container(
-                         name="base",
+                         name='base',
                          image=dockerImage
                       )
                    ]
@@ -25,12 +25,12 @@ with DAG('Papermill', start_date=datetime(2023, 3, 21), schedule_interval="0 10 
     )
     
     t2 = KubernetesPodOperator(
-        task_id="podmill",
+        task_id='podmill',
         image=dockerImage,
         arguments=[
-            "--log-output",
-            "../notebooks/mynb.ipynb",
-            "output.ipynb"
+            '--log-output',
+            '../notebooks/mynb.ipynb',
+            'output.ipynb'
         ]
     )
     
