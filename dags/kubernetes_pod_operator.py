@@ -1,7 +1,7 @@
 from airflow import DAG
 from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
 from datetime import datetime
-from kubernetes.client import models as client
+from kubernetes.client import models as k8s
 
 with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15)) as dag:
 
@@ -12,7 +12,7 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15)) as dag:
         name="k8s_resource_example",
         task_id="task-one",
         get_logs=True,
-        container_resources=client.V1ResourceRequirements(
+        container_resources=k8s.V1ResourceRequirements(
             requests={
                 "ephemeral-storage": "2Gi"
             }
