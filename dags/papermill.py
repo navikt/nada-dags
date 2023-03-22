@@ -9,7 +9,7 @@ dockerImage = 'europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-papermill:202
 with DAG('Papermill', start_date=datetime(2023, 3, 21), schedule_interval='0 10 * * *') as dag:
     t1 = BashOperator(
         task_id='bashmill',
-        bash_command='papermill --log-output ../notebooks/mynb.ipynb output.ipynb',
+        bash_command='papermill --log-output /dags/notebooks/mynb.ipynb /dags/output.ipynb',
         executor_config={
            'pod_override': k8s.V1Pod(
                spec=k8s.V1PodSpec(
@@ -29,8 +29,8 @@ with DAG('Papermill', start_date=datetime(2023, 3, 21), schedule_interval='0 10 
         image=dockerImage,
         arguments=[
             '--log-output',
-            '../notebooks/mynb.ipynb',
-            'output.ipynb'
+            '/dags/notebooks/mynb.ipynb',
+            '/dags/output.ipynb'
         ]
     )
     
