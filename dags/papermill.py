@@ -6,7 +6,7 @@ from airflow.providers.papermill.operators.papermill import PapermillOperator
 from datetime import datetime
 from kubernetes.client import models as k8s
 
-dockerImage = 'europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-papermill:2023-03-22-aae9a31'
+dockerImage = 'europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-papermill:2023-03-22-87dec22'
 
 with DAG('Papermill', start_date=datetime(2023, 3, 21), schedule_interval='0 10 * * *') as dag:
 
