@@ -6,7 +6,7 @@ from airflow.providers.papermill.operators.papermill import PapermillOperator
 from datetime import datetime
 from kubernetes.client import models as k8s
 
-dockerImage = 'europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-papermill:2023-03-22-8018f16'
+dockerImage = 'europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-papermill:2023-03-22-4213c72'
 
 with DAG('Papermill', start_date=datetime(2023, 3, 21), schedule_interval='0 10 * * *') as dag:
 
@@ -42,4 +42,16 @@ with DAG('Papermill', start_date=datetime(2023, 3, 21), schedule_interval='0 10 
         input_nb="/dags/notebooks/mynb.ipynb",
         output_nb="/dags/out-{{ execution_date }}.ipynb",
         parameters={"msgs": "Ran from Airflow at {{ execution_date }}!"},
+        executor_config={
+           'pod_override': k8s.V1Pod(
+               spec=k8s.V1PodSpec(
+                   containers=[
+                      k8s.V1Container(
+                         name='base',
+                         image=dockerImage
+                      )
+                   ]
+               )
+           )
+        }
     )
