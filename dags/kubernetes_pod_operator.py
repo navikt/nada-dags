@@ -73,5 +73,10 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
                 command=["/bin/sh", "-c"],
                 args=["/git-clone.sh navikt/nada-dags main /dags"],
             )
-        ]
+        ],
+        security_context={
+            "fsGroup": 0,
+            "runAsUser": 50000,
+            "runAsNonRoot": True,
+        }
     )
