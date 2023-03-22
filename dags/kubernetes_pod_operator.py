@@ -3,7 +3,7 @@ from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import Kubernete
 from datetime import datetime
 from kubernetes.client import models as k8s
 
-with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15)) as dag:
+with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=None) as dag:
 
     task_1 = KubernetesPodOperator(
         image="bash:latest",
