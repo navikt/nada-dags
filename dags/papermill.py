@@ -10,8 +10,6 @@ dockerImage = 'europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-papermill:202
 
 with DAG('Papermill', start_date=datetime(2023, 3, 21), schedule_interval='0 10 * * *') as dag:
 
-    start = EmptyOperator()
-
     t1 = BashOperator(
         task_id='bashmill',
         bash_command='papermill --log-output /dags/notebooks/mynb.ipynb /dags/output.ipynb',
@@ -45,5 +43,3 @@ with DAG('Papermill', start_date=datetime(2023, 3, 21), schedule_interval='0 10 
         output_nb="/dags/out-{{ execution_date }}.ipynb",
         parameters={"msgs": "Ran from Airflow at {{ execution_date }}!"},
     )
-
-    start = [t1, t2, t3]
