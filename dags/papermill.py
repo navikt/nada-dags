@@ -23,7 +23,7 @@ with DAG('Papermill', start_date=datetime(2023, 3, 21), schedule_interval="0 10 
     
     t2 = KubernetesPodOperator(
         task_id="podmill",
-        image=dockerImage
+        image=dockerImage,
         arguments=[
             "--log-output",
             "../notebooks/mynb.ipynb",
