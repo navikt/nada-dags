@@ -11,6 +11,7 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
         arguments=["echo", "10", "echo pwd"],
         name="k8s_resource_example",
         task_id="task-one",
+        is_delete_operator_pod=False,
         get_logs=True,
         container_resources=k8s.V1ResourceRequirements(
             requests={
