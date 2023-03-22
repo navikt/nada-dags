@@ -3,9 +3,7 @@ from airflow.operators.bash import BashOperator
 from datetime import datetime
 from kubernetes.client import models as k8s
 
-dockerImage = 'europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-papermill:2023-03-22-87dec22'
-
-with DAG('Papermill', start_date=datetime(2023, 3, 21), schedule_interval='0 10 * * *') as dag:
+with DAG('Papermill', start_date=datetime(2023, 3, 21), schedule=None) as dag:
 
     t1 = BashOperator(
         task_id='bashmill',
@@ -16,7 +14,7 @@ with DAG('Papermill', start_date=datetime(2023, 3, 21), schedule_interval='0 10 
                    containers=[
                       k8s.V1Container(
                          name='base',
-                         image=dockerImage
+                         image='europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-papermill:2023-03-22-fb1c4a4'
                       )
                    ]
                )
