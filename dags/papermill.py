@@ -31,7 +31,7 @@ with DAG('Papermill', start_date=datetime(2023, 3, 21), schedule_interval='0 10 
     
     t2 = KubernetesPodOperator(
         task_id='podmill',
-        image=dockerImage,
+        image="europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-papermill-test:1",
         arguments=[
             '--log-output',
             '/dags/notebooks/mynb.ipynb',
