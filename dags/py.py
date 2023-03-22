@@ -68,18 +68,5 @@ with DAG('test-k8s-exec', start_date=days_ago(1), schedule_interval=None) as dag
                                         delete_on_finish=False,
                                         allowlist=["ssb.no", "dm07-scan.adeo.no:1521"],
                                         branch="main")
-    
-    #then_this = KubernetesPodOperator(
-    #    dag=dag,
-    #    name="tasken",
-    #    task_id="tasken",
-    #    cmds=["/bin/bash", "-cx"],
-    #    arguments=["echo", "hello"],
-    #    executor_config={
-    #        "pod_override": k8s.V1Pod(
-    #            metadata=k8s.V1ObjectMeta(annotations={"allowlist": "ssb.no,dm07-scan.adeo.no:1521"})
-    #        )
-    #    }
-    #)
 
-    slack >> run_this >> then #>> then_this
+    slack >> run_this >> then
