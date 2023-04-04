@@ -3,7 +3,7 @@ from airflow.operators.bash import BashOperator
 from datetime import datetime
 from kubernetes.client import models as k8s
 
-with DAG('Detteerihvertfallmerenn30tegndetmaadetvaere', start_date=datetime(2023, 3, 21), schedule=None) as dag:
+with DAG('foretak_iaweb_Informatica_kjerne_og_torg', start_date=datetime(2023, 3, 21), schedule=None) as dag:
 
     t1 = BashOperator(
         task_id='bashmill',
