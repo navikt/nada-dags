@@ -6,7 +6,7 @@ from kubernetes.client import models as k8s
 with DAG('foretak_iaweb_Informatica_kjerne_og_torg', start_date=datetime(2023, 3, 21), schedule=None) as dag:
 
     t1 = BashOperator(
-        task_id='bashmill',
+        task_id='SYFRA_KJERNE_informatica_airflow',
         bash_command='papermill --log-output /dags/notebooks/mynb.ipynb /dags/output.ipynb',
         executor_config={
            'pod_override': k8s.V1Pod(
