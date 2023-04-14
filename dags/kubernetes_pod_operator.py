@@ -15,7 +15,9 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
         get_logs=True,
         container_resources=k8s.V1ResourceRequirements(
             requests={
-                "ephemeral-storage": "2Gi"
+                "memory": "2Gi",
+                "ephemeral-storage": "128Mi",
+                "cpu": "2"
             }
         ),
         annotations={"allowlist": "https://g.nav.no"},
