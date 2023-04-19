@@ -15,6 +15,6 @@ with DAG(
               name="task",
               repo="navikt/nada-dags",
               branch="main",
-              script_path="notebooks/",
+              script_path="notebooks/script.py",
               image="europe-west1-docker.pkg.dev/knada-gcp/knada/airflow:2023-03-22-ffd1ef0"
   )
