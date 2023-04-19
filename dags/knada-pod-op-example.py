@@ -10,7 +10,7 @@ with DAG(
     start_date=datetime(2023, 1, 26, tzinfo=pendulum.timezone("Europe/Oslo")),
     catchup=False,
 ) as dag:
-  podop = create_knada_python_operator(
+  podop = create_knada_python_pod_operator(
               dag=dag, 
               name="task",
               repo="navikt/nada-dags",
