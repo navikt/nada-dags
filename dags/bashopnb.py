@@ -30,6 +30,7 @@ with DAG('bash-operator-notebook', start_date=days_ago(1), schedule_interval=Non
         task_id='notebook',
         bash_command='papermill --log-output /dags/notebooks/mynb.ipynb /dags/output.ipynb',
         on_failure_callback=on_failure,
+        on_execute_callback=on_failure,
         executor_config={
            "pod_override": k8s.V1Pod(
                spec=k8s.V1PodSpec(
