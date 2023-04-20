@@ -31,7 +31,7 @@ with DAG('python-operator-with-extra-initcontainer', start_date=days_ago(1), sch
                                 name="code", mount_path=MOUNT_PATH, sub_path=None, read_only=False
                             ),
                             k8s.V1VolumeMount(
-                                name="airflow-git-secret",
+                                name="github-app-secret",
                                 mount_path="/keys",
                                 sub_path=None,
                                 read_only=False,
