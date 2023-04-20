@@ -4,19 +4,16 @@ from airflow.utils.dates import days_ago
 from airflow.operators.python_operator import PythonOperator
 from kubernetes import client as k8s
 
+from kode.modul import mycallable
+
 MOUNT_PATH = "/code"
 REPO = "navikt/nada-airflow"
 BRANCH = "main"
 
-def temp():
-    import time
-    print("start")
-    time.sleep(1000)
-
 with DAG('python-operator-with-extra-initcontainer', start_date=days_ago(1), schedule_interval=None) as dag:    
     run_this = PythonOperator(
     task_id='test-pythonoperator',
-    python_callable=temp,
+    python_callable=mycallable,
     executor_config={
         "pod_override": k8s.V1Pod(
             spec=k8s.V1PodSpec(
