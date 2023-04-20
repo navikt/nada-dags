@@ -3,8 +3,10 @@ from airflow import DAG
 from airflow.utils.dates import days_ago
 from airflow.operators.python_operator import PythonOperator
 from kubernetes import client as k8s
-from kode.modul import mycallable
 import os
+
+def mycallable():
+    print("hello")
 
 with DAG('pytho-operator', start_date=days_ago(1), schedule_interval=None) as dag:    
     run_this = PythonOperator(
