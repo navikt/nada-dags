@@ -1,2 +1,2 @@
 def mycallable():
-  print("hallo")
+  print("hallo fra en annen modul")
