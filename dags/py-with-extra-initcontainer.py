@@ -39,7 +39,6 @@ with DAG('python-operator-with-extra-initcontainer', start_date=days_ago(1), sch
                         ],
                     )
                 ],
-            ),
                 containers=[
                     k8s.V1Container(
                        name="base",
@@ -50,7 +49,8 @@ with DAG('python-operator-with-extra-initcontainer', start_date=days_ago(1), sch
                     k8s.V1Volume(
                         name="code"
                     )
-                ]
+                ],
             )
+        )
     },
     dag=dag)
