@@ -17,7 +17,7 @@ with DAG('pytho-operator', start_date=days_ago(1), schedule_interval=None) as da
                    k8s.V1Container(
                       name="base",
                       env=[
-                        k8s.V1EnvVar("PYTHONPATH", "${PYTHONPATH}:/dags")
+                        k8s.V1EnvVar("PYTHONPATH", "/dags")
                       ],
                       image="europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-papermill:2023-03-22-fb1c4a4"
                    )
