@@ -4,7 +4,6 @@ from airflow.utils.dates import days_ago
 from airflow.operators.python_operator import PythonOperator
 from airflow.contrib.operators.slack_webhook_operator import SlackWebhookOperator
 from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
-from dataverk_airflow.knada_operators import create_knada_nb_pod_operator
 from kubernetes import client as k8s
 import os
 import logging
