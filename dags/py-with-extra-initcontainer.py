@@ -3,7 +3,6 @@ from airflow import DAG
 from airflow.utils.dates import days_ago
 from airflow.operators.python_operator import PythonOperator
 from kubernetes import client as k8s
-from kode.modul import mycallable
 
 MOUNT_PATH = "/code"
 REPO = "navikt/nada-airflow"
