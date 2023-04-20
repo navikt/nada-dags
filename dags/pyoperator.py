@@ -11,7 +11,10 @@ import logging
 import time
 
 def myfunc():
+  import time
   print("hello")
+  time.sleep(100)
+  print("bye")
 
 with DAG('pytho-operator', start_date=days_ago(1), schedule_interval=None) as dag:    
     run_this = PythonOperator(
