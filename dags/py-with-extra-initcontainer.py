@@ -26,9 +26,6 @@ with DAG('python-operator-with-extra-initcontainer', start_date=days_ago(1), sch
                         image="europe-west1-docker.pkg.dev/knada-gcp/knada/git-sync:2023-03-09-bfc0f3e",
                         command=["/bin/sh", "-c"],
                         args=[f"/git-clone.sh {REPO} {BRANCH} {MOUNT_PATH}"],
-                        env=[
-                            k8s.V1EnvVar("PYTHONPATH", MOUNT_PATH)
-                        ],
                         volume_mounts=[
                             k8s.V1VolumeMount(
                                 name="code", mount_path=MOUNT_PATH, sub_path=None, read_only=False
@@ -46,6 +43,9 @@ with DAG('python-operator-with-extra-initcontainer', start_date=days_ago(1), sch
                     k8s.V1Container(
                        name="base",
                        image="europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-papermill:2023-03-22-fb1c4a4",
+                        env=[
+                            k8s.V1EnvVar("PYTHONPATH", MOUNT_PATH)
+                        ],
                        volume_mounts=[
                             k8s.V1VolumeMount(
                                 name="code", mount_path=MOUNT_PATH, sub_path=None, read_only=False
