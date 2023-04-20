@@ -15,5 +15,6 @@ with DAG(
               name="task",
               repo="navikt/nada-dags",
               branch="main",
-              script_path="notebooks/script.py"
+              script_path="notebooks/script.py",
+              delete_on_finish=False,
   )
