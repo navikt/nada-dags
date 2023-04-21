@@ -17,5 +17,5 @@ with DAG(
               branch="main",
               script_path="notebooks/script.py",
               delete_on_finish=False,
-              image="europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-papermill:2023-03-22-87dec22",
+              image="europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-papermill:2023-03-22-fb1c4a4",
   )
