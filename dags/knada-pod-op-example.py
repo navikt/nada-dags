@@ -17,6 +17,6 @@ with DAG(
               branch="main",
               script_path="notebooks/script.py",
               delete_on_finish=False,
-              image="europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-notebooks:v1",
+              image="europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-notebooks:v2",
               retries=1,
   )
