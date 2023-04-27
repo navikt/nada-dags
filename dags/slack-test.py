@@ -22,7 +22,7 @@ with DAG('slack-operator', start_date=days_ago(1), schedule_interval=None) as da
               {
                   "title": "Priority",
                   "value": "High",
-                  "short": false
+                  "short": False
               }
           ],
           "footer": "Nada"
