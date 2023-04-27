@@ -1,6 +1,6 @@
 from airflow import DAG
 from airflow.utils.dates import days_ago
-from airflow.providers.slack.operators.slack_webhook import SlackWebhookOperator
+from airflow.providers.slack.operators.slack import SlackAPIPostOperator
 import os
 
 with DAG('slack-operator', start_date=days_ago(1), schedule_interval=None) as dag:   
