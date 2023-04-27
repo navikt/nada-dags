@@ -9,7 +9,7 @@ with DAG('slack-operator', start_date=days_ago(1), schedule_interval=None) as da
           http_conn_id=None,
           webhook_token=os.environ["SLACK_TOKEN"],
           message=f"@here Airflow task {name} i DAG {dag_id} feilet i namespace {namespace} kl. {datetime.now().isoformat()}. ",
-          channel="#kubeflow-cron-alerts,
+          channel="#kubeflow-cron-alerts",
           link_names=True,
           icon_emoji=":sadpanda:",
       )
