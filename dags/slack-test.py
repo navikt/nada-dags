@@ -10,5 +10,22 @@ with DAG('slack-operator', start_date=days_ago(1), schedule_interval=None) as da
     token=os.environ["SLACK_TOKEN"],
     text="tester",
     channel="#kubeflow-cron-alerts",
-    icon_emoji=":sadpanda:"
+    attachments=[
+      {
+          "fallback": "Plain-text summary of the attachment.",
+          "color": "#2eb886",
+          "pretext": "test",
+          "author_name": "Nada",
+          "title": "Nada",
+          "text": "test",
+          "fields": [
+              {
+                  "title": "Priority",
+                  "value": "High",
+                  "short": false
+              }
+          ],
+          "footer": "Nada"
+      }
+    ]
   )
