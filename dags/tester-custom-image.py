@@ -22,4 +22,5 @@ with DAG(
                                         nb_path="notebooks/mynb.ipynb",
                                         branch="main",
                                         image = 'ghcr.io/navikt/knada-images/paw-image:v1',
+                                        delete_on_finish=False,
                                         log_output=False)
