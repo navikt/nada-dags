@@ -21,6 +21,6 @@ with DAG(
                                         repo="navikt/nada-dags",
                                         nb_path="notebooks/mynb.ipynb",
                                         branch="main",
-                                        image = 'ghcr.io/navikt/knada-images/paw-image:v2',
+                                        image = 'ghcr.io/navikt/knada-images/test-image:v2',
                                         delete_on_finish=False,
                                         log_output=False)
