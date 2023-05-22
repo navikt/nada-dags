@@ -17,4 +17,7 @@ with DAG(
               branch="main",
               script_path="notebooks/script.py",
               delete_on_finish=False,
+              image="europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-notebooks:v2",
+              slack_channel="#kubeflow-cron-alerts",
+              retries=1,
   )
