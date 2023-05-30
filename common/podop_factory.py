@@ -1,7 +1,6 @@
 import os
 
 from datetime import timedelta
-from pathlib import Path
 
 from airflow import DAG
 from kubernetes.client.models import V1Volume, V1SecretVolumeSource, V1ConfigMapVolumeSource, V1VolumeMount, V1PodSecurityContext, V1SeccompProfile

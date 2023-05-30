@@ -6,7 +6,7 @@ from kubernetes import client as k8s
 
 from common.podop_factory import create_pod_operator
 
-with DAG('pytho-operator', start_date=days_ago(1), schedule_interval=None) as dag:
+with DAG('pod-operator-examples', start_date=days_ago(1), schedule_interval=None) as dag:
     podop_script = create_pod_operator(
         dag=dag,
         name="python_pod_op",
