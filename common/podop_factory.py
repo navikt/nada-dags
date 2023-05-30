@@ -8,8 +8,8 @@ from kubernetes.client.models import V1Volume, V1SecretVolumeSource, V1ConfigMap
 from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
 from kubernetes import client
 
-from initcontainers import create_git_clone_init_container
-from notifications import create_email_notification, create_slack_notification
+from common.initcontainers import create_git_clone_init_container
+from common.notifications import create_email_notification, create_slack_notification
 
 
 POD_WORKSPACE_DIR = "/workspace"
