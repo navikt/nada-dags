@@ -27,4 +27,4 @@ with DAG('pytho-operator', start_date=days_ago(1), schedule_interval=None) as da
         retries=0,
     )
 
-    podop_script > podop_nb
+    podop_script >> podop_nb
