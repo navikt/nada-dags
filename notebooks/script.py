@@ -1,2 +1,1 @@
-import oracledb
 print("hello")
