@@ -17,11 +17,12 @@ CA_BUNDLE_PATH = "/etc/pki/tls/certs/ca-bundle.crt"
 CA_BUNDLE_CM = "ca-bundle-pem"
 
 
-def create_python_pod_operator(
+def create_pod_operator(
     dag: DAG,
     name: str,
     repo: str,
-    script_path: str,
+    script_path: str = None,
+    nb_path: str = None,
     namespace: str = None,
     email: str = None,
     slack_channel: str = None,
@@ -31,6 +32,7 @@ def create_python_pod_operator(
     extra_envs: dict = None,
     delete_on_finish: bool = True,
     image: str = None,
+    log_output: bool = False,
     startup_timeout_seconds: int = 360,
     retry_delay: timedelta = timedelta(seconds=5),
     nls_lang: str = "NORWEGIAN_NORWAY.AL32UTF8",
@@ -59,6 +61,13 @@ def create_python_pod_operator(
     :param allowlist: list: list of hosts and port the task needs to reach on the format host:port
     :return: KubernetesPodOperator
     """
+
+    if script_path:
+        command = ["python", f"{POD_WORKSPACE_DIR}/{script_path}"]
+    elif nb_path:
+        command = ["papermill", "--log-output" if log_output else "", "{POD_WORKSPACE_DIR}/{nb_path}", f"/{POD_WORKSPACE_DIR}/output.ipynb"]
+    else:
+        raise ValueError("Either script_path or nb_path parameter must be provided")
 
     env_vars = {
         "NOTEBOOK_PATH": f"{POD_WORKSPACE_DIR}/{Path(script_path).parent}",
@@ -100,7 +109,7 @@ def create_python_pod_operator(
         on_failure_callback=on_failure,
         startup_timeout_seconds=startup_timeout_seconds,
         name=name,
-        cmds=["python", f"{POD_WORKSPACE_DIR}/{script_path}"],
+        cmds=command,
         namespace=namespace,
         task_id=name,
         is_delete_operator_pod=delete_on_finish,

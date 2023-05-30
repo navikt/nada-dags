@@ -1,6 +1,6 @@
 import os
 
-from typing import Sequence, Union, List
+from typing import Union, List
 
 from airflow.providers.slack.operators.slack import SlackAPIPostOperator
 from airflow.operators.email import EmailOperator
