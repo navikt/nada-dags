@@ -70,8 +70,6 @@ def create_pod_operator(
         raise ValueError("Either script_path or nb_path parameter must be provided")
 
     env_vars = {
-        "NOTEBOOK_PATH": f"{POD_WORKSPACE_DIR}/{Path(script_path).parent}",
-        "NOTEBOOK_NAME": Path(script_path).name,
         "TZ": os.environ["TZ"],
         "REQUESTS_CA_BUNDLE": CA_BUNDLE_PATH,
         "NLS_LANG": nls_lang,
