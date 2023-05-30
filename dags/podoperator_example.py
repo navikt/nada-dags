@@ -8,6 +8,7 @@ from common.podop_factory import create_pod_operator
 
 with DAG('pytho-operator', start_date=days_ago(1), schedule_interval=None) as dag:
     podop_script = create_pod_operator(
+        dag=dag,
         name="python_pod_op",
         repo="navikt/nada-dags",
         script_path="notebooks/script.py",
@@ -17,6 +18,7 @@ with DAG('pytho-operator', start_date=days_ago(1), schedule_interval=None) as da
     )
 
     podop_nb = create_pod_operator(
+        dag=dag,
         name="nb_pod_op",
         repo="navikt/nada-dags",
         script_path="notebooks/script.py",
