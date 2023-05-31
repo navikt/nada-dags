@@ -64,11 +64,17 @@ def create_pod_operator(
     """
 
     if script_path:
-        command = ["/bin/bash", "-c", f"cd {POD_WORKSPACE_DIR}/{Path(script_path).parent} && python {Path(script_path).name}"]
+        command = [
+            "/bin/bash", 
+            "-c", 
+            f"cd {POD_WORKSPACE_DIR}/{Path(script_path).parent} && python {Path(script_path).name}"
+        ]
     elif nb_path:
-        command = ["/bin/bash", "-c", f"cd {POD_WORKSPACE_DIR}/{Path(nb_path).parent} && papermill {Path(nb_path).name} output.ipynb"]
-        if log_output:
-            command[-1] += command[-1] + " --log-output"
+        command = [
+            "/bin/bash", 
+            "-c", 
+            f"cd {POD_WORKSPACE_DIR}/{Path(nb_path).parent} && papermill {Path(nb_path).name} output.ipynb" + " --log-output" if log_output else ""
+        ]
     else:
         raise ValueError("Either script_path or nb_path parameter must be provided")
 
