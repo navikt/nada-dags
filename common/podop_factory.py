@@ -1,6 +1,7 @@
 import os
 
 from datetime import timedelta
+from pathlib import Path
 
 from airflow import DAG
 from kubernetes.client.models import V1Volume, V1SecretVolumeSource, V1ConfigMapVolumeSource, V1VolumeMount, V1PodSecurityContext, V1SeccompProfile
@@ -62,9 +63,9 @@ def create_pod_operator(
     """
 
     if script_path:
-        command = ["/bin/bash", "-c", f"cd {POD_WORKSPACE_DIR} && python {script_path}"]
+        command = ["/bin/bash", "-c", f"cd {POD_WORKSPACE_DIR}/{Path(script_path).parent} && python {Path(script_path).name}"]
     elif nb_path:
-        command = ["/bin/bash", "-c", f"cd {POD_WORKSPACE_DIR} && papermill {nb_path} output.ipynb"]
+        command = ["/bin/bash", "-c", f"cd {POD_WORKSPACE_DIR}/{Path(nb_path).parent} && papermill {Path(nb_path).name} output.ipynb"]
         if log_output:
             command[-1] += command[-1] + " --log-output"
     else:
