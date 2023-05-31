@@ -45,6 +45,7 @@ def create_pod_operator(
     :param name: str: Name of task
     :param repo: str: Github repo
     :param script_path: str: Path to python script in repo
+    :param nb_path: str: Path to the notebook in repo
     :param namespace: str: K8S namespace for pod
     :param email: str: Email of owner
     :param slack_channel: Name of slack channel, default None (no slack notification)
@@ -116,15 +117,7 @@ def create_pod_operator(
         image=image,
         executor_config={
             "pod_override": client.V1Pod(
-                metadata=client.V1ObjectMeta(annotations={"allowlist": allowlist_str}),
-                spec=client.V1PodSpec(
-                    containers=[
-                        client.V1Container(
-                           name="base",
-                           working_dir=POD_WORKSPACE_DIR,
-                        )
-                    ]
-                ),
+                metadata=client.V1ObjectMeta(annotations={"allowlist": allowlist_str})
             )
         },
         env_vars=env_vars,
