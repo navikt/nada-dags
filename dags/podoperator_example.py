@@ -24,7 +24,7 @@ with DAG('pod-operator-examples', start_date=days_ago(1), schedule_interval=None
         repo="navikt/nada-dags",
         nb_path="notebooks/mynb.ipynb",
         slack_channel="#kubeflow-cron-alerts",
-        
+        log_output=True,
         retries=0,
         delete_on_finish=False,
     )
