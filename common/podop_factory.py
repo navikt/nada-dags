@@ -115,7 +115,13 @@ def create_pod_operator(
         image=image,
         executor_config={
             "pod_override": client.V1Pod(
-                metadata=client.V1ObjectMeta(annotations={"allowlist": allowlist_str})
+                metadata=client.V1ObjectMeta(annotations={"allowlist": allowlist_str}),
+                containers=[
+                    client.V1Container(
+                       name="base",
+                       working_dir=POD_WORKSPACE_DIR,
+                    )
+                ]
             )
         },
         env_vars=env_vars,
