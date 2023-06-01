@@ -3,7 +3,7 @@ import json
 
 print("hello")
 
-with open("minfil.txt") as f:
+with open("minfil.json") as f:
     data = f.read()
 
 print("fil:", data)
