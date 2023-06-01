@@ -2,6 +2,7 @@ from airflow import DAG
 from datetime import datetime
 import pendulum
 from dataverk_airflow.knada_operators import create_knada_python_pod_operator
+from kubernetes import client as k8s
 
 with DAG(
     dag_id="pod-operator",
@@ -17,8 +18,12 @@ with DAG(
               branch="main",
               script_path="notebooks/script.py",
               delete_on_finish=False,
-              image="europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-notebooks:v2",
               slack_channel="#kubeflow-cron-alerts",
               retries=1,
               do_xcom_push=True,
+              container_resources=k8s.V1ResourceRequirements(
+                  requests={
+                      "memory": "50Mi"
+                  }
+              )
   )
