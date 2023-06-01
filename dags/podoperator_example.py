@@ -19,7 +19,7 @@ with DAG('pod-operator-examples', start_date=days_ago(1), schedule_interval=None
         delete_on_finish=False,
         resources=k8s.V1ResourceRequirements(
             requests={
-                "memory": "50Mi"
+                "memory": "100Mi"
             }
         )
     )
