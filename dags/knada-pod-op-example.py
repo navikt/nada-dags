@@ -21,7 +21,7 @@ with DAG(
               slack_channel="#kubeflow-cron-alerts",
               retries=1,
               do_xcom_push=True,
-              container_resources=k8s.V1ResourceRequirements(
+              resources=k8s.V1ResourceRequirements(
                   requests={
                       "memory": "50Mi"
                   }
