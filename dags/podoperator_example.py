@@ -16,7 +16,6 @@ with DAG('pod-operator-examples', start_date=days_ago(1), schedule_interval=None
         log_output=True,
         retries=0,
         delete_on_finish=False,
-        allowlist=["dm08-scan.adeo.no:1521"]
     )
     
     podop_script = create_pod_operator(
@@ -28,7 +27,7 @@ with DAG('pod-operator-examples', start_date=days_ago(1), schedule_interval=None
         image="europe-west1-docker.pkg.dev/knada-gcp/knada/airflow:2023-03-08-d3684b7",
         retries=0,
         delete_on_finish=False,
-        allowlist=["data.nav.no", "dm08-scan.adeo.no:1521"],
+        allowlist=["google.com"],
     )
 
     podop_nb >> podop_script

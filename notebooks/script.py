@@ -7,6 +7,6 @@ with open("minfil.txt") as f:
 
 print("fil:", data)
 
-res = requests.get("https://data.nav.no")
+res = requests.get("https://google.com")
 res.raise_for_status()
 print(res.text)
