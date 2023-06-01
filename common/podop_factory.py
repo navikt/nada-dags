@@ -113,6 +113,7 @@ def create_pod_operator(
         image_pull_secrets=os.environ["K8S_IMAGE_PULL_SECRETS"],
         dag=dag,
         labels={"component": "worker", "release": "airflow"},
+        annotations={"allowlist": allowlist_str},
         on_failure_callback=on_failure,
         startup_timeout_seconds=startup_timeout_seconds,
         name=name,
@@ -121,11 +122,6 @@ def create_pod_operator(
         task_id=name,
         is_delete_operator_pod=delete_on_finish,
         image=image,
-        executor_config={
-            "pod_override": client.V1Pod(
-                metadata=client.V1ObjectMeta(annotations={"allowlist": allowlist_str})
-            )
-        },
         env_vars=env_vars,
         volume_mounts=[
             V1VolumeMount(
