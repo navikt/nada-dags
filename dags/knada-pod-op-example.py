@@ -20,4 +20,5 @@ with DAG(
               image="europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-notebooks:v2",
               slack_channel="#kubeflow-cron-alerts",
               retries=1,
+              do_xcom_push=True,
   )
