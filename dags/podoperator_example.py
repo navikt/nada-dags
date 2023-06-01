@@ -29,6 +29,11 @@ with DAG('pod-operator-examples', start_date=days_ago(1), schedule_interval=None
         delete_on_finish=False,
         do_xcom_push=True,
         allowlist=["google.com"],
+        resources=k8s.V1ResourceRequirements(
+            requests={
+                "memory": "50Mi"
+            }
+        )
     )
 
     podop_nb >> podop_script
