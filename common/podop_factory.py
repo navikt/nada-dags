@@ -85,7 +85,7 @@ def create_pod_operator(
         "KNADA_TEAM_SECRET": os.environ["KNADA_TEAM_SECRET"]
     }
 
-    allowlist_str = "hooks.slack.com"
+    allowlist_str = "hooks.slack.com,slack.com"
 
     if len(allowlist):
         allowlist_str += "," + ",".join(allowlist)
