@@ -11,7 +11,7 @@ with DAG('pod-operator-examples', start_date=days_ago(1), schedule_interval=None
         dag=dag,
         name="nb_pod_op",
         repo="navikt/nada-dags",
-        nb_path="etl/utdanning_kodeverk/insert_raa_nus_kodeverk_ssb/insert_raa_nus_kodeverk_ssb.ipynb",
+        nb_path="notebooks/mynb.ipynb",
         slack_channel="#kubeflow-cron-alerts",
         log_output=True,
         retries=0,
