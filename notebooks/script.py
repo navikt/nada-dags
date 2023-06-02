@@ -15,3 +15,5 @@ print(res.text)
 
 with open('/airflow/xcom/return.json', 'w') as f:
         f.write(json.dumps(data))
+
+time.sleep(300)
