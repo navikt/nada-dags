@@ -21,7 +21,7 @@ with DAG(dag_name, start_date=days_ago(1), schedule_interval=None) as dag:
         dag=dag,
         name="test_task",
         repo="navikt/nada-dags",
-        nb_path="test_notebook.ipynb",
+        nb_path="notebooks/mynb.ipynb",
         slack_channel="#kubeflow-cron-alerts",
         branch="main",
         log_output=True,
