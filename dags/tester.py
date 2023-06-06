@@ -32,4 +32,4 @@ with DAG(dag_name, default_args=default_args, schedule_interval='@daily') as dag
     )
 
 
-test_task
+    test_task
