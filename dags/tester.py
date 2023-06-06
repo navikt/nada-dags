@@ -1,22 +1,23 @@
 import os
 from datetime import datetime, timedelta, date
+from airflow.utils.dates import days_ago
 from airflow import DAG
 from common.podop_factory import create_pod_operator
 from kubernetes import client
 
 dag_name = 'test_xcom'
 
-default_args = {
-    'owner': 'spenn',
-    'start_date': datetime(2023, 6, 6),
-    'depends_on_past': False,
-    # If a task fails, retry it once after waiting at least 5 minutes
-    'retries': 1,
-    'retry_delay': timedelta(minutes=5),
-}
+# default_args = {
+#     'owner': 'erik',
+#     'start_date': datetime(2023, 6, 6),
+#     # 'depends_on_past': False,
+#     # If a task fails, retry it once after waiting at least 5 minutes
+#     'retries': 1,
+#     'retry_delay': timedelta(minutes=5),
+# }
 
 
-with DAG(dag_name, default_args=default_args, schedule_interval='@daily') as dag:
+with DAG(dag_name, start_date=days_ago(1), schedule_interval=None) as dag:
 
     test_task = create_pod_operator(
         dag=dag,
@@ -32,4 +33,4 @@ with DAG(dag_name, default_args=default_args, schedule_interval='@daily') as dag
     )
 
 
-    test_task
+test_task
