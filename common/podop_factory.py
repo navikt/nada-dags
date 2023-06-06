@@ -73,7 +73,7 @@ def create_pod_operator(
         command = [
             "/bin/bash", 
             "-c", 
-            f"cd {POD_WORKSPACE_DIR}/{Path(nb_path).parent} && papermill {Path(nb_path).name} output.ipynb" + " --log-output" if log_output else ""
+            f"cd {POD_WORKSPACE_DIR}/{Path(nb_path).parent} && papermill {Path(nb_path).name} output.ipynb"
         ]
     else:
         raise ValueError("Either script_path or nb_path parameter must be provided")
