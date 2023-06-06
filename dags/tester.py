@@ -24,10 +24,17 @@ with DAG(dag_name, start_date=days_ago(1), schedule_interval=None) as dag:
         nb_path="test_notebook.ipynb",
         slack_channel="#kubeflow-cron-alerts",
         branch="main",
-        delete_on_finish=False,
+        log_output=True,
+        retries=0,
         do_xcom_push=True,
+        delete_on_finish=False,
         resources=client.V1ResourceRequirements(
-            requests={"memory": "512Mi"}
+            requests={
+                "memory": "256M"
+            },
+            limits={
+                "memory": "256M"
+            },
         )
     )
 
