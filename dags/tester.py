@@ -5,7 +5,7 @@ from airflow import DAG
 from common.podop_factory import create_pod_operator
 from kubernetes import client
 
-dag_name = 'test_xcom'
+dag_name = 'test-xcom'
 
 # default_args = {
 #     'owner': 'erik',
