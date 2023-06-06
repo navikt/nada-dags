@@ -13,10 +13,9 @@ with DAG('pod-operator-examples', start_date=days_ago(1), schedule_interval=None
         repo="navikt/nada-dags",
         nb_path="notebooks/mynb.ipynb",
         slack_channel="#kubeflow-cron-alerts",
-        log_output=True,
+        #log_output=True,
         retries=0,
         do_xcom_push=True,
-        delete_on_finish=False,
         resources=k8s.V1ResourceRequirements(
             requests={
                 "memory": "256M"
