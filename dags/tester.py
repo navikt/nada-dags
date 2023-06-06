@@ -27,8 +27,7 @@ with DAG(dag_name, default_args=default_args, schedule_interval='@daily') as dag
         branch='main',
         do_xcom_push = True,
         resources=client.V1ResourceRequirements(
-            requests={"memory": "512M"},
-            limits={"memory": "512M"}
+            requests={"memory": "512M"}
         )
     )
 
