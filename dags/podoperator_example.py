@@ -18,10 +18,7 @@ with DAG('pod-operator-examples', start_date=days_ago(1), schedule_interval=None
         do_xcom_push=True,
         resources=k8s.V1ResourceRequirements(
             requests={
-                "memory": "256M"
-            },
-            limits={
-                "memory": "256M"
+                "memory": "512Mi"
             },
         )
     )
