@@ -7,6 +7,8 @@ import os
 
 def mycallable():
     print("hello")
+    import time
+    time.sleep(1000)
 
 with DAG('pytho-operator', start_date=days_ago(1), schedule_interval=None) as dag:    
     run_this = PythonOperator(
