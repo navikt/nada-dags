@@ -8,7 +8,13 @@ import os
 def mycallable():
     print("hello")
     import time
-    time.sleep(1000)
+    import os
+    with open("minfil.json", "r") as f:
+        data = f.read()
+    print("data:")
+    print(data)
+    
+
 
 with DAG('pytho-operator', start_date=days_ago(1), schedule_interval=None) as dag:    
     run_this = PythonOperator(
@@ -20,7 +26,8 @@ with DAG('pytho-operator', start_date=days_ago(1), schedule_interval=None) as da
                 containers=[
                    k8s.V1Container(
                       name="base",
-                      image="europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-papermill:2023-03-22-fb1c4a4"
+                      image="europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-papermill:2023-03-22-fb1c4a4",
+                      working_dir="/dags/notebooks"
                    )
                 ]
             )
