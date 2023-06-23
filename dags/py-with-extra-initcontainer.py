@@ -12,7 +12,7 @@ def run():
     from kode.modul import mycallable
     mycallable()
 
-with DAG('PythonOperatorExtraInitcontainer', start_date=days_ago(1), schedule_interval=None) as dag:    
+with DAG('PythonOperatorExtraInitContainer', start_date=days_ago(1), schedule_interval=None) as dag:    
     run_this = PythonOperator(
     task_id='test-pythonoperator',
     python_callable=run,
