@@ -50,7 +50,7 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
                 name="airflow-git-secret",
                 secret=k8s.V1SecretVolumeSource(
                     default_mode=448,
-                    secret_name="github-app-secret",
+                    secret_name="github-secret",
                 ),
             ),
         ],
