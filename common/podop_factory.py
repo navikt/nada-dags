@@ -123,7 +123,7 @@ def create_pod_operator(
         namespace=namespace,
         task_id=name,
         is_delete_operator_pod=delete_on_finish,
-        #image=image,
+        image=image,
         env_vars=env_vars,
         volume_mounts=[
             V1VolumeMount(
