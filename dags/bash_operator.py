@@ -22,7 +22,7 @@ with DAG('BashOperator', start_date=datetime(2023, 2, 14), schedule=None) as dag
                     ]
                 )
             )
-        )
+        }
     )
 
     t2 = BashOperator(
