@@ -3,18 +3,11 @@ from airflow import DAG
 from airflow.utils.dates import days_ago
 from airflow.operators.python_operator import PythonOperator
 from kubernetes import client as k8s
-import os
 
 def mycallable():
-    print("hello")
-    import time
-    import os
     with open("minfil.json", "r") as f:
         data = f.read()
-    print("data:")
     print(data)
-    
-
 
 with DAG('pytho-operator', start_date=days_ago(1), schedule_interval=None) as dag:    
     run_this = PythonOperator(
