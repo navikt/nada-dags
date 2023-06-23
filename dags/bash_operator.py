@@ -1,7 +1,6 @@
 import os
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
-from kubernetes import client as k8s
 from datetime import datetime
 
 
@@ -11,19 +10,7 @@ with DAG('BashOperator', start_date=datetime(2023, 2, 14), schedule=None) as dag
 
     t1 = BashOperator(
         task_id='hello_task',
-        bash_command='echo "Hello $WORLD at $(date)"',
-        executor_config={
-            "pod_override": k8s.V1Pod(
-                spec=k8s.V1PodSpec(
-                    containers=[
-                        k8s.V1Container(
-                            name="base",
-                            image="europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-papermill:2023-06-22-9732e6c",
-                        )
-                    ]
-                )
-            )
-        }
+        bash_command='echo "Hello $WORLD at $(date)"'
     )
 
     t2 = BashOperator(
