@@ -9,7 +9,7 @@ def mycallable():
         data = f.read()
     print(data)
 
-with DAG('pytho-operator', start_date=days_ago(1), schedule_interval=None) as dag:    
+with DAG('PythonOperator', start_date=days_ago(1), schedule_interval=None) as dag:    
     run_this = PythonOperator(
     task_id='test-pythonoperator',
     python_callable=mycallable,
