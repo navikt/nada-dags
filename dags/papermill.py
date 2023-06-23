@@ -7,7 +7,7 @@ with DAG('Papermill', start_date=datetime(2023, 3, 21), schedule=None) as dag:
 
     t1 = BashOperator(
         task_id='bashmill',
-        bash_command='papermill --log-output mynb.ipynb output.ipynb',
+        bash_command='sleep 1000 && papermill --log-output mynb.ipynb output.ipynb',
         executor_config={
            'pod_override': k8s.V1Pod(
                spec=k8s.V1PodSpec(
