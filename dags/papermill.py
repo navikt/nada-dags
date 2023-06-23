@@ -14,7 +14,8 @@ with DAG('Papermill', start_date=datetime(2023, 3, 21), schedule=None) as dag:
                    containers=[
                       k8s.V1Container(
                          name='base',
-                         image='europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-papermill:2023-03-22-fb1c4a4'
+                         image='europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-papermill:2023-03-22-fb1c4a4',
+                         working_dir="/dags/notebooks"
                       )
                    ]
                )
