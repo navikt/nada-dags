@@ -8,7 +8,7 @@ with DAG('SlackOperator', start_date=days_ago(1), schedule_interval=None) as dag
     task_id="error",
     dag=dag,
     token=os.environ["SLACK_TOKEN"],
-    text="tester",
+    text=":red_circle: tester",
     channel="#kubeflow-cron-alerts",
     attachments=[
       {
