@@ -5,7 +5,7 @@ from pathlib import Path
 
 from airflow import DAG
 from kubernetes.client.models import V1Volume, V1SecretVolumeSource, V1ConfigMapVolumeSource, V1VolumeMount, V1PodSecurityContext, V1SeccompProfile
-from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
+from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from kubernetes import client
 
 from common.initcontainers import create_git_clone_init_container
