@@ -4,7 +4,7 @@ import time
 
 print("hello")
 
-with open("minfil.json") as f:
+with open("workspace/nootebooks/minfil.json") as f:
     data = f.read()
 
 print("fil:", data)
