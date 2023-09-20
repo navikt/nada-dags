@@ -18,7 +18,7 @@ with DAG('CommonPodOperatorExamples', start_date=days_ago(1), schedule_interval=
         do_xcom_push=True,
         resources=k8s.V1ResourceRequirements(
             requests={
-                "memory": "512Mi"
+                "memory": "2Gi"
             },
         )
     )
