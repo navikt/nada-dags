@@ -5,7 +5,7 @@ from common.podop_factory import create_pod_operator
 from kubernetes import client as k8s
 
 with DAG(
-    dag_id="install-at-runtime",
+    dag_id="InstallPackagesAtRuntime",
     description="dette er en pod operator som installerer python pakker ved oppstart",
     schedule_interval=None,
     start_date=datetime(2023, 1, 26, tzinfo=pendulum.timezone("Europe/Oslo")),
@@ -14,7 +14,7 @@ with DAG(
   podop = create_pod_operator(
     dag=dag, 
     name="task",
-    repo="navikt/knada-dags",
+    repo="navikt/nada-dags",
     branch="main",
     script_path="notebooks/mittskript.py",
     delete_on_finish=False,
