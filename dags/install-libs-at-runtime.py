@@ -16,7 +16,7 @@ with DAG(
     name="task",
     repo="navikt/nada-dags",
     branch="main",
-    script_path="notebooks/mittskript.py",
+    quarto_path="notebooks/quarto.ipynb",
     delete_on_finish=False,
     requirements_file="notebooks/requirements.txt",
     slack_channel="#kubeflow-cron-alerts",

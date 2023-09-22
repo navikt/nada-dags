@@ -155,7 +155,7 @@ def create_pod_operator(
         ),
     )
 
-def create_container_cmd(requirements_file, script_path, nb_path, log_output) -> list:
+def create_container_cmd(requirements_file, script_path, nb_path, quarto_path, log_output) -> list:
     command = ""
     if requirements_file:
         command = f"pip install -r {POD_WORKSPACE_DIR}/{requirements_file} --user &&"
@@ -166,7 +166,11 @@ def create_container_cmd(requirements_file, script_path, nb_path, log_output) ->
         command += f"cd {POD_WORKSPACE_DIR}/{Path(nb_path).parent} && papermill {Path(nb_path).name} output.ipynb"
         if log_output:
             command += " --log-output"
+    elif quarto_path:
+        command += f"cd {POD_WORKSPACE_DIR}/{Path(quarto_path).parent} && quarto {Path(quarto_path).name} --to html --execute --output index.html -M self-contained:True &&" + \
+                    "ls -la && cat index.html"
+                    #f"""curl -X PUT -F index.html=@index.html https://${ENV}/quarto/update/${QUARTO_ID} -H "Authorization:Bearer ${TEAM_TOKEN}"""
     else:
-        raise ValueError("Either script_path or nb_path parameter must be provided")
+        raise ValueError("Either script_path, nb_path or quarto_path parameter must be provided")
 
     return ["/bin/bash", "-c", command]
