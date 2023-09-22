@@ -37,6 +37,7 @@ def create_pod_operator(
     retry_delay: timedelta = timedelta(seconds=5),
     nls_lang: str = "NORWEGIAN_NORWAY.AL32UTF8",
     do_xcom_push: bool = False,
+    requirements_file: str = None,
     allowlist: list = [],
 ):
     """ Factory function for creating KubernetesPodOperator for executing knada python scripts
@@ -62,23 +63,6 @@ def create_pod_operator(
     :param allowlist: list: list of hosts and port the task needs to reach on the format host:port
     :return: KubernetesPodOperator
     """
-
-    if script_path:
-        command = [
-            "/bin/bash", 
-            "-c", 
-            f"cd {POD_WORKSPACE_DIR}/{Path(script_path).parent} && python {Path(script_path).name}"
-        ]
-    elif nb_path:
-        command = [
-            "/bin/bash", 
-            "-c", 
-            f"cd {POD_WORKSPACE_DIR}/{Path(nb_path).parent} && papermill {Path(nb_path).name} output.ipynb"
-        ]
-        if log_output:
-            command[-1] += " --log-output"
-    else:
-        raise ValueError("Either script_path or nb_path parameter must be provided")
 
     env_vars = {
         "TZ": os.environ["TZ"],
@@ -119,7 +103,7 @@ def create_pod_operator(
         on_failure_callback=on_failure,
         startup_timeout_seconds=startup_timeout_seconds,
         name=name,
-        cmds=command,
+        cmds=create_container_cmd(requirements_file, script_path, nb_path, log_output),
         namespace=namespace,
         task_id=name,
         is_delete_operator_pod=delete_on_finish,
@@ -170,3 +154,19 @@ def create_pod_operator(
             )
         ),
     )
+
+def create_container_cmd(requirements_file, script_path, nb_path, log_output) -> list:
+    command = ""
+    if requirements_file:
+        command = f"pip install {POD_WORKSPACE_DIR}/{requirements_file} --user &&"
+
+    if script_path:
+        command += f"cd {POD_WORKSPACE_DIR}/{Path(script_path).parent} && python {Path(script_path).name}"
+    elif nb_path:
+        command += f"cd {POD_WORKSPACE_DIR}/{Path(nb_path).parent} && papermill {Path(nb_path).name} output.ipynb"
+        if log_output:
+            command += " --log-output"
+    else:
+        raise ValueError("Either script_path or nb_path parameter must be provided")
+
+    return ["/bin/bash", "-c", command]
