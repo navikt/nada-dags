@@ -170,7 +170,6 @@ def create_container_cmd(requirements_file, script_path, nb_path, quarto, log_ou
     elif quarto:
         try:
             command += f"cd {POD_WORKSPACE_DIR}/{Path(quarto['path']).parent} && quarto render {Path(quarto['path']).name} --to html --execute --output index.html -M self-contained:True &&" + \
-                        "ls -la &&" \
                         f"""curl -X PUT -F index.html=@index.html https://{quarto['environment']}/quarto/update/{quarto['id']} -H "Authorization:Bearer {quarto['token']}" """
         except KeyError:
             raise KeyError("path, environment, id and token must be provided for quarto")
