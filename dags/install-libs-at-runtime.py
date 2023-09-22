@@ -19,6 +19,7 @@ with DAG(
     quarto_path="notebooks/quarto.ipynb",
     delete_on_finish=False,
     requirements_file="notebooks/requirements.txt",
+    image="europe-north1-docker.pkg.dev/knada-gcp/knada-north/airflow:2023-09-22-0bb59f1",
     slack_channel="#kubeflow-cron-alerts",
     resources=k8s.V1ResourceRequirements(
         requests={
