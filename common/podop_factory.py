@@ -158,7 +158,7 @@ def create_pod_operator(
 def create_container_cmd(requirements_file, script_path, nb_path, log_output) -> list:
     command = ""
     if requirements_file:
-        command = f"pip install {POD_WORKSPACE_DIR}/{requirements_file} --user &&"
+        command = f"pip install -r {POD_WORKSPACE_DIR}/{requirements_file} --user &&"
 
     if script_path:
         command += f"cd {POD_WORKSPACE_DIR}/{Path(script_path).parent} && python {Path(script_path).name}"
