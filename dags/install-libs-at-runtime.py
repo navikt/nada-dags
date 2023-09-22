@@ -2,6 +2,7 @@ from airflow import DAG
 from datetime import datetime
 import pendulum
 from common.podop_factory import create_pod_operator
+from airflow.models import Variable
 from kubernetes import client as k8s
 
 with DAG(
@@ -16,7 +17,12 @@ with DAG(
     name="task",
     repo="navikt/nada-dags",
     branch="main",
-    quarto_path="notebooks/quarto.ipynb",
+    quarto={
+        "path": "notebooks/quarto.ipynb",
+        "environment": "nada.intern.dev.nav.no",
+        "quarto_id": "2512b49d-dbfa-48d9-9f18-0d077517706a",
+        "quarto_token": Variable.get("quarto_token"),
+    },
     delete_on_finish=False,
     requirements_file="notebooks/requirements.txt",
     image="europe-north1-docker.pkg.dev/knada-gcp/knada-north/airflow:2023-09-22-0bb59f1",

@@ -23,7 +23,7 @@ def create_pod_operator(
     repo: str,
     script_path: str = None,
     nb_path: str = None,
-    quarto_path: str = None,
+    quarto: dict = None,
     namespace: str = None,
     email: str = None,
     slack_channel: str = None,
@@ -104,7 +104,7 @@ def create_pod_operator(
         on_failure_callback=on_failure,
         startup_timeout_seconds=startup_timeout_seconds,
         name=name,
-        cmds=create_container_cmd(requirements_file, script_path, nb_path, quarto_path, log_output),
+        cmds=create_container_cmd(requirements_file, script_path, nb_path, quarto, log_output),
         namespace=namespace,
         task_id=name,
         is_delete_operator_pod=delete_on_finish,
@@ -156,7 +156,7 @@ def create_pod_operator(
         ),
     )
 
-def create_container_cmd(requirements_file, script_path, nb_path, quarto_path, log_output) -> list:
+def create_container_cmd(requirements_file, script_path, nb_path, quarto, log_output) -> list:
     command = ""
     if requirements_file:
         command = f"pip install -r {POD_WORKSPACE_DIR}/{requirements_file} --user &&"
@@ -167,10 +167,13 @@ def create_container_cmd(requirements_file, script_path, nb_path, quarto_path, l
         command += f"cd {POD_WORKSPACE_DIR}/{Path(nb_path).parent} && papermill {Path(nb_path).name} output.ipynb"
         if log_output:
             command += " --log-output"
-    elif quarto_path:
-        command += f"cd {POD_WORKSPACE_DIR}/{Path(quarto_path).parent} && quarto render {Path(quarto_path).name} --to html --execute --output index.html -M self-contained:True &&" + \
-                    "ls -la && cat index.html"
-                    #f"""curl -X PUT -F index.html=@index.html https://${ENV}/quarto/update/${QUARTO_ID} -H "Authorization:Bearer ${TEAM_TOKEN}"""
+    elif quarto:
+        try:
+            command += f"cd {POD_WORKSPACE_DIR}/{Path(quarto['path']).parent} && quarto render {Path(quarto['path']).name} --to html --execute --output index.html -M self-contained:True &&" + \
+                        "ls -la &&" \
+                        f"""curl -X PUT -F index.html=@index.html https://${quarto['environment']}/quarto/update/${quarto['quarto_id']} -H "Authorization:Bearer ${quarto['quarto_token']}"""
+        except KeyError:
+            raise KeyError("environment, quarto_id and team_token must be provided")
     else:
         raise ValueError("Either script_path, nb_path or quarto_path parameter must be provided")
 
