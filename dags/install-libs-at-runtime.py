@@ -6,8 +6,8 @@ from airflow.models import Variable
 from kubernetes import client as k8s
 
 with DAG(
-    dag_id="InstallPackagesAtRuntime",
-    description="dette er en pod operator som installerer python pakker ved oppstart",
+    dag_id="QuartoWithInstallPackagesAtRuntime",
+    description="Dette er en pod operator som installerer python pakker ved oppstart og publiserer en quarto fortelling",
     schedule_interval=None,
     start_date=datetime(2023, 1, 26, tzinfo=pendulum.timezone("Europe/Oslo")),
     catchup=False,
@@ -23,9 +23,9 @@ with DAG(
         "quarto_id": "2512b49d-dbfa-48d9-9f18-0d077517706a",
         "quarto_token": Variable.get("quarto_token"),
     },
-    delete_on_finish=False,
     requirements_file="notebooks/requirements.txt",
     image="europe-north1-docker.pkg.dev/knada-gcp/knada-north/airflow:2023-09-22-0bb59f1",
+    delete_on_finish=False,
     slack_channel="#kubeflow-cron-alerts",
     resources=k8s.V1ResourceRequirements(
         requests={
