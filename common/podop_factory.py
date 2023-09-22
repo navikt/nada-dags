@@ -173,8 +173,8 @@ def create_container_cmd(requirements_file, script_path, nb_path, quarto, log_ou
                         "ls -la &&" \
                         f"""curl -X PUT -F index.html=@index.html https://{quarto['environment']}/quarto/update/{quarto['id']} -H "Authorization:Bearer {quarto['token']}" """
         except KeyError:
-            raise KeyError("environment, id and token must be provided for quarto")
+            raise KeyError("path, environment, id and token must be provided for quarto")
     else:
-        raise ValueError("Either script_path, nb_path or quarto_path parameter must be provided")
+        raise ValueError("Either script_path, nb_path or quarto parameter must be provided")
 
     return ["/bin/bash", "-c", command]
