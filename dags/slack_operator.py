@@ -7,6 +7,7 @@ with DAG('SlackOperator', start_date=days_ago(1), schedule_interval=None) as dag
   slack = SlackAPIPostOperator(
     task_id="error",
     dag=dag,
+    slack_conn_id: str = "slack_api_default",
     token=os.environ["SLACK_TOKEN"],
     text=":red_circle: tester",
     channel="#kubeflow-cron-alerts",
