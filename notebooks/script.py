@@ -9,6 +9,8 @@ with open("/workspace/notebooks/minfil.json") as f:
 
 print("fil:", data)
 
+print(1/0)
+
 res = requests.get("https://google.com")
 res.raise_for_status()
 print(res.text)
