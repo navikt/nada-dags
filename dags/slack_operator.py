@@ -57,4 +57,4 @@ with DAG('SlackOperator', start_date=days_ago(1), schedule_interval=None) as dag
     ]
   )
 
-  slack > slack_old
+  slack >> slack_old
