@@ -32,7 +32,7 @@ with DAG('SlackOperator', start_date=days_ago(1), schedule_interval=None) as dag
   )
 
   slack_old = SlackAPIPostOperator(
-    task_id="error",
+    task_id="error2",
     dag=dag,
     token=os.environ["SLACK_TOKEN"],
     text=":red_circle: tester",
