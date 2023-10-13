@@ -5,7 +5,7 @@ from airflow.models import Variable
 from dataverk_airflow import notebook_operator, python_operator, quarto_operator
 
 
-with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=None) as dag:
+with DAG('NewDataverkAirflow', start_date=datetime(2023, 2, 15), schedule=None) as dag:
     nb_op = notebook_operator(
         dag = dag,
         name = "nb-op",
