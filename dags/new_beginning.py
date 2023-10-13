@@ -11,6 +11,7 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
         name = "nb-op",
         repo = "navikt/nada-dags",
         nb_path = "notebooks/mynb.ipynb",
+        requirements_path="notebooks/requirements.txt",
     )
 
     py_op = python_operator(
@@ -18,6 +19,7 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
         name = "nb-op",
         repo = "navikt/nada-dags",
         script_path = "notebooks/script.py",
+        requirements_path="notebooks/requirements.txt",
     )
 
     quarto_op = quarto_operator(
@@ -30,6 +32,7 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
             "id": "bf48d8a4-05ca-47a5-a360-bc24171baf62",
             "token": Variable.get("quarto_token"),
         },
+        requirements_path="notebooks/requirements.txt",
     )
 
     nb_op
