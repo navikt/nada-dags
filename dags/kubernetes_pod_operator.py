@@ -7,7 +7,7 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
 
     task_1 = KubernetesPodOperator(
         image="europe-north1-docker.pkg.dev/knada-gcp/knada-north/dataverk-airflow:2023-10-13-76dbe20",
-        cmds=["papermill", "/dags/notebooks/mynb.ipynb", "output.ipynb"],
+        cmds=["papermill", "/dags/notebooks/mynb.ipynb", "/dags/notebooks/output.ipynb"],
         #arguments=["echo", "10", "echo pwd"],
         name="k8s_resource_example",
         task_id="task-one",
