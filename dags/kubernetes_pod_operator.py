@@ -9,9 +9,9 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
         image="bash:latest",
         cmds=["bash", "-cx"],
         arguments=["sleep 100"],
-        working_dir="/opt",
         name="k8s_resource_example",
         task_id="task-one",
+        env_vars={"name": "value"}
         is_delete_operator_pod=False,
         get_logs=True,
         container_resources=k8s.V1ResourceRequirements(
@@ -28,6 +28,9 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
                         k8s.V1Container(
                             name="base",
                             working_dir="/opt",
+                            env=[
+                                k8s.V1EnvVar(name="teste", value="tester")
+                            ]
                         )
                     ]
                 )
