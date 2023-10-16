@@ -1,5 +1,5 @@
 from airflow import DAG
-from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
+from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from datetime import datetime
 from kubernetes.client import models as k8s
 
@@ -9,6 +9,7 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
         image="bash:latest",
         cmds=["bash", "-cx"],
         arguments=["sleep 100"],
+        working_dir="/opt",
         name="k8s_resource_example",
         task_id="task-one",
         is_delete_operator_pod=False,
