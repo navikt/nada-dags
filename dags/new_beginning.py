@@ -11,7 +11,6 @@ with DAG('NewDataverkAirflow', start_date=datetime(2023, 2, 15), schedule=None) 
         name = "nb-op",
         repo = "navikt/nada-dags",
         nb_path = "notebooks/mynb.ipynb",
-        requirements_path="notebooks/requirements.txt",
         delete_on_finish=False,
     )
 
