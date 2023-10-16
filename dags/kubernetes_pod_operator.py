@@ -8,7 +8,7 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
     task_1 = KubernetesPodOperator(
         image="europe-north1-docker.pkg.dev/knada-gcp/knada-north/dataverk-airflow:2023-10-13-76dbe20",
         cmds=["/bin/sh", "-c"],
-        arguments=["pip install -r /dags/notebooks/requirements.txt --user", "&&", "python /dags/notebooks/script.py"],
+        arguments=["pip install -r /dags/notebooks/requirements.txt --user", "&&", "python /dags/notebooks/mittskript.py"],
         name="k8s_resource_example",
         task_id="task-one",
         env_vars={"name": "value"},
