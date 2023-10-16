@@ -20,6 +20,18 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
                 "cpu": "2"
             }
         ),
+        executor_config={
+            "pod_override": k8s.V1Pod(
+                spec=k8s.V1PodSpec(
+                    containers=[
+                        k8s.V1Container(
+                            name="base",
+                            working_dir="/opt",
+                        )
+                    ]
+                )
+            )
+        },
         annotations={"allowlist": "https://g.nav.no"},
         volume_mounts=[
             k8s.V1VolumeMount(
