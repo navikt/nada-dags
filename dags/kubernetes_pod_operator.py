@@ -7,7 +7,7 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
 
     task_1 = KubernetesPodOperator(
         image="bash:latest",
-        cmds=["papermill", "notebooks/mynb.ipynb", "output.ipynb"],
+        cmds=["papermill", "/dags/notebooks/mynb.ipynb", "output.ipynb"],
         #arguments=["echo", "10", "echo pwd"],
         name="k8s_resource_example",
         task_id="task-one",
