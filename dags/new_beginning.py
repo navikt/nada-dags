@@ -16,7 +16,7 @@ with DAG('NewDataverkAirflow', start_date=datetime(2023, 2, 15), schedule=None) 
 
     py_op = python_operator(
         dag = dag,
-        name = "nb-op",
+        name = "python-op",
         repo = "navikt/nada-dags",
         script_path = "notebooks/script.py",
         requirements_path="notebooks/requirements.txt",
@@ -24,7 +24,7 @@ with DAG('NewDataverkAirflow', start_date=datetime(2023, 2, 15), schedule=None) 
 
     quarto_op = quarto_operator(
         dag=dag,
-        name="",
+        name="quarto-op",
         repo="navikt/nada-dags",
         quarto={
             "path": "notebooks/quarto.ipynb",
