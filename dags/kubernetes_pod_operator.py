@@ -8,7 +8,7 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
     task_1 = KubernetesPodOperator(
         image="europe-north1-docker.pkg.dev/knada-gcp/knada-north/dataverk-airflow:2023-10-13-76dbe20",
         cmds=["/bin/sh", "-c"],
-        arguments=["pip install -r /dags/notebooks/requirements.txt --user", "&&", "python /dags/notebooks/mittskript.py"],
+        arguments=["pip", "install", "-r", "/dags/notebooks/requirements.txt", "--user", "&&", "python", "/dags/notebooks/mittskript.py"],
         name="k8s_resource_example",
         task_id="task-one",
         env_vars={"name": "value"},
@@ -102,9 +102,10 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
                 args=["/git-clone.sh navikt/nada-dags main /dags"],
             )
         ],
-        security_context={
-            "fsGroup": 0,
-            "runAsUser": 50000,
-            "runAsNonRoot": True,
-        }
+        security_context=k8s.V1PodSecurityContext(
+            fs_group=0,
+            seccomp_profile=k8s.V1SeccompProfile(
+                type="RuntimeDefault"
+            )
+        ),
     )
