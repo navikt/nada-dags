@@ -14,6 +14,16 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
         env_vars={"name": "value"},
         is_delete_operator_pod=False,
         get_logs=True,
+        full_pod_spec=k8s.V1Pod(
+            spec=k8s.V1PodSpec(
+                containers=[
+                    k8s.V1Container(
+                        name="base",
+                        working_dir="/opt"
+                    )
+                ]
+            )
+        ),
         container_resources=k8s.V1ResourceRequirements(
             requests={
                 "memory": "2Gi",
