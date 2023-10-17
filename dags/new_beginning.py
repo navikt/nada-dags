@@ -19,8 +19,8 @@ with DAG('NewDataverkAirflow', start_date=datetime(2023, 2, 15), schedule=None) 
         dag = dag,
         name = "python-op",
         repo = "navikt/nada-dags",
-        script_path = "notebooks/script.py",
-        # requirements_path="notebooks/requirements.txt",
+        script_path = "notebooks/mittskript.py",
+        requirements_path="notebooks/requirements.txt",
         delete_on_finish=False,
     )
 
