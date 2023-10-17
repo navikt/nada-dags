@@ -30,8 +30,8 @@ with DAG('NewDataverkAirflow', start_date=datetime(2023, 2, 15), schedule=None) 
         repo="navikt/nada-dags",
         quarto={
             "path": "notebooks/quarto.ipynb",
-            "env": "dev",
-            "id": "bf48d8a4-05ca-47a5-a360-bc24171baf62",
+            "env": "prod",
+            "id": "4bdcde31-5a0d-4e90-8335-8d6b8134deb1",
             "token": Variable.get("quarto_token"),
         },
         requirements_path="notebooks/requirements.txt",
