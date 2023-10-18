@@ -31,7 +31,6 @@ with DAG('CommonPodOperatorExamples', start_date=days_ago(1), schedule_interval=
         slack_channel="#kubeflow-cron-alerts",
         image="europe-west1-docker.pkg.dev/knada-gcp/knada/airflow:2023-03-08-d3684b7",
         retries=0,
-        delete_on_finish=False,
         do_xcom_push=True,
         allowlist=["google.com"],
         resources=k8s.V1ResourceRequirements(
