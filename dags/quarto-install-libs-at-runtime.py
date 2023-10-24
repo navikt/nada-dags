@@ -1,7 +1,7 @@
 from airflow import DAG
 from datetime import datetime
 import pendulum
-from common.podop_factory import create_pod_operator
+from dataverk_airflow import quarto_operator
 from airflow.models import Variable
 from kubernetes import client as k8s
 
@@ -12,8 +12,8 @@ with DAG(
     start_date=datetime(2023, 1, 26, tzinfo=pendulum.timezone("Europe/Oslo")),
     catchup=False,
 ) as dag:
-  podop = create_pod_operator(
-    dag=dag, 
+  quarto = quarto_operator(
+    dag=dag,
     name="task",
     repo="navikt/nada-dags",
     branch="main",
@@ -24,7 +24,6 @@ with DAG(
         "token": Variable.get("quarto_token"),
     },
     requirements_file="notebooks/requirements.txt",
-    image="europe-north1-docker.pkg.dev/knada-gcp/knada-north/airflow:2023-09-22-0bb59f1",
     slack_channel="#kubeflow-cron-alerts",
     resources=k8s.V1ResourceRequirements(
         requests={
