@@ -19,7 +19,7 @@ with DAG(
     branch="main",
     quarto={
         "path": "notebooks/quarto.ipynb",
-        "environment": "data.ekstern.dev.nav.no",
+        "env": "data.ekstern.dev.nav.no",
         "id": "2512b49d-dbfa-48d9-9f18-0d077517706a",
         "token": Variable.get("quarto_token"),
     },
