@@ -23,7 +23,7 @@ with DAG(
         "id": "2512b49d-dbfa-48d9-9f18-0d077517706a",
         "token": Variable.get("quarto_token"),
     },
-    requirements_file="notebooks/requirements.txt",
+    requirements_path="notebooks/requirements.txt",
     slack_channel="#kubeflow-cron-alerts",
     resources=k8s.V1ResourceRequirements(
         requests={
