@@ -1,14 +1,20 @@
 # NADA Dags
 
-Repo med eksempler på å kjøre jobber i Airflow.
+Repo med eksempler på hvordan forskjellige Airflow operators kan brukes.
 
 ## Enkle operators
-De enkleste operatorene å bruke er [BashOperator](https://github.com/navikt/nada-dags/blob/main/dags/bash_operator.py) og [PythonOperator](https://github.com/navikt/nada-dags/blob/main/dags/pyoperator.py). Disse bør i de fleste tilfeller dekke behovet for airflow DAGs. Men merk at ingen av disse vil fungere dersom koden som skal kjøres finnes i et annet repo enn teamets `dag` repo. Er så tilfellet, se [pod operators](#pod-operators).
+
+De enkleste operatorene å bruke er [BashOperator](https://github.com/navikt/nada-dags/blob/main/dags/bash_operator.py) og [PythonOperator](https://github.com/navikt/nada-dags/blob/main/dags/pyoperator.py).
+Disse bør de flestes behovet for Airflow DAGs.
+Merk at ingen av de offisielle operatorene vil fungere dersom koden som skal kjøres finnes i et annet repo enn teamets `dag` repo.
+Har man DAGs definisjoner i et repo og selve koden som skal kjøres i et annet repo kan man bruke [Dataverk Airflow](#dataverk-airflow) i stedet.
+
+## Dataverk Airflow
+
+For å forenkle det å kjøre Airflow Dags har vi lagd [Dataverk Airflow](https://pypi.org/project/dataverk-airflow/), som er en gruppe operators som alle lar deg klone et ekstern repo, og installere Python-pakker ved oppstart.
+Operators vi har støtte for er `Python`, `Notebook`, og `Quarto`.
+Vi har også overskrevet `KubernetesPodOperator` som har støtte for kloning, og installasjon av Python pakker, mens ellers ikke gjøre noe spesielt.
 
 ## Notifikasjoner
-I `dags` mappen finner du eksempel på både [slack notifikasjon](https://github.com/navikt/nada-dags/blob/main/dags/slack_operator.py) og [epost notifikasjon](https://github.com/navikt/nada-dags/blob/main/dags/email-operator.py)
 
-## Pod operators
-Ønsker man å kjøre `KubernetesPodOperators` anbefales det å kopiere innholdet i mappen [common](https://github.com/navikt/nada-dags/tree/main/common) inn i deres eget dags repo og importere fra denne i deres DAGs. Denne python modulen har en factory funksjon for å lage `KubernetesPodOperators` tilsvarende det man fikk tidligere gjennom `dataverk-airflow` biblioteket. For eksempel på bruk av denne common-modulen, se [her](https://github.com/navikt/nada-dags/blob/main/dags/common_podoperator_example.py).
-
-Ønsker en ikke å bruke denne felles modulen finnes det et enkelt eksempel på en `KubernetesPodOperator` [her](https://github.com/navikt/nada-dags/blob/main/dags/kubernetes_pod_operator.py).
+I `dags` mappen finner du eksempel på både [Slack notifikasjon](https://github.com/navikt/nada-dags/blob/main/dags/slack_operator.py) og [E-post notifikasjon](https://github.com/navikt/nada-dags/blob/main/dags/email_operator.py)
