@@ -13,7 +13,7 @@ with DAG('Quarto', start_date=days_ago(1), schedule=None) as dag:
         quarto={
             "path": "notebooks/quarto.ipynb",
             "env": "prod",
-            "id": "{{ var.value.get('QUARTO_ID') }}",
+            "id": "{{ var.value.get('QUARTO_ID') }}, test",
             "token": Variable.get("TEAM_TOKEN"),
         },
         requirements_path="notebooks/requirements.txt",
