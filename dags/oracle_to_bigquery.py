@@ -10,7 +10,7 @@ with DAG('OracleToBigqueryOperator', start_date=datetime(2023, 2, 14), schedule=
         task_id="write-to-bucket",
         oracle_conn_id="oracle_con",
         #gcp_conn_id="google_con",
-        impersonation_chain="knada-hyka@knada-gcp.iam.gserviceaccount.com"
+        impersonation_chain="knada-hyka@knada-gcp.iam.gserviceaccount.com",
         sql="SELECT * FROM nada",
         bucket="airflow-oracle-to-bq",
         filename="dump",
