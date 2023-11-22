@@ -22,7 +22,7 @@ with DAG('OracleToBigqueryOperator', start_date=datetime(2023, 2, 14), schedule=
         gcp_conn_id="google_con",
         destination_project_dataset_table="nada-dev-db2e.test.fra_oracle",
         autodetect=True,
-        write_disposition="TRUNCATE",
+        write_disposition="WRITE_TRUNCATE",
         source_objects="dump",
         source_format="csv"
     )
