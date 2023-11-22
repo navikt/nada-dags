@@ -20,7 +20,7 @@ with DAG('OracleToBigqueryOperator', start_date=datetime(2023, 2, 14), schedule=
     t2 = GCSToBigQueryOperator(
         task_id="write-to-bq",
         bucket="airflow-oracle-to-bq",
-        gcp_conn_id="google_con_without_json_key",
+        gcp_conn_id="google_con_different_project",
         destination_project_dataset_table="nada-dev-db2e.test.fra_oracle",
         impersonation_chain="knada-hyka@knada-gcp.iam.gserviceaccount.com",
         autodetect=True,
