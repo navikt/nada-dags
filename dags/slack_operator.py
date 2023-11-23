@@ -11,7 +11,7 @@ with DAG('SlackOperator', start_date=days_ago(1), schedule_interval=None) as dag
       "pod_override": k8s.V1Pod(
           metadata=k8s.V1ObjectMeta(annotations={"allowlist": "slack.com"})
       )
-    }
+    },
     slack_conn_id="slack_connection",
     text=":red_circle: tester",
     channel="#kubeflow-cron-alerts",
