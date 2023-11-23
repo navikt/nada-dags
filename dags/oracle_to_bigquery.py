@@ -61,7 +61,7 @@ def oracle_to_bigquery(
     if num_rows and delta_column:
         update_offset = BashOperator(
             task_id='update-offset',
-            bash_command=f"airflow variables set {offset_variable} {offset + num_rows}"
+            bash_command=f"airflow variables set {offset_variable} {int(offset) + num_rows}"
         )
 
         return oracle_to_bucket >> bucket_to_bq >> [delete_from_bucket, update_offset]
