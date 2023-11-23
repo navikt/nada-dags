@@ -11,7 +11,7 @@ with DAG(dag_id="EmailOperator", start_date=datetime(2023, 2, 21), schedule_inte
         html_content="<h1>Hello world</h1><p>Dette er en e-post sendt fra en Airflow DAG</p>",
         executor_config={
             "pod_override": k8s.V1Pod(
-                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "smtp.adeo.no:26"})
+                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "smtp.adeo.no:26, 35.235.240.1:89, 35.235.240.2"})
             )
         }
     )
