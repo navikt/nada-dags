@@ -2,6 +2,7 @@ import os
 from airflow import DAG
 from airflow.providers.google.cloud.transfers.oracle_to_gcs import OracleToGCSOperator
 from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQueryOperator
+from airflow.contrib.operators.gcs_delete_operator import GoogleCloudStorageDeleteOperator
 from datetime import datetime
 
 
@@ -11,10 +12,10 @@ def oracle_to_bigquery(
     gcp_con_id: str,
     bigquery_dest_uri: str
 ):
-    t1 = OracleToGCSOperator(
+    oracle_to_bucket = OracleToGCSOperator(
         task_id="oracle-to-bucket",
         oracle_conn_id=oracle_con_id,
-        gcp_conn_id="google_con_without_json_key",
+        gcp_conn_id=gcp_con_id,
         impersonation_chain=f"{os.getenv('TEAM')}@knada-gcp.iam.gserviceaccount.com",
         sql=f"SELECT * FROM {oracle_table}",
         bucket=os.getenv("AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER").removeprefix("gs://"),
@@ -22,7 +23,7 @@ def oracle_to_bigquery(
         export_format="csv"
     )
 
-    t2 = GCSToBigQueryOperator(
+    bucket_to_bq = GCSToBigQueryOperator(
         task_id="bucket-to-bq",
         bucket=os.getenv("AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER").removeprefix("gs://"),
         gcp_conn_id=gcp_con_id,
@@ -34,14 +35,21 @@ def oracle_to_bigquery(
         source_format="csv"
     )
 
-    return t1 >> t2
+    delete_from_bucket = GoogleCloudStorageDeleteOperator(
+        task_id="delete-from-bucket",
+        bucket_name=os.getenv("AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER").removeprefix("gs://"),
+        objects=[oracle_table],
+        gcp_conn_id=gcp_con_id,
+    )
+
+    return oracle_to_bucket >> bucket_to_bq >> delete_from_bucket
 
 with DAG('OracleToBigqueryOperator', start_date=datetime(2023, 2, 14), schedule=None) as dag:
-    task = oracle_to_bigquery(
+    oracle_to_bq = oracle_to_bigquery(
         oracle_con_id="oracle_con",
         oracle_table="nada",
         gcp_con_id="google_con_different_project",
         bigquery_dest_uri="nada-dev-db2e.test.fra_oracle"
     )
 
-    task
+    oracle_to_bq
