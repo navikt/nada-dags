@@ -42,6 +42,7 @@ def oracle_to_bigquery(
         export_format="csv"
     )
 
+    # todo: dette feiler dersom det ikke er noen nye rader å hente i steg 1, da vil det heller ikke være noen fil å hente fra her
     bucket_to_bq = GCSToBigQueryOperator(
         task_id="bucket-to-bq",
         bucket=os.getenv("AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER").removeprefix("gs://"),
@@ -62,6 +63,7 @@ def oracle_to_bigquery(
     )
 
     if num_rows and delta_column:
+        # todo: må oppdatere offset basert på hvor mange rader som faktisk er hentet i steg 1
         update_offset = BashOperator(
             task_id='update-offset',
             bash_command=f"airflow variables set {offset_variable} {int(offset) + num_rows}"
