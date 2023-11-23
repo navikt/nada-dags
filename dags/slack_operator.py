@@ -1,5 +1,6 @@
 from airflow import DAG
 from airflow.utils.dates import days_ago
+from kubernetes import client as k8s
 from airflow.providers.slack.operators.slack import SlackAPIPostOperator
 import os
 
