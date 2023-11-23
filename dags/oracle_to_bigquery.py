@@ -13,9 +13,12 @@ def oracle_to_bigquery(
     oracle_table: str,
     gcp_con_id: str,
     bigquery_dest_uri: str,
+    columns: list = None,
     num_rows: int = None,
     delta_column: str = None
 ):
+    columns = ",".join(columns) if len(columns) > 0 else "*"
+
     if num_rows and delta_column:
         offset_variable = "offset-"+oracle_table
         try:
@@ -23,10 +26,10 @@ def oracle_to_bigquery(
         except KeyError:
             offset = 0
         write_disposition = "WRITE_APPEND"
-        sql = f"SELECT * FROM {oracle_table} ORDER BY {delta_column} OFFSET {offset} ROWS FETCH NEXT {num_rows} ROWS ONLY"
+        sql = f"SELECT {columns} FROM {oracle_table} ORDER BY {delta_column} OFFSET {offset} ROWS FETCH NEXT {num_rows} ROWS ONLY"
     else:
         write_disposition = "WRITE_TRUNCATE"
-        sql=f"SELECT * FROM {oracle_table}"
+        sql=f"SELECT {columns} FROM {oracle_table}"
 
     oracle_to_bucket = OracleToGCSOperator(
         task_id="oracle-to-bucket",
