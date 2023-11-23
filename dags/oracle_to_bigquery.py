@@ -72,11 +72,11 @@ def oracle_to_bigquery(
 with DAG('OracleToBigqueryOperator', start_date=datetime(2023, 2, 14), schedule=None) as dag:
     oracle_to_bq = oracle_to_bigquery(
         oracle_con_id="oracle_con",
-        oracle_table="nadairflow",
+        oracle_table="nada",
         gcp_con_id="google_con_different_project",
         bigquery_dest_uri="nada-dev-db2e.test.fra_oracle",
         num_rows=100,
-        delta_column="date",
+        delta_column="id",
     )
 
     oracle_to_bq
