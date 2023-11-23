@@ -65,6 +65,7 @@ def oracle_to_bigquery(
 
 with DAG('OracleToBigqueryOperator', start_date=datetime(2023, 2, 14), schedule=None) as dag:
     oracle_to_bq = oracle_to_bigquery(
+        dag=dag,
         oracle_con_id="oracle_con",
         oracle_table="nadairflow",
         gcp_con_id="google_con_different_project",
