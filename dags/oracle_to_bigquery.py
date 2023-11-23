@@ -70,8 +70,8 @@ with DAG('OracleToBigqueryOperator', start_date=datetime(2023, 2, 14), schedule=
         oracle_table="nadairflow",
         gcp_con_id="google_con_different_project",
         bigquery_dest_uri="nada-dev-db2e.test.fra_oracle",
-        num_rows=100,
-        delta_column="date",
+        #num_rows=100,
+        #delta_column="date",
     )
 
     oracle_to_bq
