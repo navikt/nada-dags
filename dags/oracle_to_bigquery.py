@@ -1,18 +1,14 @@
 import os
 from airflow import DAG
+from airflow.models import Variable
+from airflow.operators.bash_operator import BashOperator
 from airflow.providers.google.cloud.transfers.oracle_to_gcs import OracleToGCSOperator
 from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQueryOperator
 from airflow.contrib.operators.gcs_delete_operator import GoogleCloudStorageDeleteOperator
 from datetime import datetime
 
 
-def create_sql_delta_query(dag: DAG, oracle_table: str, delta_colum: str, num_rows: int):
-    #next_from = dag.get_task_instances()
-    return f"SELECT * FROM {oracle_table} FETCH NEXT {num_rows} ONLY"
-
-
 def oracle_to_bigquery(
-    dag: DAG,
     oracle_con_id: str,
     oracle_table: str,
     gcp_con_id: str,
@@ -21,8 +17,13 @@ def oracle_to_bigquery(
     delta_column: str = None
 ):
     if num_rows and delta_column:
+        offset_variable = "offset-"+oracle_table
+        try:
+            offset = Variable.get(offset_variable)
+        except:
+            offset = 0
         write_disposition = "WRITE_APPEND"
-        sql = create_sql_delta_query(dag, oracle_table, delta_column, num_rows)
+        sql = f"SELECT * FROM {oracle_table} ORDER BY {delta_column} OFFSET {offset} FETCH NEXT {num_rows} ONLY"
     else:
         write_disposition = "WRITE_TRUNCATE"
         sql=f"SELECT * FROM {oracle_table}"
@@ -50,9 +51,6 @@ def oracle_to_bigquery(
         source_format="csv"
     )
 
-    # hent ut siste dato lastet til bq
-    # skriv xcom
-
     delete_from_bucket = GoogleCloudStorageDeleteOperator(
         task_id="delete-from-bucket",
         bucket_name=os.getenv("AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER").removeprefix("gs://"),
@@ -60,18 +58,25 @@ def oracle_to_bigquery(
         gcp_conn_id=gcp_con_id,
     )
 
+    if num_rows and delta_column:
+        update_offset = BashOperator(
+            task_id='update-offset',
+            bash_command=f"airflow variables set {offset_variable} {offset + num_rows}"
+        )
+
+        return oracle_to_bucket >> bucket_to_bq >> [delete_from_bucket, update_offset]
+
     return oracle_to_bucket >> bucket_to_bq >> delete_from_bucket
 
 
 with DAG('OracleToBigqueryOperator', start_date=datetime(2023, 2, 14), schedule=None) as dag:
     oracle_to_bq = oracle_to_bigquery(
-        dag=dag,
         oracle_con_id="oracle_con",
         oracle_table="nadairflow",
         gcp_con_id="google_con_different_project",
         bigquery_dest_uri="nada-dev-db2e.test.fra_oracle",
-        #num_rows=100,
-        #delta_column="date",
+        num_rows=100,
+        delta_column="date",
     )
 
     oracle_to_bq
