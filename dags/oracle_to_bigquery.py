@@ -23,7 +23,8 @@ def oracle_to_bigquery(
         except:
             offset = 0
         write_disposition = "WRITE_APPEND"
-        sql = f"SELECT * FROM {oracle_table} ORDER BY {delta_column} OFFSET {offset} ROWS FETCH NEXT {num_rows} ONLY"
+        # sql = f"SELECT * FROM {oracle_table} ORDER BY {delta_column} OFFSET {offset} ROWS FETCH NEXT {num_rows} ONLY"
+        sql = "select * from nada order by id offset 0 rows fetch next 10 rows only"
     else:
         write_disposition = "WRITE_TRUNCATE"
         sql=f"SELECT * FROM {oracle_table}"
