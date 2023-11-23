@@ -5,7 +5,7 @@ from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQue
 from datetime import datetime
 
 
-with DAG('OracleToBigqueryOperator', start_date=datetime(2023, 2, 14), schedule=None) as dag:
+def oracle_to_bigquery():
     t1 = OracleToGCSOperator(
         task_id="write-to-bucket",
         oracle_conn_id="oracle_con",
@@ -29,4 +29,9 @@ with DAG('OracleToBigqueryOperator', start_date=datetime(2023, 2, 14), schedule=
         source_format="csv"
     )
 
-    t1 >> t2
+    return t1 >> t2
+
+with DAG('OracleToBigqueryOperator', start_date=datetime(2023, 2, 14), schedule=None) as dag:
+    task = oracle_to_bigquery()
+
+    task
