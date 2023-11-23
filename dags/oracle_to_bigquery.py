@@ -21,7 +21,7 @@ def oracle_to_bigquery(
         try:
             offset = Variable.get(offset_variable)
         except:
-            offset = "0"
+            offset = 0
         write_disposition = "WRITE_APPEND"
         sql = f"SELECT * FROM {oracle_table} ORDER BY {delta_column} OFFSET {offset} ROWS FETCH NEXT {num_rows} ROWS ONLY"
     else:
