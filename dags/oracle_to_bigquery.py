@@ -13,7 +13,7 @@ def oracle_to_bigquery(
     oracle_table: str,
     gcp_con_id: str,
     bigquery_dest_uri: str,
-    columns: list = None,
+    columns: list = [],
     num_rows: int = None,
     delta_column: str = None
 ):
