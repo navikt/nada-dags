@@ -24,7 +24,7 @@ def oracle_to_bigquery(
 
     t2 = GCSToBigQueryOperator(
         task_id="bucket-to-bq",
-        bucket="airflow-oracle-to-bq",
+        bucket=os.getenv("AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER").removeprefix("gs://"),
         gcp_conn_id=gcp_con_id,
         destination_project_dataset_table=bigquery_dest_uri,
         impersonation_chain="knada-hyka@knada-gcp.iam.gserviceaccount.com",
