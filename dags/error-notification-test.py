@@ -10,4 +10,5 @@ with DAG('PythonTestErrorNotification', start_date=days_ago(1), schedule=None) a
         repo="navikt/nada-dags",
         script_path="notebooks/errorscript.py",
         slack_channel="#kubeflow-cron-alerts",
+        retries=0
     )
