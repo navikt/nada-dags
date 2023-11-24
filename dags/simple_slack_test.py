@@ -7,7 +7,7 @@ import time
 
 
 def mycallable():
-    time.Sleep(60)
+    time.sleep(60)
 
 
 with DAG("SimpleSlackTest", start_date=days_ago(1), schedule_interval=None) as dag:
