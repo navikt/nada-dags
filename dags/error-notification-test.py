@@ -10,6 +10,6 @@ with DAG('PythonTestErrorNotification', start_date=days_ago(1), schedule=None) a
         repo="navikt/nada-dags",
         script_path="notebooks/errorscript.py",
         slack_channel="#kubeflow-cron-alerts",
-        allowlist="hooks.slack.com",
+        allowlist=["hooks.slack.com"],
         retries=0
     )
