@@ -4,10 +4,11 @@ from airflow.operators.python_operator import PythonOperator
 from airflow.providers.slack.notifications.slack import send_slack_notification
 from kubernetes import client as k8s
 import time
+import random
 
 
 def mycallable():
-    time.sleep(60)
+    time.sleep(random.randrange(150))
 
 
 with DAG("SimpleSlackTest", start_date=days_ago(1), schedule_interval=None) as dag:
@@ -15,7 +16,7 @@ with DAG("SimpleSlackTest", start_date=days_ago(1), schedule_interval=None) as d
         task_id="test-pythonoperator",
         on_success_callback=[
             send_slack_notification(
-                text="The DAG {{ dag.dag_id }} succeeded",
+                text="The DAG {{ run_id }} succeeded",
                 channel="#nada-test",
                 slack_conn_id="slack_connection",
                 username="Airflow",
@@ -23,7 +24,7 @@ with DAG("SimpleSlackTest", start_date=days_ago(1), schedule_interval=None) as d
         ],
         on_failure_callback=[
             send_slack_notification(
-                text="The task {{ ti.task_id }} failed",
+                text="The DAG {{ run_id }} failed",
                 channel="#nada-test",
                 slack_conn_id="slack_connection",
                 username="Airflow",
