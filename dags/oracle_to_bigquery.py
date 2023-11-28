@@ -1,7 +1,5 @@
 import os
 from airflow import DAG
-from airflow.models import Variable
-from airflow.operators.bash_operator import BashOperator
 from airflow.providers.google.cloud.transfers.oracle_to_gcs import OracleToGCSOperator
 from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQueryOperator
 from airflow.contrib.operators.gcs_delete_operator import GoogleCloudStorageDeleteOperator
@@ -14,22 +12,10 @@ def oracle_to_bigquery(
     gcp_con_id: str,
     bigquery_dest_uri: str,
     columns: list = [],
-    num_rows: int = None,
-    delta_column: str = None
 ):
     columns = ",".join(columns) if len(columns) > 0 else "*"
-
-    if num_rows and delta_column:
-        offset_variable = "offset-"+oracle_table
-        try:
-            offset = Variable.get(offset_variable)
-        except KeyError:
-            offset = 0
-        write_disposition = "WRITE_APPEND"
-        sql = f"SELECT {columns} FROM {oracle_table} ORDER BY {delta_column} OFFSET {offset} ROWS FETCH NEXT {num_rows} ROWS ONLY"
-    else:
-        write_disposition = "WRITE_TRUNCATE"
-        sql=f"SELECT {columns} FROM {oracle_table}"
+    write_disposition = "WRITE_TRUNCATE"
+    sql=f"SELECT {columns} FROM {oracle_table}"
 
     oracle_to_bucket = OracleToGCSOperator(
         task_id="oracle-to-bucket",
@@ -42,7 +28,6 @@ def oracle_to_bigquery(
         export_format="csv"
     )
 
-    # todo: dette feiler dersom det ikke er noen nye rader å hente i steg 1, da vil det heller ikke være noen fil å hente fra her
     bucket_to_bq = GCSToBigQueryOperator(
         task_id="bucket-to-bq",
         bucket=os.getenv("AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER").removeprefix("gs://"),
@@ -62,15 +47,6 @@ def oracle_to_bigquery(
         gcp_conn_id=gcp_con_id,
     )
 
-    if num_rows and delta_column:
-        # todo: må oppdatere offset basert på hvor mange rader som faktisk er hentet i steg 1
-        update_offset = BashOperator(
-            task_id='update-offset',
-            bash_command=f"airflow variables set {offset_variable} {int(offset) + num_rows}"
-        )
-
-        return oracle_to_bucket >> bucket_to_bq >> [delete_from_bucket, update_offset]
-
     return oracle_to_bucket >> bucket_to_bq >> delete_from_bucket
 
 
@@ -80,8 +56,6 @@ with DAG('OracleToBigqueryOperator', start_date=datetime(2023, 2, 14), schedule=
         oracle_table="nada",
         gcp_con_id="google_con_different_project",
         bigquery_dest_uri="nada-dev-db2e.test.fra_oracle",
-        num_rows=1000,
-        delta_column="id",
     )
 
     oracle_to_bq
