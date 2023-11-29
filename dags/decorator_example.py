@@ -17,8 +17,8 @@ with DAG('DecoratorExampleWithPodOverride', start_date=datetime(2023, 2, 14), sc
             )
         }
     )
-    def myfunc(value: str):
-        engine = sqlalchemy.create_engine(f"oracle://{Variable.get('db_user')}:{Variable.get('db_pass')}@dm07-scan.adeo.no:1521/?service_name=dwhu1")
+    def myfunc(user: str, passw: str):
+        engine = sqlalchemy.create_engine(f"oracle://{user}:{passw}@dm07-scan.adeo.no:1521/?service_name=dwhu1")
         with engine.connect() as con:
             con.execute(sqlalchemy.text("drop table testtabell"))
             con.execute(sqlalchemy.text("create table testtabell (value number not null, column2 varchar2(10))"))
@@ -29,4 +29,6 @@ with DAG('DecoratorExampleWithPodOverride', start_date=datetime(2023, 2, 14), sc
             for row in res:
                 print(row)
 
-    myfunc("hello")
+    db_user = Variable.get('db_user')
+    db_pass = Variable.get('db_pass')
+    myfunc(db_user, db_pass)
