@@ -15,3 +15,5 @@ with DAG('DecoratorExampleWithPodOverride', start_date=datetime(2023, 2, 14), sc
     )
     def myfunc(value: str):
         print(value)
+
+    myfunc("hello")
