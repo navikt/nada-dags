@@ -13,11 +13,6 @@ def slack_success(context = None):
     slack_conn_id="slack_connection",
     text="suksess",
     channel="#kubeflow-cron-alerts",
-    executor_config = {
-            "pod_override": k8s.V1Pod(
-                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "slack.com,hooks.slack.com"})
-            )
-        }
   ).execute()
 
 with DAG('OnSuccessCallbackTest',
