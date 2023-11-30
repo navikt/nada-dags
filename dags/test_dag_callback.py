@@ -29,11 +29,21 @@ with DAG('OnSuccessCallbackTest',
     t1 = BashOperator(
         task_id='hello_task',
         bash_command='echo "Hello $(date)"'
+        executor_config = {
+            "pod_override": k8s.V1Pod(
+                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "slack.com,hooks.slack.com"})
+            )
+        }
     )
 
     t2 = BashOperator(
         task_id='hello_task2',
         bash_command='echo "Hello $(date)"'
+        executor_config = {
+            "pod_override": k8s.V1Pod(
+                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "slack.com,hooks.slack.com"})
+            )
+        }
     )
 
     t1 >> t2
