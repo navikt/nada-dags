@@ -20,7 +20,7 @@ def slack_success(context = None):
         }
   ).execute()
 
-with DAG('OnSuccessCallbackTest', 
+with DAG('OnSuccessCallbackTest',
         start_date=datetime(2023, 2, 14), 
         default_args={'on_success_callback': slack_success},
         schedule=None
@@ -30,5 +30,10 @@ with DAG('OnSuccessCallbackTest',
         task_id='hello_task',
         bash_command='echo "Hello $(date)"'
     )
-    
-    t1
+
+    t2 = BashOperator(
+        task_id='hello_task2',
+        bash_command='echo "Hello $(date)"'
+    )
+
+    t1 >> t2
