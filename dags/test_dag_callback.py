@@ -1,11 +1,13 @@
 import os
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
+from airflow.operators.python import get_current_context
 from airflow.providers.slack.operators.slack import SlackAPIPostOperator
 from datetime import datetime
 from kubernetes import client as k8s
 
-def slack_success():
+def slack_success(context = None):
+  if context is None: context = get_current_context()
   SlackAPIPostOperator(
     task_id="slack-success",
     slack_conn_id="slack_connection",
