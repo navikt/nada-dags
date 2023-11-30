@@ -18,7 +18,7 @@ def slack_success():
         }
   ).execute()
 
-with DAG('BashOperator', 
+with DAG('OnSuccessCallbackTest', 
         start_date=datetime(2023, 2, 14), 
         default_args={'on_success_callback': slack_success},
         schedule=None
