@@ -4,7 +4,7 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime
 
 def get_test_variable():
-    test_value = Variable.get("hello-world")
+    test_value = Variable.get("knada-hyka")
     print(f"Value of hello-world: {test_value}")
 
 with DAG('test_gcp_secret_manager',
