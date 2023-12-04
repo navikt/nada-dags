@@ -4,8 +4,8 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime
 
 def get_test_variable():
-    test_value = Variable.get("test_variable")
-    print(f"Value of test_variable: {test_value}")
+    test_value = Variable.get("knada-hyka")
+    print(f"Value of hello-world: {test_value}")
 
 with DAG('test_gcp_secret_manager',
          default_args={'owner': 'airflow', 'start_date': datetime(2023, 1, 1)},
