@@ -12,7 +12,6 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
         name="k8s_resource_example",
         task_id="task-one",
         env_vars={"name": "value"},
-        annotations={"allowlist": "nav-prod-kafka-nav-prod.aivencloud.com:26484"},
         image_pull_secrets=[k8s.V1LocalObjectReference('ghcr-secret')],
         is_delete_operator_pod=False,
         get_logs=True,
@@ -48,7 +47,7 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
                 )
             )
         },
-        annotations={"allowlist": "https://g.nav.no"},
+        annotations={"allowlist": "g.nav.no,nav-prod-kafka-nav-prod.aivencloud.com:26484"},
         volume_mounts=[
             k8s.V1VolumeMount(
                 name="dags-data",
