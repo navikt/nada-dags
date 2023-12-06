@@ -84,7 +84,7 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
         init_containers=[
             k8s.V1Container(
                 name="clone-repo",
-                image="europe-west1-docker.pkg.dev/knada-gcp/knada/git-sync:2023-03-08-80342e3",
+                image="europe-north1-docker.pkg.dev/knada-gcp/knada-north/git-sync:2023-11-01-0c83f0d",
                 volume_mounts=[
                     k8s.V1VolumeMount(
                         name="dags-data",
