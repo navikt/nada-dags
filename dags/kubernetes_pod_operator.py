@@ -8,7 +8,7 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
     task_1 = KubernetesPodOperator(
         image="ghcr.io/navikt/dvh-kafka-airflow-consumer:0.4.8",
         cmds=["/bin/sh", "-c"],
-        arguments=["python /dags/notebooks/kafka.py"],
+        arguments=["""python -c "from kafka import KafkaProducer; producer = KafkaProducer(bootstrap_servers='nav-prod-kafka-nav-prod.aivencloud.com:26484', security_protocol='SSL')" """],
         name="k8s_resource_example",
         task_id="task-one",
         env_vars={"name": "value"},
@@ -73,35 +73,6 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
                     name="ca-bundle-pem",
                 )
             ),
-            k8s.V1Volume(
-                name="airflow-git-secret",
-                secret=k8s.V1SecretVolumeSource(
-                    default_mode=448,
-                    secret_name="github-secret",
-                ),
-            ),
-        ],
-        init_containers=[
-            k8s.V1Container(
-                name="clone-repo",
-                image="europe-north1-docker.pkg.dev/knada-gcp/knada-north/git-sync:2023-11-01-0c83f0d",
-                volume_mounts=[
-                    k8s.V1VolumeMount(
-                        name="dags-data",
-                        mount_path="/dags",
-                        sub_path=None,
-                        read_only=False
-                    ),
-                    k8s.V1VolumeMount(
-                        name="airflow-git-secret",
-                        mount_path="/keys",
-                        sub_path=None,
-                        read_only=False,
-                    ),
-                ],
-                command=["/bin/sh", "-c"],
-                args=["/git-clone.sh navikt/nada-dags main /dags"],
-            )
         ],
         security_context=k8s.V1PodSecurityContext(
             fs_group=0,
