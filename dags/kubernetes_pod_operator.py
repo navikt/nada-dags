@@ -6,7 +6,7 @@ from kubernetes.client import models as k8s
 with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=None) as dag:
 
     task_1 = KubernetesPodOperator(
-        image="ghcr.io/navikt/dvh-kafka-airflow-consumer:0.4.8",
+        image="ghcr.io/navikt/dvh-airflow-kafka:2023-11-13-9df8ea4",
         cmds=["/bin/sh", "-c"],
         arguments=["""python -c "from kafka import KafkaProducer; producer = KafkaProducer(bootstrap_servers='nav-prod-kafka-nav-prod.aivencloud.com:26484', security_protocol='SSL')" """],
         name="k8s_resource_example",
