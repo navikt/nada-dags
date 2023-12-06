@@ -8,7 +8,7 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
     task_1 = KubernetesPodOperator(
         image="ghcr.io/navikt/dvh-airflow-kafka:2023-11-13-9df8ea4",
         cmds=["/bin/sh", "-c"],
-        arguments=["""sleep 10 && python -c "from kafka import KafkaProducer; producer = KafkaProducer(bootstrap_servers='nav-prod-kafka-nav-prod.aivencloud.com:26484', security_protocol='SSL')" """],
+        arguments=["""python -c "from kafka import KafkaProducer; producer = KafkaProducer(bootstrap_servers='nav-prod-kafka-nav-prod.aivencloud.com:26484', security_protocol='SSL')" """],
         name="k8s_resource_example",
         task_id="task-one",
         env_vars={"name": "value"},
@@ -38,6 +38,7 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
         ),
         executor_config={
             "pod_override": k8s.V1Pod(
+                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "nav-prod-kafka-nav-prod.aivencloud.com:26484"}),
                 spec=k8s.V1PodSpec(
                     containers=[
                         k8s.V1Container(
@@ -51,7 +52,7 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
                 )
             )
         },
-        annotations={"allowlist": "g.nav.no,nav-prod-kafka-nav-prod.aivencloud.com:26484"},
+        #annotations={"allowlist": "g.nav.no,nav-prod-kafka-nav-prod.aivencloud.com:26484"},
         volume_mounts=[
             k8s.V1VolumeMount(
                 name="dags-data",
