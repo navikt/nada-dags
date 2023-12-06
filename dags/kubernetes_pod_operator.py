@@ -6,12 +6,13 @@ from kubernetes.client import models as k8s
 with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=None) as dag:
 
     task_1 = KubernetesPodOperator(
-        image="europe-north1-docker.pkg.dev/knada-gcp/knada-north/dataverk-airflow:2023-10-13-76dbe20",
+        image="ghcr.io/navikt/dvh-kafka-airflow-consumer:0.4.8",
         cmds=["/bin/sh", "-c"],
-        arguments=["pip install -r /dags/notebooks/requirements.txt --user", "&&", "python /dags/notebooks/mittskript.py"],
+        arguments=["python /dags/notebooks/kafka.py"],
         name="k8s_resource_example",
         task_id="task-one",
         env_vars={"name": "value"},
+        image_pull_secrets=[k8s.V1LocalObjectReference('ghcr-secret')],
         is_delete_operator_pod=False,
         get_logs=True,
         full_pod_spec=k8s.V1Pod(
