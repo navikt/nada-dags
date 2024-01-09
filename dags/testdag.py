@@ -15,7 +15,13 @@ with DAG(
   catchup = False
 ) as dag:
 
-    @task
+    @task(
+        executor_config={
+            "pod_override": client.V1Pod(
+                metadata=client.V1ObjectMeta(annotations={"allowlist": "slack.com,hooks.slack.com"})
+            )
+        }
+    )
     def notification_start():
         slack_info(
             message = f"starttest",
@@ -39,7 +45,13 @@ with DAG(
     log_output=False
     )
 
-    @task
+    @task(
+        executor_config={
+            "pod_override": client.V1Pod(
+                metadata=client.V1ObjectMeta(annotations={"allowlist": "slack.com,hooks.slack.com"})
+            )
+        }
+    )
     def notification_end():
         slack_info(
             message = f"endtest",

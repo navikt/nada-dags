@@ -40,5 +40,5 @@ def __slack_message(
       "pod_override": k8s.V1Pod(
           metadata=k8s.V1ObjectMeta(annotations={"allowlist": "slack.com,hooks.slack.com"})
       )
-        }
+    }
   ).execute()
