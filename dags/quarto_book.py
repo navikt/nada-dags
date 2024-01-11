@@ -9,6 +9,7 @@ with DAG('QuartoBook', start_date=days_ago(1), schedule=None) as dag:
         dag=dag,
         name="quarto-op",
         repo="navikt/nada-dags",
+        image="europe-north1-docker.pkg.dev/knada-gcp/knada-north/dataverk-airflow-mantest:v1",
         quarto={
             "folder": "notebooks/quartobook",
             "env": "dev",
@@ -16,5 +17,4 @@ with DAG('QuartoBook', start_date=days_ago(1), schedule=None) as dag:
             "token": Variable.get("TEAM_TOKEN"),
         },
         requirements_path="notebooks/requirements.txt",
-        allowlist=["datamarkedsplassen.intern.dev.nav.no"],
     )
