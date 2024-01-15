@@ -6,7 +6,7 @@ import pandas as pd
 import sqlalchemy
 
 instance_connection_name = "nada-dev-db2e:europe-north1:nada-backend"
-db_iam_user = "knada-hyka@knada-gcp.iam"
+db_iam_user = "nada-oqs1@knada-gcp.iam"
 db_name = "nada"
 
 connector = Connector()
