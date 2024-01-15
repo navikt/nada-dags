@@ -1,0 +1,16 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "quartobook",
+    "section": "",
+    "text": "This is a Quarto book.\nTo learn more about Quarto books visit https://quarto.org/docs/books."
+  },
+  {
+    "objectID": "blah.html",
+    "href": "blah.html",
+    "title": "quartobook",
+    "section": "",
+    "text": "print(f'Sist oppdatert: {dt.datetime.now().strftime(\"%Y-%m-%d %H:%M\")}')"
+  }
+]
