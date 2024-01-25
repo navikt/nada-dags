@@ -17,4 +17,5 @@ with DAG('Quarto', start_date=days_ago(1), schedule=None) as dag:
         },
         requirements_path="notebooks/requirements.txt",
         allowlist=["datamarkedsplassen.intern.nav.no","dm08-scan.adeo.no:1521"],
+        image="europe-north1-docker.pkg.dev/knada-gcp/knada-north/dataverk-airflow-python-3.8:v1",
     )
