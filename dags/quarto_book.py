@@ -9,7 +9,7 @@ with DAG('QuartoBook', start_date=days_ago(1), schedule=None) as dag:
         dag=dag,
         name="quarto-op",
         repo="navikt/nada-dags",
-        image="europe-north1-docker.pkg.dev/knada-gcp/knada-north/dataverk-airflow-python-3.8",
+        image="europe-north1-docker.pkg.dev/knada-gcp/knada-north/dataverk-airflow-python-3.8:v1",
         quarto={
             "folder": "notebooks/quartobook",
             "env": "dev",
