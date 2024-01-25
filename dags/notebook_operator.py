@@ -10,4 +10,5 @@ with DAG('Notebook', start_date=days_ago(1), schedule=None) as dag:
         repo="navikt/nada-dags",
         nb_path="notebooks/mynb.ipynb",
         requirements_path="notebooks/requirements.txt",
+        image="europe-north1-docker.pkg.dev/knada-gcp/knada-north/dataverk-airflow-python-3.8:v1",
     )
