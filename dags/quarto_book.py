@@ -9,6 +9,7 @@ with DAG('QuartoBook', start_date=days_ago(1), schedule=None) as dag:
         dag=dag,
         name="quarto-op",
         repo="navikt/nada-dags",
+        python_version="3.11",
         quarto={
             "folder": "notebooks/quartobook",
             "env": "dev",
