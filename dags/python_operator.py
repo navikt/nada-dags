@@ -10,4 +10,5 @@ with DAG('Python', start_date=days_ago(1), schedule=None) as dag:
         repo="navikt/nada-dags",
         script_path="notebooks/script.py",
         requirements_path="notebooks/requirements.txt",
+        slack_channel="#kubeflow-cron-alerts",
     )
