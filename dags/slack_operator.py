@@ -2,6 +2,7 @@ from airflow import DAG
 from airflow.utils.dates import days_ago
 from kubernetes import client as k8s
 from airflow.providers.slack.operators.slack import SlackAPIPostOperator
+from airflow.operators.python import get_current_context
 import os
 
 with DAG('SlackOperator', start_date=days_ago(1), schedule_interval=None) as dag:
@@ -35,4 +36,4 @@ with DAG('SlackOperator', start_date=days_ago(1), schedule_interval=None) as dag
       }
     ]
   )
-  slack.execute()
+  slack.execute(get_current_context())
