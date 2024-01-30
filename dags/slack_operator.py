@@ -36,4 +36,4 @@ with DAG('SlackOperator', start_date=days_ago(1), schedule_interval=None) as dag
       }
     ]
   )
-  slack.execute(get_current_context())
+  slack.execute(context=get_current_context())
