@@ -5,8 +5,8 @@ from airflow.providers.slack.operators.slack import SlackAPIPostOperator
 from airflow.operators.python import get_current_context
 import os
 
-with DAG('SlackOperator', start_date=days_ago(1), schedule_interval=None) as dag:
-  slack = SlackAPIPostOperator(
+def slack_message():
+  SlackAPIPostOperator(
     task_id="error",
     dag=dag,
     executor_config={
@@ -35,5 +35,8 @@ with DAG('SlackOperator', start_date=days_ago(1), schedule_interval=None) as dag
           "footer": "Nada"
       }
     ]
-  )
-  slack.execute(context=get_current_context())
+  ).execute(context=get_current_context())
+
+with DAG('SlackOperator', start_date=days_ago(1), schedule_interval=None) as dag:
+
+  slack_message = slack_message()
