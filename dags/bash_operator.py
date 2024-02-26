@@ -5,7 +5,7 @@ from datetime import datetime
 from kubernetes import client as k8s
 
 
-with DAG('BashOperator', start_date=datetime(2023, 2, 14), schedule="@daily") as dag:
+with DAG('BashOperator', start_date=datetime(2023, 2, 14), schedule=None) as dag:
 
     os.environ['WORLD'] = 'Mars'
 
