@@ -12,4 +12,5 @@ with DAG('Python', start_date=days_ago(1), schedule=None) as dag:
         requirements_path="notebooks/requirements.txt",
         slack_channel="#kubeflow-cron-alerts",
         retries=0,
+        do_xcom_push=True,
     )
