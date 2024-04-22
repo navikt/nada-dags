@@ -14,7 +14,7 @@ with DAG('BashOperator', start_date=datetime(2023, 2, 14), schedule=None) as dag
         bash_command='echo "Hello $WORLD at $(date)"',
         executor_config={
             "pod_override": k8s.V1Pod(
-                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "35.235.240.1:89"})
+                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "35.235.240.1:89"}),
                 spec=k8s.V1PodSpec(
                 containers=[
                    k8s.V1Container(
