@@ -19,7 +19,7 @@ with DAG('BashOperator', start_date=datetime(2023, 2, 14), schedule=None) as dag
                 containers=[
                    k8s.V1Container(
                       name="base",
-                      image="europe-north1-docker.pkg.dev/nais-management-233d/nada/dakan-api-digdir:2024.03.25-13.21-347d0e8",
+                      image="europe-north1-docker.pkg.dev/nais-management-233d/dv-a-team/dvh-images-airflow-dbt:2024.04.11-08.08-76c2dff",
                    )
                 ]
             )
