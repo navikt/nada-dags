@@ -8,7 +8,7 @@ default_args = {
 }
 
 with DAG(
-        dag_id='dag-with-large-pod-request',
+        dag_id='LargePodRequest',
         default_args=default_args,
         schedule=None,
         is_paused_upon_creation=True,
@@ -58,5 +58,3 @@ with DAG(
             ),
         )
     )
-
-    k.dry_run()
