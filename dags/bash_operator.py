@@ -11,7 +11,7 @@ with DAG('BashOperator', start_date=datetime(2023, 2, 14), schedule=None) as dag
 
     t1 = BashOperator(
         task_id='hello_task',
-        bash_command='echo "Hello $WORLD at $(date)"'
+        bash_command='while true; do date; sleep 1; done'
     )
 
     t2 = BashOperator(
