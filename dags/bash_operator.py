@@ -3,7 +3,10 @@ from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
 from datetime import datetime
 from kubernetes import client as k8s
+import logging
 
+log: logging.log = logging.getLogger("airflow")
+log.setLevel(logging.INFO)
 
 with DAG('BashOperator', start_date=datetime(2023, 2, 14), schedule=None) as dag:
 
