@@ -4,6 +4,7 @@ from airflow.operators.bash_operator import BashOperator
 from datetime import datetime
 from kubernetes import client as k8s
 import logging
+import sys
 
 log = logging.getLogger("airflow.task")
 handler = logging.StreamHandler(sys.stdout)
