@@ -3,11 +3,17 @@ from airflow import DAG
 from airflow.utils.dates import days_ago
 from airflow.operators.python_operator import PythonOperator
 from kubernetes import client as k8s
+from time import time
+
+log = logging.getLogger("airflow.task")
+handler = logging.StreamHandler(sys.stdout)
+handler.setLevel(logging.INFO)
+log.addHandler(handler)
 
 def mycallable():
-    with open("minfil.json", "r") as f:
-        data = f.read()
-    print(data)
+    while True:
+        print("hallo")
+        time.sleep(1)
 
 with DAG('PythonOperator', start_date=days_ago(1), schedule_interval=None) as dag:    
     run_this = PythonOperator(
