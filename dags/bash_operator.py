@@ -6,11 +6,6 @@ from kubernetes import client as k8s
 import logging
 import sys
 
-log = logging.getLogger("airflow.task")
-handler = logging.StreamHandler(sys.stdout)
-handler.setLevel(logging.INFO)
-log.addHandler(handler)
-
 with DAG('BashOperator', start_date=datetime(2023, 2, 14), schedule=None) as dag:
 
     os.environ['WORLD'] = 'Mars'
