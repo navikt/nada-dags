@@ -23,7 +23,7 @@ with DAG('ExtraInitContainerExample', start_date=days_ago(1), schedule_interval=
                 init_containers=[
                     k8s.V1Container(
                         name="clone-code-repo",
-                        image=os.getenv(""),
+                        image=os.getenv("CLONE_REPO_IMAGE"),
                         command=["/bin/sh", "-c"],
                         args=[f"/git-clone.sh {REPO} {BRANCH} {MOUNT_PATH}"],
                         volume_mounts=[
@@ -42,7 +42,7 @@ with DAG('ExtraInitContainerExample', start_date=days_ago(1), schedule_interval=
                 containers=[
                     k8s.V1Container(
                        name="base",
-                       image="europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-papermill:2023-03-22-fb1c4a4",
+                       image=os.getenv("KNADA_AIRFLOW_OPERATOR_IMAGE"),
                        env=[
                            k8s.V1EnvVar("PYTHONPATH", MOUNT_PATH)
                        ],
