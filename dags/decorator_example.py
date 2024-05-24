@@ -13,12 +13,12 @@ with DAG('DecoratorExampleWithPodOverride', start_date=datetime(2023, 2, 14), sc
     @task(
         executor_config = {
             "pod_override": k8s.V1Pod(
-                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "dm07-scan.adeo.no:1521"})
+                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "dmv07-scan.adeo.no:1521"})
             )
         }
     )
     def myfunc(user: str, passw: str):
-        engine = sqlalchemy.create_engine(f"oracle://{user}:{passw}@dm07-scan.adeo.no:1521/?service_name=dwhu1")
+        engine = sqlalchemy.create_engine(f"oracle://{user}:{passw}@dmv07-scan.adeo.no:1521/?service_name=dwhu1")
         with engine.connect() as con:
             con.execute(sqlalchemy.text("drop table testtabell"))
             con.execute(sqlalchemy.text("create table testtabell (value number not null, column2 varchar2(10))"))
