@@ -9,7 +9,7 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule="40
 
     k8s_pod_op = KubernetesPodOperator(
         image=os.getenv("KNADA_AIRFLOW_OPERATOR_IMAGE"),
-        annotations={"allowlist": "g.nav.no,hooks.slack.com"},
+        annotations={"allowlist": "g.nav.no"},
         cmds=["/bin/sh", "-c"],
         arguments=['echo "hello world"; curl https://g.nav.no'],
         name="k8s_pod_operator",
@@ -31,6 +31,7 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule="40
             "release": "airflow"
         },
         full_pod_spec=k8s.V1Pod(
+            metadata=k8s.V1ObjectMeta(annotations={"allowlist": "hooks.slack.com"}),
             spec=k8s.V1PodSpec(
                 containers=[
                     k8s.V1Container(

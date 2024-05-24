@@ -16,8 +16,8 @@ with DAG('PythonOperator', start_date=days_ago(1), schedule="50 8 * * 1-5", catc
         python_callable=mycallable,
         executor_config={
             "pod_override": k8s.V1Pod(
+                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "hooks.slack.com"}),
                 spec=k8s.V1PodSpec(
-                    metadata=k8s.V1ObjectMeta(annotations={"allowlist": "hooks.slack.com"}),
                     containers=[
                         k8s.V1Container(
                             name="base",

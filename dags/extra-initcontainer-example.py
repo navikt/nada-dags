@@ -17,18 +17,18 @@ def run():
 with DAG('ExtraInitContainerExample', start_date=days_ago(1), schedule="30 8 * * 1-5", catchup=False) as dag:    
     run_this = PythonOperator(
     task_id='test-pythonoperator',
-    annotations={"allowlist": "hooks.slack.com"},
     on_failure_callback=[
-            send_slack_notification(
-                text="{{ task }} run {{ run_id }} of {{ dag }} failed",
-                channel="#nada-alerts-dev",
-                slack_conn_id="slack_connection",
-                username="Airflow",
-            )
+        send_slack_notification(
+            text="{{ task }} run {{ run_id }} of {{ dag }} failed",
+            channel="#nada-alerts-dev",
+            slack_conn_id="slack_connection",
+            username="Airflow",
+        )
     ],
     python_callable=run,
     executor_config={
         "pod_override": k8s.V1Pod(
+            metadata=k8s.V1ObjectMeta(annotations={"allowlist": "hooks.slack.com"}),
             spec=k8s.V1PodSpec(
                 init_containers=[
                     k8s.V1Container(
