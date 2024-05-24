@@ -14,7 +14,7 @@ with DAG('BashOperator', start_date=datetime(2023, 2, 14), schedule="0 8 * * 1-5
         bash_command='echo "Hello Earth"',
         on_success_callback=[
             send_slack_notification(
-                text="The DAG {{ run_id }} succeeded",
+                text="The task {{ task_id }} run {{ run_id }} of dag {{ dag_id }} succeeded",
                 channel="#nada-alerts-dev",
                 slack_conn_id="slack_connection",
                 username="Airflow",
