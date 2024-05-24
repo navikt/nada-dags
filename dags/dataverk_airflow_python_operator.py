@@ -3,7 +3,7 @@ from airflow.utils.dates import days_ago
 from dataverk_airflow import python_operator
 
 
-with DAG('Python', start_date=days_ago(1), schedule=None) as dag:
+with DAG('DataverkAirflowPython', start_date=days_ago(1), schedule=None) as dag:
     py_op = python_operator(
         dag=dag,
         name="python-op",

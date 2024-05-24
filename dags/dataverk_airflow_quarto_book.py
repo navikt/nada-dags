@@ -4,17 +4,17 @@ from airflow.utils.dates import days_ago
 from dataverk_airflow import quarto_operator
 
 
-with DAG('Quarto', start_date=days_ago(1), schedule=None) as dag:
+with DAG('DataverkAirflowQuartoBook', start_date=days_ago(1), schedule=None) as dag:
     quarto_op = quarto_operator(
         dag=dag,
         name="quarto-op",
         repo="navikt/nada-dags",
+        python_version="3.11",
         quarto={
-            "path": "notebooks/quarto.ipynb",
-            "env": "prod",
-            "id": "{{ var.value.get('QUARTO_ID') }}",
-            "token": Variable.get("TEAM_TOKEN"),
+            "folder": "notebooks/quartobook",
+            "env": "dev",
+            "id": "757da08e-031e-4fac-a5f0-fffe6d2d96b6",
+            "token": Variable.get("NADA_TOKEN_DEV"),
         },
         requirements_path="notebooks/requirements.txt",
-        allowlist=["datamarkedsplassen.intern.nav.no","dm08-scan.adeo.no:1521"],
     )
