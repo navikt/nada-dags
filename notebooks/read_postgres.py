@@ -7,7 +7,7 @@ import sqlalchemy
 
 instance_connection_name = "nada-dev-db2e:europe-north1:datastream"
 db_iam_user = "nada-oqs1@knada-gcp.iam"
-db_name = "nada"
+db_name = "datastream"
 
 connector = Connector()
 
