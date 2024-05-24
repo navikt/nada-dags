@@ -4,7 +4,7 @@ from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperato
 from datetime import datetime
 from kubernetes.client import models as k8s
 
-with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=None) as dag:
+with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule="40 8 * * 1-5", catchup=False) as dag:
 
     k8s_pod_op = KubernetesPodOperator(
         image=os.getenv("KNADA_AIRFLOW_OPERATOR_IMAGE"),

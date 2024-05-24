@@ -10,11 +10,11 @@ default_args = {
 with DAG(
         dag_id='LargePodRequest',
         default_args=default_args,
-        schedule=None,
+        schedule="35 8 * * 1-5", 
+        catchup=False,
         is_paused_upon_creation=True,
         start_date=pendulum.today('UTC').add(days=-2),
         max_active_runs=1,
-        catchup=False,
         tags=['k8s-pod-operator', 'huge-task'],
 ) as dag:
     k = KubernetesPodOperator(

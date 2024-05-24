@@ -5,7 +5,7 @@ from airflow.providers.slack.operators.slack import SlackAPIPostOperator
 from airflow.operators.python import get_current_context
 import os
 
-with DAG('SlackOperator', start_date=days_ago(1), schedule_interval=None) as dag:
+with DAG('SlackOperator', start_date=days_ago(1), schedule="0 9 * * 1-5", catchup=False) as dag:
   slack = SlackAPIPostOperator(
     task_id="error",
     dag=dag,

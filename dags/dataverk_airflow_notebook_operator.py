@@ -3,7 +3,7 @@ from airflow.utils.dates import days_ago
 from dataverk_airflow import notebook_operator
 
 
-with DAG('DataverkAirflowNotebook', start_date=days_ago(1), schedule=None) as dag:
+with DAG('DataverkAirflowNotebook', start_date=days_ago(1), schedule="0 8 * * 1-5", catchup=False) as dag:
     nb_op = notebook_operator(
         dag=dag,
         name="nb-op",

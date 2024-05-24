@@ -4,7 +4,7 @@ from airflow.utils.dates import days_ago
 from dataverk_airflow import quarto_operator
 
 
-with DAG('DataverkAirflowQuartoBook', start_date=days_ago(1), schedule=None) as dag:
+with DAG('DataverkAirflowQuartoBook', start_date=days_ago(1), schedule="15 8 * * 1-5", catchup=False) as dag:
     quarto_op = quarto_operator(
         dag=dag,
         name="quarto-op",

@@ -13,7 +13,7 @@ def run():
     from extrainitcontainer.kode.modul import mycallable
     mycallable()
 
-with DAG('ExtraInitContainerExample', start_date=days_ago(1), schedule_interval=None) as dag:    
+with DAG('ExtraInitContainerExample', start_date=days_ago(1), schedule="30 8 * * 1-5", catchup=False) as dag:    
     run_this = PythonOperator(
     task_id='test-pythonoperator',
     python_callable=run,

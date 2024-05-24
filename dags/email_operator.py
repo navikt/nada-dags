@@ -3,7 +3,7 @@ from airflow.operators.email import EmailOperator
 from datetime import datetime
 from kubernetes import client as k8s
 
-with DAG(dag_id="EmailOperator", start_date=datetime(2023, 2, 21), schedule_interval=None) as dag:
+with DAG(dag_id="EmailOperator", start_date=datetime(2023, 2, 21), schedule="25 8 * * 1-5", catchup=False) as dag:
     epost = EmailOperator(
         task_id="send-epost",
         to=["erik.vattekar@nav.no"],

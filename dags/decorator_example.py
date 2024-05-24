@@ -9,7 +9,7 @@ import sqlalchemy
 from datetime import datetime
 
 
-with DAG('DecoratorExampleWithPodOverrideReadOnpremOracle', start_date=datetime(2023, 2, 14), schedule=None) as dag:
+with DAG('DecoratorExampleWithPodOverrideReadOnpremOracle', start_date=datetime(2023, 2, 14), schedule="20 8 * * 1-5", catchup=False) as dag:
     @task(
         executor_config = {
             "pod_override": k8s.V1Pod(

@@ -10,7 +10,7 @@ def mycallable():
     time.sleep(10)
 
 
-with DAG("SlackOnSuccessOnFailureExample", start_date=days_ago(1), schedule_interval=None) as dag:
+with DAG("SlackOnSuccessOnFailureExample", start_date=days_ago(1), schedule="55 8 * * 1-5", catchup=False) as dag:
     run_this = PythonOperator(
         task_id="test-pythonoperator",
         on_success_callback=[
