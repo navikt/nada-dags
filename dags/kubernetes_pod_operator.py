@@ -16,7 +16,6 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
         task_id="k8s-pod-operator",
         env_vars={"name": "value"},
         image_pull_secrets=[k8s.V1LocalObjectReference('ghcr-secret')],
-        is_delete_operator_pod=True,
         get_logs=True,
         labels={
             "component": "worker",
