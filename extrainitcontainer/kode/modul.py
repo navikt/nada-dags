@@ -1,0 +1,2 @@
+def mycallable():
+    print("hallo")

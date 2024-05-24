@@ -6,11 +6,11 @@ from airflow.operators.python_operator import PythonOperator
 from kubernetes import client as k8s
 
 MOUNT_PATH = "/code"
-REPO = "navikt/nada-airflow"
+REPO = "navikt/nada-dags"
 BRANCH = "main"
 
 def run():
-    from kode.modul import mycallable
+    from extrainitcontainer.kode.modul import mycallable
     mycallable()
 
 with DAG('ExtraInitContainerExample', start_date=days_ago(1), schedule_interval=None) as dag:    
@@ -46,7 +46,6 @@ with DAG('ExtraInitContainerExample', start_date=days_ago(1), schedule_interval=
                 containers=[
                     k8s.V1Container(
                        name="base",
-                       image="europe-north1-docker.pkg.dev/knada-gcp/knada-north/airflow:2024-05-14-5ce8ac1",
                        env=[
                            k8s.V1EnvVar("PYTHONPATH", MOUNT_PATH)
                        ],
