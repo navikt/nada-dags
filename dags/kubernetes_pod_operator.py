@@ -12,7 +12,7 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
         cmds=["/bin/sh", "-c"],
         arguments=['echo "hello world"; curl https://g.nav.no'],
         name="k8s_pod_operator",
-        is_delete_operator_pod=False,
+        is_delete_operator_pod=True,
         task_id="k8s-pod-operator",
         env_vars={"name": "value"},
         image_pull_secrets=[k8s.V1LocalObjectReference('ghcr-secret')],
