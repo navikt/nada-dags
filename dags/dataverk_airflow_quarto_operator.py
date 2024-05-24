@@ -16,5 +16,4 @@ with DAG('DataverkAirflowQuartoSingleFile', start_date=days_ago(1), schedule=Non
             "token": Variable.get("TEAM_TOKEN"),
         },
         requirements_path="notebooks/requirements.txt",
-        allowlist=["datamarkedsplassen.intern.nav.no","dm08-scan.adeo.no:1521"],
     )
