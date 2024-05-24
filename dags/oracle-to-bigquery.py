@@ -32,7 +32,7 @@ def oracle_to_bigquery(
         export_format="csv",
         executor_config={
             "pod_override": k8s.V1Pod(
-                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "dmv07-scan.adeo.no:1521"})
+                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "dmv07-scan.adeo.no:1521,hooks.slack.com"})
             )
         },
         on_failure_callback=[
@@ -55,6 +55,11 @@ def oracle_to_bigquery(
         write_disposition=write_disposition,
         source_objects=oracle_table,
         source_format="csv",
+        executor_config={
+            "pod_override": k8s.V1Pod(
+                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "hooks.slack.com"})
+            )
+        },
         on_failure_callback=[
             send_slack_notification(
                 text="{{ task }} run {{ run_id }} of {{ dag }} failed",
@@ -70,6 +75,11 @@ def oracle_to_bigquery(
         bucket_name=bucket_name,
         objects=[oracle_table],
         gcp_conn_id=gcp_con_id,
+        executor_config={
+            "pod_override": k8s.V1Pod(
+                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "hooks.slack.com"})
+            )
+        },
         on_failure_callback=[
             send_slack_notification(
                 text="{{ task }} run {{ run_id }} of {{ dag }} failed",

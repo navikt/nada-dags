@@ -9,7 +9,7 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule="40
 
     k8s_pod_op = KubernetesPodOperator(
         image=os.getenv("KNADA_AIRFLOW_OPERATOR_IMAGE"),
-        annotations={"allowlist": "g.nav.no"},
+        annotations={"allowlist": "g.nav.no,hooks.slack.com"},
         cmds=["/bin/sh", "-c"],
         arguments=['echo "hello world"; curl https://g.nav.no'],
         name="k8s_pod_operator",

@@ -22,6 +22,7 @@ with DAG(
         image="ubuntu:noble-20240429",
         cmds=["bash", "-cx"],
         arguments=["echo hello"],
+        annotations={"allowlist": "hooks.slack.com"},
         name="k8s-pod",
         task_id="huge-pod",
         hostnetwork=False,

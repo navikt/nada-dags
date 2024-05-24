@@ -17,12 +17,13 @@ with DAG('PythonOperator', start_date=days_ago(1), schedule="50 8 * * 1-5", catc
         executor_config={
             "pod_override": k8s.V1Pod(
                 spec=k8s.V1PodSpec(
+                    metadata=k8s.V1ObjectMeta(annotations={"allowlist": "hooks.slack.com"}),
                     containers=[
-                    k8s.V1Container(
-                        name="base",
-                        image="europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-papermill:2023-03-22-fb1c4a4",
-                        working_dir="/dags/notebooks"
-                    )
+                        k8s.V1Container(
+                            name="base",
+                            image="europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-papermill:2023-03-22-fb1c4a4",
+                            working_dir="/dags/notebooks"
+                        )
                     ]
                 )
             )
