@@ -71,7 +71,7 @@ def oracle_to_bigquery(
 # - Det må opprettes en google connection i Airflow UIet
 #   - Velg Connection type 'Google Cloud'
 #   - Spesifiser kun 'project ID'. Dette settes til IDen til teamprosjektet med bucketen og bigquery datasettet
-with DAG('SimpleOracleToBigqueryOperator', start_date=datetime(2023, 2, 14), schedule=None) as dag:
+with DAG('OracleToBigqueryOperator', start_date=datetime(2023, 2, 14), schedule=None) as dag:
     oracle_to_bq = oracle_to_bigquery(
         oracle_con_id="oracle_con",
         oracle_table="nada",
