@@ -11,7 +11,7 @@ with DAG('DataverkAirflowQuartoSingleFile', start_date=days_ago(1), schedule=Non
         repo="navikt/nada-dags",
         quarto={
             "path": "notebooks/quarto.ipynb",
-            "env": "prod",
+            "env": "dev",
             "id": "{{ var.value.get('QUARTO_ID') }}",
             "token": Variable.get("TEAM_TOKEN"),
         },
