@@ -26,7 +26,11 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
                 containers=[
                     k8s.V1Container(
                         name="base",
-                        working_dir="/workspace"
+                        working_dir="/workspace",
+                        security_context=k8s.V1SecurityContext(
+                            allow_privilege_escalation=False,
+                            run_as_user=50000,
+                        )
                     )
                 ]
             )
