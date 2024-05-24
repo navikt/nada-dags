@@ -1,3 +1,4 @@
+import os
 from airflow import DAG
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from datetime import datetime
@@ -5,15 +6,16 @@ from kubernetes.client import models as k8s
 
 with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=None) as dag:
 
-    task_1 = KubernetesPodOperator(
-        image="ghcr.io/navikt/dvh-airflow-kafka:2023-11-13-9df8ea4",
+    k8s_pod_op = KubernetesPodOperator(
+        image=os.getenv("KNADA_AIRFLOW_OPERATOR_IMAGE"),
+        annotations={"allowlist": ""},
         cmds=["/bin/sh", "-c"],
-        arguments=["""python -c "from kafka import KafkaProducer; producer = KafkaProducer(bootstrap_servers='nav-prod-kafka-nav-prod.aivencloud.com:26484', security_protocol='SSL')" """],
-        name="k8s_resource_example",
-        task_id="task-one",
+        arguments=['echo "hello world"'],
+        name="k8s_pod_operator",
+        task_id="k8s-pod-operator",
         env_vars={"name": "value"},
         image_pull_secrets=[k8s.V1LocalObjectReference('ghcr-secret')],
-        is_delete_operator_pod=False,
+        is_delete_operator_pod=True,
         get_logs=True,
         labels={
             "component": "worker",
@@ -24,7 +26,7 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
                 containers=[
                     k8s.V1Container(
                         name="base",
-                        working_dir="/opt"
+                        working_dir="/workspace"
                     )
                 ]
             )
@@ -36,23 +38,6 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
                 "cpu": "2"
             }
         ),
-        executor_config={
-            "pod_override": k8s.V1Pod(
-                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "nav-prod-kafka-nav-prod.aivencloud.com:26484"}),
-                spec=k8s.V1PodSpec(
-                    containers=[
-                        k8s.V1Container(
-                            name="base",
-                            working_dir="/opt",
-                            env=[
-                                k8s.V1EnvVar(name="teste", value="tester")
-                            ]
-                        )
-                    ]
-                )
-            )
-        },
-        #annotations={"allowlist": "g.nav.no,nav-prod-kafka-nav-prod.aivencloud.com:26484"},
         volume_mounts=[
             k8s.V1VolumeMount(
                 name="dags-data",
@@ -81,6 +66,7 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule=Non
         ],
         security_context=k8s.V1PodSecurityContext(
             fs_group=0,
+            run_as_non_root=True,
             seccomp_profile=k8s.V1SeccompProfile(
                 type="RuntimeDefault"
             )
