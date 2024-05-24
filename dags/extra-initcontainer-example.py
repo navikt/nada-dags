@@ -37,6 +37,10 @@ with DAG('ExtraInitContainerExample', start_date=days_ago(1), schedule_interval=
                                 read_only=False,
                             ),
                         ],
+                        security_context=k8s.V1SecurityContext(
+                            allow_privilege_escalation=False,
+                            run_as_user=50000,
+                        )
                     )
                 ],
                 containers=[
@@ -50,7 +54,11 @@ with DAG('ExtraInitContainerExample', start_date=days_ago(1), schedule_interval=
                             k8s.V1VolumeMount(
                                 name="code", mount_path=MOUNT_PATH, sub_path=None, read_only=False
                             ),
-                       ]
+                       ],
+                        security_context=k8s.V1SecurityContext(
+                            allow_privilege_escalation=False,
+                            run_as_user=50000,
+                        )
                     )
                 ],
                 volumes= [
@@ -58,6 +66,13 @@ with DAG('ExtraInitContainerExample', start_date=days_ago(1), schedule_interval=
                         name="code"
                     )
                 ],
+                security_context=k8s.V1PodSecurityContext(
+                    fs_group=0,
+                    run_as_non_root=True,
+                    seccomp_profile=k8s.V1SeccompProfile(
+                        type="RuntimeDefault"
+                    )
+                ),
             )
         )
     },
