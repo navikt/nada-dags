@@ -16,4 +16,5 @@ with DAG('DataverkAirflowQuartoSingleFile', start_date=days_ago(1), schedule="5 
             "token": Variable.get("TEAM_TOKEN"),
         },
         requirements_path="notebooks/requirements.txt",
+        slack_channel="#nada-alerts-dev",
     )

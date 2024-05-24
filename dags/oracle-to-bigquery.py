@@ -3,6 +3,7 @@ from airflow import DAG
 from airflow.providers.google.cloud.transfers.oracle_to_gcs import OracleToGCSOperator
 from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQueryOperator
 from airflow.contrib.operators.gcs_delete_operator import GoogleCloudStorageDeleteOperator
+from airflow.providers.slack.notifications.slack import send_slack_notification
 from kubernetes import client as k8s
 from datetime import datetime
 
@@ -13,6 +14,7 @@ def oracle_to_bigquery(
     bucket_name: str,
     gcp_con_id: str,
     bigquery_dest_uri: str,
+    slack_channel: str = None,
     columns: list = [],
 ):
     columns = ",".join(columns) if len(columns) > 0 else "*"
@@ -32,7 +34,15 @@ def oracle_to_bigquery(
             "pod_override": k8s.V1Pod(
                 metadata=k8s.V1ObjectMeta(annotations={"allowlist": "dmv07-scan.adeo.no:1521"})
             )
-        }
+        },
+        on_failure_callback=[
+            send_slack_notification(
+                text="{{ task }} run {{ run_id }} of {{ dag }} failed",
+                channel=slack_channel,
+                slack_conn_id="slack_connection",
+                username="Airflow",
+            )
+        ] if slack_channel else [],
     )
 
     bucket_to_bq = GCSToBigQueryOperator(
@@ -44,7 +54,15 @@ def oracle_to_bigquery(
         autodetect=True,
         write_disposition=write_disposition,
         source_objects=oracle_table,
-        source_format="csv"
+        source_format="csv",
+        on_failure_callback=[
+            send_slack_notification(
+                text="{{ task }} run {{ run_id }} of {{ dag }} failed",
+                channel=slack_channel,
+                slack_conn_id="slack_connection",
+                username="Airflow",
+            )
+        ] if slack_channel else [],
     )
 
     delete_from_bucket = GoogleCloudStorageDeleteOperator(
@@ -52,6 +70,14 @@ def oracle_to_bigquery(
         bucket_name=bucket_name,
         objects=[oracle_table],
         gcp_conn_id=gcp_con_id,
+        on_failure_callback=[
+            send_slack_notification(
+                text="{{ task }} run {{ run_id }} of {{ dag }} failed",
+                channel=slack_channel,
+                slack_conn_id="slack_connection",
+                username="Airflow",
+            )
+        ] if slack_channel else [],
     )
 
     return oracle_to_bucket >> bucket_to_bq >> delete_from_bucket
@@ -78,6 +104,7 @@ with DAG('OracleToBigqueryOperator', start_date=datetime(2023, 2, 14), schedule=
         bucket_name="min-bucket-for-mellomlagring",
         gcp_con_id="google_con_different_project",
         bigquery_dest_uri="nada-dev-db2e.test.fra_oracle",
+        slack_channel="nada-alerts-dev",
     )
 
     oracle_to_bq

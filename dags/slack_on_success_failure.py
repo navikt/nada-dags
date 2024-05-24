@@ -15,7 +15,7 @@ with DAG("SlackOnSuccessOnFailureExample", start_date=days_ago(1), schedule="55 
         task_id="test-pythonoperator",
         on_success_callback=[
             send_slack_notification(
-                text="The DAG {{ run_id }} succeeded",
+                text="{{ task }} run {{ run_id }} of {{ dag }} succeeded",
                 channel="#nada-test",
                 slack_conn_id="slack_connection",
                 username="Airflow",
@@ -23,7 +23,7 @@ with DAG("SlackOnSuccessOnFailureExample", start_date=days_ago(1), schedule="55 
         ],
         on_failure_callback=[
             send_slack_notification(
-                text="The DAG {{ run_id }} failed",
+                text="{{ task }} run {{ run_id }} of {{ dag }} failed",
                 channel="#nada-test",
                 slack_conn_id="slack_connection",
                 username="Airflow",

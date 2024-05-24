@@ -4,6 +4,7 @@ from airflow import DAG
 from airflow.utils.dates import days_ago
 from airflow.operators.python_operator import PythonOperator
 from kubernetes import client as k8s
+from airflow.providers.slack.notifications.slack import send_slack_notification
 
 MOUNT_PATH = "/code"
 REPO = "navikt/nada-dags"
@@ -16,6 +17,14 @@ def run():
 with DAG('ExtraInitContainerExample', start_date=days_ago(1), schedule="30 8 * * 1-5", catchup=False) as dag:    
     run_this = PythonOperator(
     task_id='test-pythonoperator',
+    on_failure_callback=[
+            send_slack_notification(
+                text="{{ task }} run {{ run_id }} of {{ dag }} failed",
+                channel="#nada-alerts-dev",
+                slack_conn_id="slack_connection",
+                username="Airflow",
+            )
+    ],
     python_callable=run,
     executor_config={
         "pod_override": k8s.V1Pod(

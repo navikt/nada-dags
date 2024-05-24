@@ -7,15 +7,24 @@ import cx_Oracle as cx
 from airflow.models import Variable
 import sqlalchemy
 from datetime import datetime
+from airflow.providers.slack.notifications.slack import send_slack_notification
 
 
 with DAG('DecoratorExampleWithPodOverrideReadOnpremOracle', start_date=datetime(2023, 2, 14), schedule="20 8 * * 1-5", catchup=False) as dag:
     @task(
         executor_config = {
             "pod_override": k8s.V1Pod(
-                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "dmv07-scan.adeo.no:1521"})
+                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "dmv07-scan.adeo.no:1521,hooks.slack.com"})
             )
-        }
+        },
+        on_failure_callback=[
+            send_slack_notification(
+                text="{{ task }} run {{ run_id }} of dag {{ dag }} failed",
+                channel="#nada-alerts-dev",
+                slack_conn_id="slack_connection",
+                username="Airflow",
+            )
+        ]
     )
     def myfunc(user: str, passw: str):
         engine = sqlalchemy.create_engine(f"oracle://{user}:{passw}@dmv07-scan.adeo.no:1521/?service_name=dwhu1")

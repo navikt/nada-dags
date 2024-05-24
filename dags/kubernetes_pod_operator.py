@@ -3,6 +3,7 @@ from airflow import DAG
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from datetime import datetime
 from kubernetes.client import models as k8s
+from airflow.providers.slack.notifications.slack import send_slack_notification
 
 with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule="40 8 * * 1-5", catchup=False) as dag:
 
@@ -15,6 +16,14 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule="40
         is_delete_operator_pod=True,
         task_id="k8s-pod-operator",
         env_vars={"name": "value"},
+        on_failure_callback=[
+            send_slack_notification(
+                text="{{ task }} run {{ run_id }} of {{ dag }} failed",
+                channel="#nada-alerts-dev",
+                slack_conn_id="slack_connection",
+                username="Airflow",
+            )
+        ],
         image_pull_secrets=[k8s.V1LocalObjectReference('ghcr-secret')],
         get_logs=True,
         labels={

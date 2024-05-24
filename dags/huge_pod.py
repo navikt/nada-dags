@@ -2,6 +2,7 @@ import pendulum
 from kubernetes.client import models as k8s
 from airflow import DAG
 from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
+from airflow.providers.slack.notifications.slack import send_slack_notification
 
 default_args = {
     'owner': 'airflow'
@@ -25,6 +26,14 @@ with DAG(
         task_id="huge-pod",
         hostnetwork=False,
         get_logs=True,
+        on_failure_callback=[
+            send_slack_notification(
+                text="{{ task }} run {{ run_id }} of {{ dag }} failed",
+                channel="#nada-alerts-dev",
+                slack_conn_id="slack_connection",
+                username="Airflow",
+            )
+        ],
         startup_timeout_seconds=1000,
         labels={
             "component": "worker",

@@ -13,4 +13,5 @@ with DAG('DataverkAirflowPython', start_date=days_ago(1), schedule="10 8 * * 1-5
         slack_channel="#kubeflow-cron-alerts",
         retries=0,
         do_xcom_push=True,
+        slack_channel="#nada-alerts-dev",
     )
