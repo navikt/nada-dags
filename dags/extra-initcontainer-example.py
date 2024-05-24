@@ -1,3 +1,4 @@
+import os
 from airflow import DAG
 
 from airflow.utils.dates import days_ago
@@ -12,7 +13,7 @@ def run():
     from kode.modul import mycallable
     mycallable()
 
-with DAG('PythonOperatorExtraInitContainer', start_date=days_ago(1), schedule_interval=None) as dag:    
+with DAG('ExtraInitContainerExample', start_date=days_ago(1), schedule_interval=None) as dag:    
     run_this = PythonOperator(
     task_id='test-pythonoperator',
     python_callable=run,
@@ -22,7 +23,7 @@ with DAG('PythonOperatorExtraInitContainer', start_date=days_ago(1), schedule_in
                 init_containers=[
                     k8s.V1Container(
                         name="clone-code-repo",
-                        image="europe-west1-docker.pkg.dev/knada-gcp/knada/git-sync:2023-03-09-bfc0f3e",
+                        image=os.getenv(""),
                         command=["/bin/sh", "-c"],
                         args=[f"/git-clone.sh {REPO} {BRANCH} {MOUNT_PATH}"],
                         volume_mounts=[
