@@ -46,7 +46,7 @@ with DAG('ExtraInitContainerExample', start_date=days_ago(1), schedule_interval=
                 containers=[
                     k8s.V1Container(
                        name="base",
-                       image=os.getenv("KNADA_AIRFLOW_OPERATOR_IMAGE"),
+                       image="europe-north1-docker.pkg.dev/knada-gcp/knada-north/airflow:2024-05-14-5ce8ac1",
                        env=[
                            k8s.V1EnvVar("PYTHONPATH", MOUNT_PATH)
                        ],
