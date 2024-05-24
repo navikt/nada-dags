@@ -30,7 +30,7 @@ def oracle_to_bigquery(
         export_format="csv",
         executor_config={
             "pod_override": k8s.V1Pod(
-                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "dm07-scan.adeo.no:1521"})
+                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "dmv07-scan.adeo.no:1521"})
             )
         }
     )
