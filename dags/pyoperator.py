@@ -21,7 +21,7 @@ with DAG('PythonOperator', start_date=days_ago(1), schedule="50 8 * * 1-5", catc
                     containers=[
                         k8s.V1Container(
                             name="base",
-                            image="europe-west1-docker.pkg.dev/knada-gcp/knada/airflow-papermill:2023-03-22-fb1c4a4",
+                            image="apache/airflow:2.8.1-python3.11",
                             working_dir="/dags/notebooks"
                         )
                     ]
