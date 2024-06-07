@@ -12,5 +12,5 @@ with DAG('CloudSQLPostgres', start_date=days_ago(1), schedule="50 8 * * 1-5", ca
         script_path="notebooks/read_postgres.py",
         requirements_path="notebooks/requirements_pg.txt",
         allowlist=["34.88.107.185:3307","34.88.107.185:443"],
-        slack_channel="#nada-alerts-dev",
+        slack_channel="#nada-alerts",
     )

@@ -12,5 +12,5 @@ with DAG('DataverkAirflowPython', start_date=days_ago(1), schedule="10 8 * * 1-5
         requirements_path="notebooks/requirements.txt",
         retries=0,
         do_xcom_push=True,
-        slack_channel="#nada-alerts-dev",
+        slack_channel="#nada-alerts",
     )

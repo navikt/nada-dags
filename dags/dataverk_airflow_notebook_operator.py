@@ -10,5 +10,5 @@ with DAG('DataverkAirflowNotebook', start_date=days_ago(1), schedule="0 8 * * 1-
         repo="navikt/nada-dags",
         nb_path="notebooks/mynb.ipynb",
         requirements_path="notebooks/requirements.txt",
-        slack_channel="#nada-alerts-dev",
+        slack_channel="#nada-alerts",
     )

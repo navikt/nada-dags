@@ -20,7 +20,7 @@ with DAG('DecoratorExampleWithPodOverrideReadOnpremOracle', start_date=datetime(
         on_failure_callback=[
             send_slack_notification(
                 text="{{ task }} run {{ run_id }} of dag {{ dag }} failed",
-                channel="#nada-alerts-dev",
+                channel="#nada-alerts",
                 slack_conn_id="slack_connection",
                 username="Airflow",
             )

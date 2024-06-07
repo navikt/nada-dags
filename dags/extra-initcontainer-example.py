@@ -20,7 +20,7 @@ with DAG('ExtraInitContainerExample', start_date=days_ago(1), schedule="30 8 * *
     on_failure_callback=[
         send_slack_notification(
             text="{{ task }} run {{ run_id }} of {{ dag }} failed",
-            channel="#nada-alerts-dev",
+            channel="#nada-alerts",
             slack_conn_id="slack_connection",
             username="Airflow",
         )
