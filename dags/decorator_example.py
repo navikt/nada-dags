@@ -3,7 +3,6 @@ from airflow import DAG
 from airflow.decorators import task
 from datetime import datetime
 from kubernetes import client as k8s
-import cx_Oracle as cx
 from airflow.models import Variable
 import sqlalchemy
 from datetime import datetime
