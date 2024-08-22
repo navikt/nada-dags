@@ -5,6 +5,7 @@ from datetime import datetime
 from kubernetes import client as k8s
 from airflow.models import Variable
 import sqlalchemy
+import oracledb
 from datetime import datetime
 from airflow.providers.slack.notifications.slack import send_slack_notification
 
