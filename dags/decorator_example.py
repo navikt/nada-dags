@@ -6,8 +6,11 @@ from kubernetes import client as k8s
 from airflow.models import Variable
 import sqlalchemy
 import oracledb
+import sys
 from datetime import datetime
 from airflow.providers.slack.notifications.slack import send_slack_notification
+oracledb.version = "8.3.0"
+sys.modules["cx_Oracle"] = oracledb
 
 
 with DAG('DecoratorExampleWithPodOverrideReadOnpremOracle', start_date=datetime(2023, 2, 14), schedule="20 8 * * 1-5", catchup=False) as dag:
@@ -27,7 +30,7 @@ with DAG('DecoratorExampleWithPodOverrideReadOnpremOracle', start_date=datetime(
         ]
     )
     def myfunc(user: str, passw: str):
-        engine = sqlalchemy.create_engine(f"oracle+oracledb://{user}:{passw}@dmv07-scan.adeo.no:1521/?service_name=dwhu1")
+        engine = sqlalchemy.create_engine(f"oracle://{user}:{passw}@dmv07-scan.adeo.no:1521/?service_name=dwhu1")
         with engine.connect() as con:
             con.execute(sqlalchemy.text("drop table testtabell"))
             con.execute(sqlalchemy.text("create table testtabell (value number not null, column2 varchar2(10))"))
