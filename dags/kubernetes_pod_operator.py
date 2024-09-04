@@ -26,10 +26,6 @@ with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule="40
         ],
         image_pull_secrets=[k8s.V1LocalObjectReference('ghcr-secret')],
         get_logs=True,
-        labels={
-            "component": "worker",
-            "release": "airflow"
-        },
         full_pod_spec=k8s.V1Pod(
             metadata=k8s.V1ObjectMeta(annotations={"allowlist": "hooks.slack.com"}),
             spec=k8s.V1PodSpec(
