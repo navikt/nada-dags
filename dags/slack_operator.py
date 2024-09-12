@@ -11,7 +11,7 @@ with DAG('SlackOperator', start_date=days_ago(1), schedule="0 9 * * 1-5", catchu
             task_id="airflow_task_failed_slack",
             slack_conn_id="slack_connection",
             text=f"<!here> Airflow task feilet",
-            channel="kubeflow-cron-alerts",
+            channel="#kubeflow-cron-alerts",
     )
   
   slack = SlackAPIPostOperator(
