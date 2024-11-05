@@ -24,5 +24,4 @@ with DAG('DataverkAirflowQuartoBook', start_date=days_ago(1), schedule="15 8 * *
         },
         requirements_path="notebooks/requirements.txt",
         slack_channel="{{ var.value.get('SLACK_ALERT_CHANNEL') }}",
-        extra_envs={"MARKEDSPLASSEN_HOST": dmp_host} if dmp_host else {},
     )
