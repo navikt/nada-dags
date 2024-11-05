@@ -30,7 +30,7 @@ with DAG(
         on_failure_callback=[
             send_slack_notification(
                 text="{{ task }} run {{ run_id }} of {{ dag }} failed",
-                channel="#nada-alerts",
+                channel="{{ var.value.get('SLACK_ALERT_CHANNEL') }}",
                 slack_conn_id="slack_connection",
                 username="Airflow",
             )

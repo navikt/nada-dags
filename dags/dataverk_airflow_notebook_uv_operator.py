@@ -10,6 +10,6 @@ with DAG('DataverkAirflowNotebookUV', start_date=days_ago(1), schedule="0 8 * * 
         repo="navikt/nada-dags",
         nb_path="notebooks/mynb.ipynb",
         requirements_path="notebooks/requirements.txt",
-        slack_channel="#nada-alerts",
+        slack_channel="{{ var.value.get('SLACK_ALERT_CHANNEL') }}",
         use_uv_pip_install=True,
     )

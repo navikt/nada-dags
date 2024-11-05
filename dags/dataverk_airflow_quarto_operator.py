@@ -12,9 +12,9 @@ with DAG('DataverkAirflowQuartoSingleFile', start_date=days_ago(1), schedule="5 
         quarto={
             "path": "notebooks/quarto.ipynb",
             "env": "dev",
-            "id": "{{ var.value.get('QUARTO_ID') }}",
-            "token": Variable.get("TEAM_TOKEN"),
+            "id": "f6f86316-9301-4ac3-a43b-46d238520cda",
+            "token": Variable.get("NADA_TOKEN_DEV"),
         },
         requirements_path="notebooks/requirements.txt",
-        slack_channel="#nada-alerts",
+        slack_channel="{{ var.value.get('SLACK_ALERT_CHANNEL') }}",
     )
