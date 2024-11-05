@@ -1,9 +1,14 @@
+import os
 from airflow import DAG
 from airflow.models import Variable
 from airflow.utils.dates import days_ago
 from dataverk_airflow import quarto_operator
 
+
 dmp_host = Variable.get('MARKEDSPLASSEN_HOST_DEV', default_var=None)
+if dmp_host:
+    os.environ["MARKEDSPLASSEN_HOST"] = dmp_host
+
 
 with DAG('DataverkAirflowQuartoSingleFile', start_date=days_ago(1), schedule="5 9 * * 1-5", catchup=False) as dag:
     quarto_op = quarto_operator(
@@ -18,5 +23,4 @@ with DAG('DataverkAirflowQuartoSingleFile', start_date=days_ago(1), schedule="5 
         },
         requirements_path="notebooks/requirements.txt",
         slack_channel="{{ var.value.get('SLACK_ALERT_CHANNEL') }}",
-        extra_envs={"MARKEDSPLASSEN_HOST": dmp_host} if dmp_host else None,
     )
