@@ -29,8 +29,8 @@ with DAG('DecoratorExampleWithPodOverrideReadOnpremOracle', start_date=datetime(
             )
         ]
     )
-    def myfunc(user: str, passw: str):
-        engine = sqlalchemy.create_engine(f"oracle://{user}:{passw}@dmv07-scan.adeo.no:1521/?service_name=dwhu1")
+    def myfunc(user: str, passw: str, host: str, port: int, service_name: str):
+        engine = sqlalchemy.create_engine(f"oracle://{user}:{passw}@{host}:{port}/?service_name={service_name}")
         with engine.connect() as con:
             con.execute(sqlalchemy.text("drop table testtabell"))
             con.execute(sqlalchemy.text("create table testtabell (value number not null, column2 varchar2(10))"))
@@ -41,6 +41,9 @@ with DAG('DecoratorExampleWithPodOverrideReadOnpremOracle', start_date=datetime(
             for row in res:
                 print(row)
 
-    db_user = Variable.get('db_user')
-    db_pass = Variable.get('db_pass')
+    db_user = Variable.get('ORACLE_DB_USER')
+    db_pass = Variable.get('ORACLE_DB_PASSWORD')
+    host = Variable.get('ORACLE_DB_HOST')
+    port = Variable.get('ORACLE_DB_PORT')
+    service_name = Variable.get('ORACLE_DB_SERVICE_NAME')
     myfunc(db_user, db_pass)
