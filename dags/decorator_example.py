@@ -46,4 +46,4 @@ with DAG('DecoratorExampleWithPodOverrideReadOnpremOracle', start_date=datetime(
     host = Variable.get('ORACLE_DB_HOST')
     port = Variable.get('ORACLE_DB_PORT')
     service_name = Variable.get('ORACLE_DB_SERVICE_NAME')
-    myfunc(db_user, db_pass)
+    myfunc(db_user, db_pass, host, port, service_name)
