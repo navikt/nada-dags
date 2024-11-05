@@ -32,7 +32,10 @@ with DAG('DecoratorExampleWithPodOverrideReadOnpremOracle', start_date=datetime(
     def myfunc(user: str, passw: str, host: str, port: int, service_name: str):
         engine = sqlalchemy.create_engine(f"oracle://{user}:{passw}@{host}:{port}/?service_name={service_name}")
         with engine.connect() as con:
-            con.execute(sqlalchemy.text("drop table testtabell"))
+            try:
+                con.execute(sqlalchemy.text("drop table testtabell"))
+            except:
+                pass
             con.execute(sqlalchemy.text("create table testtabell (value number not null, column2 varchar2(10))"))
             con.execute(sqlalchemy.text("insert into testtabell (value,column2) VALUES (1, 'test')"))
             con.execute(sqlalchemy.text("commit"))
