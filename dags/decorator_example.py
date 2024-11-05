@@ -27,14 +27,14 @@ with DAG('DecoratorExampleWithPodOverrideReadOnpremOracle', start_date=datetime(
                 metadata=k8s.V1ObjectMeta(annotations={"allowlist": f"{host}:{port},hooks.slack.com"})
             )
         },
-        # on_failure_callback=[
-        #     send_slack_notification(
-        #         text="{{ task }} run {{ run_id }} of dag {{ dag }} failed",
-        #         channel="{{ var.value.get('SLACK_ALERT_CHANNEL') }}",
-        #         slack_conn_id="slack_connection",
-        #         username="Airflow",
-        #     )
-        # ]
+        on_failure_callback=[
+            send_slack_notification(
+                text="{{ task }} run {{ run_id }} of dag {{ dag }} failed",
+                channel="{{ var.value.get('SLACK_ALERT_CHANNEL') }}",
+                slack_conn_id="slack_connection",
+                username="Airflow",
+            )
+        ]
     )
     def myfunc(user: str, passw: str, host: str, port: int, service_name: str):
         engine = sqlalchemy.create_engine(f"oracle://{user}:{passw}@{host}:{port}/?service_name={service_name}")
