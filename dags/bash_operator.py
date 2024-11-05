@@ -41,7 +41,7 @@ with DAG('BashOperator', start_date=datetime(2023, 2, 14), schedule="0 8 * * 1-5
         on_failure_callback=[
             send_slack_notification(
                 text="{{ task }} run {{ run_id }} of {{ dag }} failed",
-                channel="#nada-alerts",
+                channel="{{ var.value.get('SLACK_ALERT_CHANNEL') }}",
                 slack_conn_id="slack_connection",
                 username="Airflow",
             )
