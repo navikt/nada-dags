@@ -17,7 +17,7 @@ with DAG('DecoratorExampleWithPodOverrideReadOnpremOracle', start_date=datetime(
     @task(
         executor_config = {
             "pod_override": k8s.V1Pod(
-                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "dmv07-scan.adeo.no:1521,hooks.slack.com"})
+                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "{{ var.value.get('ORACLE_DB_HOST') }}"+":"+"{{ var.value.get('ORACLE_DB_PORT') }}"+",hooks.slack.com"})
             )
         },
         on_failure_callback=[
@@ -34,8 +34,8 @@ with DAG('DecoratorExampleWithPodOverrideReadOnpremOracle', start_date=datetime(
         with engine.connect() as con:
             con.execute(sqlalchemy.text("drop table testtabell"))
             con.execute(sqlalchemy.text("create table testtabell (value number not null, column2 varchar2(10))"))
-            con.execute("insert into testtabell (value,column2) VALUES (1, 'test')")
-            con.execute("commit")
+            con.execute(sqlalchemy.text("insert into testtabell (value,column2) VALUES (1, 'test')"))
+            con.execute(sqlalchemy.text("commit"))
             res = con.execute(sqlalchemy.text("SELECT count(*) FROM testtabell"))
 
             for row in res:
