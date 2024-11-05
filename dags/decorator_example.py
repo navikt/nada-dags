@@ -13,11 +13,18 @@ oracledb.version = "8.3.0"
 sys.modules["cx_Oracle"] = oracledb
 
 
+db_user = Variable.get('ORACLE_DB_USER')
+db_pass = Variable.get('ORACLE_DB_PASSWORD')
+host = Variable.get('ORACLE_DB_HOST')
+port = Variable.get('ORACLE_DB_PORT')
+service_name = Variable.get('ORACLE_DB_SERVICE_NAME')
+
+
 with DAG('DecoratorExampleWithPodOverrideReadOnpremOracle', start_date=datetime(2023, 2, 14), schedule="20 8 * * 1-5", catchup=False) as dag:
     @task(
         executor_config = {
             "pod_override": k8s.V1Pod(
-                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "{{ var.value.get('ORACLE_DB_HOST') }}"+":"+"{{ var.value.get('ORACLE_DB_PORT') }}"+",hooks.slack.com"})
+                metadata=k8s.V1ObjectMeta(annotations={"allowlist": f"{host}:{port},hooks.slack.com"})
             )
         },
         on_failure_callback=[
@@ -44,9 +51,4 @@ with DAG('DecoratorExampleWithPodOverrideReadOnpremOracle', start_date=datetime(
             for row in res:
                 print(row)
 
-    db_user = Variable.get('ORACLE_DB_USER')
-    db_pass = Variable.get('ORACLE_DB_PASSWORD')
-    host = Variable.get('ORACLE_DB_HOST')
-    port = Variable.get('ORACLE_DB_PORT')
-    service_name = Variable.get('ORACLE_DB_SERVICE_NAME')
     myfunc(db_user, db_pass, host, port, service_name)
