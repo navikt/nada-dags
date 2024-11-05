@@ -16,6 +16,6 @@ with DAG('CloudSQLPostgres', start_date=days_ago(1), schedule="50 8 * * 1-5", ca
         slack_channel="{{ var.value.get('SLACK_ALERT_CHANNEL') }}",
         extra_envs={
             "CLOUDSQL_DB_IAM_USER": "{{ var.value.get('CLOUDSQL_DB_IAM_USER') }}"
-        }
+        },
         retries=0,
     )
