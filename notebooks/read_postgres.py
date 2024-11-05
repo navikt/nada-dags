@@ -6,7 +6,7 @@ import pandas as pd
 import sqlalchemy
 
 instance_connection_name = "nada-dev-db2e:europe-north1:datastream"
-db_iam_user = "nada-oqs1@knada-gcp.iam"
+db_iam_user = os.environ["CLOUDSQL_DB_IAM_USER"]
 db_name = "datastream"
 
 connector = Connector()

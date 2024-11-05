@@ -1,4 +1,5 @@
 from airflow import DAG
+from airflow.models import Variable
 from airflow.utils.dates import days_ago
 from dataverk_airflow import python_operator
 
@@ -13,4 +14,7 @@ with DAG('CloudSQLPostgres', start_date=days_ago(1), schedule="50 8 * * 1-5", ca
         requirements_path="notebooks/requirements_pg.txt",
         allowlist=["34.88.107.185:3307","34.88.107.185:443"],
         slack_channel="#nada-alerts",
+        extra_envs={
+            "DB_IAM_USER": "{{ var.value.get('DB_IAM_USER') }}"
+        }
     )
