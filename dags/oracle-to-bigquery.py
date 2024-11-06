@@ -1,11 +1,43 @@
-import os
+import sys
 from airflow import DAG
+from airflow.models import Variable
 from airflow.providers.google.cloud.transfers.oracle_to_gcs import OracleToGCSOperator
 from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQueryOperator
 from airflow.contrib.operators.gcs_delete_operator import GoogleCloudStorageDeleteOperator
+from airflow.operators.python_operator import PythonOperator
 from airflow.providers.slack.notifications.slack import send_slack_notification
 from kubernetes import client as k8s
 from datetime import datetime
+
+import sqlalchemy
+import oracledb
+oracledb.version = "8.3.0"
+sys.modules["cx_Oracle"] = oracledb
+
+
+# Oracle config
+oracle_user = Variable.get('ORACLE_DB_USER')
+oracle_pass = Variable.get('ORACLE_DB_PASSWORD')
+oracle_host = Variable.get('ORACLE_DB_HOST')
+oracle_port = Variable.get('ORACLE_DB_PORT')
+oracle_table_name = Variable.get('ORACLE_DB_TABLE_NAME')
+oracle_service_name = Variable.get('ORACLE_DB_SERVICE_NAME')
+
+# Eposten til service accounten til knada-teamet ditt, denne finner du i knorten
+# TODO: Kanskje automatisk injectes som miljøvariabel i alle airflow-worker containere i stedet?
+knada_service_account_email = Variable.get('KNADA_SERVICE_ACCOUNT_EMAIL')
+
+
+def create_oracle_table_and_prepopulate_with_data():
+    engine = sqlalchemy.create_engine(f"oracle://{oracle_user}:{oracle_pass}@{oracle_host}:{oracle_port}/?service_name={oracle_service_name}")
+    with engine.connect() as con:
+        try:
+            con.execute(sqlalchemy.text(f"drop table {oracle_table_name}"))
+        except:
+            pass
+        con.execute(sqlalchemy.text(f"create table {oracle_table_name} (value number not null, column2 varchar2(10))"))
+        con.execute(sqlalchemy.text(f"insert into {oracle_table_name} (value,column2) VALUES (1, 'test')"))
+        con.execute(sqlalchemy.text("commit"))
 
 
 def oracle_to_bigquery(
@@ -25,14 +57,14 @@ def oracle_to_bigquery(
         task_id="oracle-to-bucket",
         oracle_conn_id=oracle_con_id,
         gcp_conn_id=gcp_con_id,
-        impersonation_chain=f"{os.getenv('TEAM')}@knada-gcp.iam.gserviceaccount.com",
+        impersonation_chain=f"{knada_service_account_email}",
         sql=sql,
         bucket=bucket_name,
         filename=oracle_table,
         export_format="csv",
         executor_config={
             "pod_override": k8s.V1Pod(
-                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "dmv07-scan.adeo.no:1521,hooks.slack.com"})
+                metadata=k8s.V1ObjectMeta(annotations={"allowlist": f"{oracle_host}:{oracle_port},hooks.slack.com"})
             )
         },
         on_failure_callback=[
@@ -50,7 +82,7 @@ def oracle_to_bigquery(
         bucket=bucket_name,
         gcp_conn_id=gcp_con_id,
         destination_project_dataset_table=bigquery_dest_uri,
-        impersonation_chain=f"{os.getenv('TEAM')}@knada-gcp.iam.gserviceaccount.com",
+        impersonation_chain=f"{knada_service_account_email}",
         autodetect=True,
         write_disposition=write_disposition,
         source_objects=oracle_table,
@@ -93,7 +125,7 @@ def oracle_to_bigquery(
     return oracle_to_bucket >> bucket_to_bq >> delete_from_bucket
 
 
-# Følgende forutsetninger gjelder for å kunne ta i bruk SimpleOracleToBigqueryOperator:
+# Følgende forutsetninger gjelder for å kunne ta i bruk OracleToBigqueryOperator:
 # - Det må lages en bucket i samme teamprosjekt på GCP som bigquery tabellen skal ende opp
 # - Det må lages et BigQuery datasett som tabellen skal skrives til
 # - Service accounten til knada-teamet ditt må gis nødvendige tilganger i teamprosjekt for å skrive til bucket og bigquery
@@ -108,13 +140,36 @@ def oracle_to_bigquery(
 #   - Velg Connection type 'Google Cloud'
 #   - Spesifiser kun 'project ID'. Dette settes til IDen til teamprosjektet med bucketen og bigquery datasettet
 with DAG('OracleToBigqueryOperator', start_date=datetime(2023, 2, 14), schedule="45 8 * * 1-5", catchup=False) as dag:
-    oracle_to_bq = oracle_to_bigquery(
-        oracle_con_id="oracle_con",
-        oracle_table="nada",
-        bucket_name="min-bucket-for-mellomlagring",
-        gcp_con_id="google_con_different_project",
-        bigquery_dest_uri="nada-dev-db2e.test.fra_oracle",
-        #slack_channel="nada-alerts-dev",
+
+    # Dette første steget oppretter en tabell med data i Oracle som vi kan bruke i eksempelet som flytter data til bigquery nedenfor.
+    # Dersom du allerede har en tabell i Oracle med data kan du hoppe over dette steget.
+    create_table_with_data = PythonOperator(
+        dag=dag,
+        task_id="create-oracle-table-and-prepopulate-with-data",
+        python_callable=create_oracle_table_and_prepopulate_with_data,
+        executor_config={
+            "pod_override": k8s.V1Pod(
+                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "hooks.slack.com"}),
+            )
+        },
+        # on_failure_callback=[
+        #     send_slack_notification(
+        #         text="{{ task }} run {{ run_id }} of {{ dag }} failed",
+        #         channel="{{ var.value.get('SLACK_ALERT_CHANNEL') }}",
+        #         slack_conn_id="slack_connection",
+        #         username="Airflow",
+        #     )
+        # ],
     )
 
-    oracle_to_bq
+    # Dette steget kopierer data fra Oracle til en bucket i GCS og deretter til BigQuery
+    oracle_to_bq = oracle_to_bigquery(
+        oracle_con_id="oracle_con",
+        oracle_table=oracle_table_name,
+        bucket_name="nada-airflow-tests",
+        gcp_con_id="google_con_different_project",
+        bigquery_dest_uri=f"nada-prod-6977.airflow_integration_tests.fra_oracle_+{oracle_table_name}",
+        #slack_channel="{{ var.value.get('SLACK_ALERT_CHANNEL') }}",
+    )
+
+    create_table_with_data >> oracle_to_bq
