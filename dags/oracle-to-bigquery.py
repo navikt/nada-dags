@@ -152,14 +152,14 @@ with DAG('OracleToBigqueryOperator', start_date=datetime(2023, 2, 14), schedule=
                 metadata=k8s.V1ObjectMeta(annotations={"allowlist": f"{oracle_host}:{oracle_port},hooks.slack.com"}),
             )
         },
-        # on_failure_callback=[
-        #     send_slack_notification(
-        #         text="{{ task }} run {{ run_id }} of {{ dag }} failed",
-        #         channel="{{ var.value.get('SLACK_ALERT_CHANNEL') }}",
-        #         slack_conn_id="slack_connection",
-        #         username="Airflow",
-        #     )
-        # ],
+        on_failure_callback=[
+            send_slack_notification(
+                text="{{ task }} run {{ run_id }} of {{ dag }} failed",
+                channel="{{ var.value.get('SLACK_ALERT_CHANNEL') }}",
+                slack_conn_id="slack_connection",
+                username="Airflow",
+            )
+        ],
     )
 
     # Denne factory funksjonen lager de tre DAG taskene som trengs for å kopierer data fra Oracle til en bucket i GCS, deretter til BigQuery, 
@@ -170,7 +170,7 @@ with DAG('OracleToBigqueryOperator', start_date=datetime(2023, 2, 14), schedule=
         bucket_name="nada-airflow-tests",
         gcp_con_id="google_con_different_project",
         bigquery_dest_uri=f"nada-prod-6977.airflow_integration_tests.fra_oracle_{oracle_table_name}",
-        #slack_channel="{{ var.value.get('SLACK_ALERT_CHANNEL') }}",
+        slack_channel="{{ var.value.get('SLACK_ALERT_CHANNEL') }}",
     )
 
     create_table_with_data >> oracle_to_bucket >> bucket_to_bq >> delete_from_bucket
