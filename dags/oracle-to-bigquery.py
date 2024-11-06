@@ -122,7 +122,7 @@ def oracle_to_bigquery(
         ] if slack_channel else [],
     )
 
-    return oracle_to_bucket >> bucket_to_bq >> delete_from_bucket
+    return oracle_to_bucket, bucket_to_bq, delete_from_bucket
 
 
 # Følgende forutsetninger gjelder for å kunne ta i bruk OracleToBigqueryOperator:
@@ -163,7 +163,7 @@ with DAG('OracleToBigqueryOperator', start_date=datetime(2023, 2, 14), schedule=
     )
 
     # Dette steget kopierer data fra Oracle til en bucket i GCS og deretter til BigQuery
-    oracle_to_bq = oracle_to_bigquery(
+    oracle_to_bucket, bucket_to_bq, delete_from_bucket = oracle_to_bigquery(
         oracle_con_id="oracle_con",
         oracle_table=oracle_table_name,
         bucket_name="nada-airflow-tests",
@@ -172,4 +172,4 @@ with DAG('OracleToBigqueryOperator', start_date=datetime(2023, 2, 14), schedule=
         #slack_channel="{{ var.value.get('SLACK_ALERT_CHANNEL') }}",
     )
 
-    create_table_with_data >> oracle_to_bq
+    create_table_with_data >> oracle_to_bucket >> bucket_to_bq >> delete_from_bucket
