@@ -162,13 +162,13 @@ with DAG('OracleToBigqueryOperator', start_date=datetime(2023, 2, 14), schedule=
         # ],
     )
 
-    # Dette steget kopierer data fra Oracle til en bucket i GCS og deretter til BigQuery
+    # Denne factory funksjonen lager de tre DAG taskene som trengs for å kopierer data fra Oracle til en bucket i GCS og deretter til BigQuery
     oracle_to_bucket, bucket_to_bq, delete_from_bucket = oracle_to_bigquery(
         oracle_con_id="oracle_con",
         oracle_table=oracle_table_name,
         bucket_name="nada-airflow-tests",
         gcp_con_id="google_con_different_project",
-        bigquery_dest_uri=f"nada-prod-6977.airflow_integration_tests.fra_oracle_+{oracle_table_name}",
+        bigquery_dest_uri=f"nada-prod-6977.airflow_integration_tests.fra_oracle_{oracle_table_name}",
         #slack_channel="{{ var.value.get('SLACK_ALERT_CHANNEL') }}",
     )
 
