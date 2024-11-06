@@ -114,7 +114,7 @@ with DAG('OracleToBigqueryOperator', start_date=datetime(2023, 2, 14), schedule=
         bucket_name="min-bucket-for-mellomlagring",
         gcp_con_id="google_con_different_project",
         bigquery_dest_uri="nada-dev-db2e.test.fra_oracle",
-        slack_channel="nada-alerts-dev",
+        #slack_channel="nada-alerts-dev",
     )
 
     oracle_to_bq
