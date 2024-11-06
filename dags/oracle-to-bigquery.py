@@ -149,7 +149,7 @@ with DAG('OracleToBigqueryOperator', start_date=datetime(2023, 2, 14), schedule=
         python_callable=create_oracle_table_and_prepopulate_with_data,
         executor_config={
             "pod_override": k8s.V1Pod(
-                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "hooks.slack.com"}),
+                metadata=k8s.V1ObjectMeta(annotations={"allowlist": f"{oracle_host}:{oracle_port},hooks.slack.com"}),
             )
         },
         # on_failure_callback=[
@@ -162,7 +162,8 @@ with DAG('OracleToBigqueryOperator', start_date=datetime(2023, 2, 14), schedule=
         # ],
     )
 
-    # Denne factory funksjonen lager de tre DAG taskene som trengs for å kopierer data fra Oracle til en bucket i GCS og deretter til BigQuery
+    # Denne factory funksjonen lager de tre DAG taskene som trengs for å kopierer data fra Oracle til en bucket i GCS, deretter til BigQuery, 
+    # for så til slutt å slette dataen fra bucketen.
     oracle_to_bucket, bucket_to_bq, delete_from_bucket = oracle_to_bigquery(
         oracle_con_id="oracle_con",
         oracle_table=oracle_table_name,
