@@ -8,8 +8,13 @@ from airflow.providers.slack.notifications.slack import send_slack_notification
 with DAG('KubernetesPodOperator', start_date=datetime(2023, 2, 15), schedule="40 8 * * 1-5", catchup=False) as dag:
 
     k8s_pod_op = KubernetesPodOperator(
+        executor_config={
+            "pod_override": k8s.V1Pod(
+                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "hooks.slack.com"}),
+            ),
+        },
         image=os.getenv("KNADA_AIRFLOW_OPERATOR_IMAGE"),
-        annotations={"allowlist": "g.nav.no"},
+        annotations={"allowlist": "g.nav.no,slack.com"},
         startup_timeout_seconds=720,
         cmds=["/bin/sh", "-c"],
         arguments=['echo "hello world"; curl https://g.nav.no'],
