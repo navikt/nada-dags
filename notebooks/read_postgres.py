@@ -5,9 +5,9 @@ import pg8000
 import pandas as pd
 import sqlalchemy
 
-instance_connection_name = "nada-dev-db2e:europe-north1:datastream"
+instance_connection_name = "nada-dev-db2e:europe-north1:nada-backend"
 db_iam_user = os.environ["CLOUDSQL_DB_IAM_USER"]
-db_name = "datastream"
+db_name = "nada"
 
 connector = Connector()
 
@@ -25,7 +25,7 @@ engine = sqlalchemy.create_engine(
     "postgresql+pg8000://",
     creator=getconn)
 
-query = "SELECT * FROM dummy"
+query = "SELECT * FROM dashboards"
 df = pd.read_sql_query(query, engine)
 
 print(df)
