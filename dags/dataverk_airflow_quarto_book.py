@@ -15,7 +15,7 @@ with DAG('DataverkAirflowQuartoBook', start_date=days_ago(1), schedule="15 8 * *
         dag=dag,
         name="quarto-op",
         repo="navikt/nada-dags",
-        python_version="3.11",
+        python_version="3.10",
         quarto={
             "folder": "notebooks/quartobook",
             "env": "dev",
