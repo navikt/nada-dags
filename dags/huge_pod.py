@@ -53,18 +53,15 @@ with DAG(
                 type="RuntimeDefault"
             )
         ),
-        # https://cloud.google.com/kubernetes-engine/docs/how-to/node-auto-provisioning#custom_machine_family
-        affinity=k8s.V1Affinity(
-            node_affinity=k8s.V1NodeAffinity(
-                required_during_scheduling_ignored_during_execution=k8s.V1NodeSelector(
-                    node_selector_terms=[
-                        k8s.V1NodeSelectorTerm(
-                            match_expressions=[
-                                k8s.V1NodeSelectorRequirement(key="cloud.google.com/machine-family", operator="In", values=["n2"])
-                            ]
-                        )
-                    ]
-                ),
-            ),
-        )
+        node_selector={
+            "workload": "resource_intensive"
+        },
+        tolerations=[
+            k8s.V1Toleration(
+                key="dedicated",
+                operator="Equal",
+                value="resource_intensive",
+                effect="NoSchedule"
+            )
+        ]
     )
