@@ -1,7 +1,14 @@
 --- 
 title: "Blah Blah Blah"
 author: "Erik"
-format: dashboard
+format: 
+    dashboard:
+        embed-resources: true
+        scrolling: true
+        code-copy: true
+    nav-buttons:
+    - icon: github
+      href: https://github.com/navikt/nada-dags
 --- 
 
 ```{python}
