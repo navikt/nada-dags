@@ -3,7 +3,6 @@ title: "Blah Blah Blah"
 author: "Erik"
 format: 
     dashboard:
-        embed-resources: true
         scrolling: true
         code-copy: true
 --- 
