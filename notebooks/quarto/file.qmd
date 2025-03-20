@@ -8,6 +8,8 @@ format:
 --- 
 
 ```{python}
+import plotly.io as pio
+pio.renderers.default = "notebook_connected"
 import plotly.express as px
 df = px.data.gapminder()
 ```
