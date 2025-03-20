@@ -9,7 +9,7 @@ format:
 
 ```{python}
 import plotly.io as pio
-pio.renderers.default = "notebook_connected"
+pio.renderers.default = "plotly_mimetype+notebook_connected"
 import plotly.express as px
 df = px.data.gapminder()
 ```
