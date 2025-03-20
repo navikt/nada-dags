@@ -1,10 +1,21 @@
 --- 
 title: "Blah Blah Blah"
 author: "Erik"
-format: 
+jupyter: python3
+execute:
+    echo: false
+    warning: false
+    include: true
+format:
     dashboard:
         scrolling: true
         code-copy: true
+        theme: 
+            light: [minty, highlight]
+            dark: [superhero]
+        nav-buttons:
+            - icon: github
+              href: https://github.com/navikt/nada-dags
 --- 
 
 ```{python}
