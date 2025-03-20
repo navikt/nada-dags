@@ -21,6 +21,7 @@ with DAG('DataverkAirflowQuartoDashboard', start_date=days_ago(1), schedule="5 1
             "id": "f87e918a-e5bb-4549-aba2-78ebc6c6ae2c",
             "token": Variable.get("NADA_TOKEN_DEV"),
         },
+        image="ghcr.io/navikt/dvh-images/airflow-quarto:20250311-074400",
         requirements_path="notebooks/requirements.txt",
         slack_channel="{{ var.value.get('SLACK_ALERT_CHANNEL') }}",
     )
