@@ -21,6 +21,7 @@ with DAG('DataverkAirflowQuartoSingleFile', start_date=days_ago(1), schedule="5 
             "id": "f6f86316-9301-4ac3-a43b-46d238520cda",
             "token": Variable.get("NADA_TOKEN_DEV"),
         },
+        use_uv_pip_install=True,
         requirements_path="notebooks/requirements.txt",
         slack_channel="{{ var.value.get('SLACK_ALERT_CHANNEL') }}",
     )
