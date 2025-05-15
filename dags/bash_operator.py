@@ -14,7 +14,7 @@ with DAG('BashOperator', start_date=datetime(2023, 2, 14), schedule="0 8 * * 1-5
         bash_command='echo "Hello Earth"',
         executor_config={
             "pod_override": k8s.V1Pod(
-                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "hooks.slack.com,https://datamarkedsplassen.intern.dev.nav.no"})
+                metadata=k8s.V1ObjectMeta(annotations={"allowlist": "hooks.slack.com,https://datamarkedsplassen.intern.dev.nav.no,google.com"})
             )
         },
         on_failure_callback=[
