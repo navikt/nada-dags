@@ -8,7 +8,6 @@ with DAG('DataAwareSchedulingTrigger', start_date=days_ago(1), schedule=[Dataset
         dag=dag,
         name="data-aware-scheduling-trigger",
         repo="navikt/nada-dags",
-        branch="dev",
         script_path="notebooks/read_from_bucket.py",
         requirements_path="notebooks/requirements_write_to_bucket.txt",
         retries=0,
