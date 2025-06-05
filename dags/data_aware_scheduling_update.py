@@ -3,7 +3,7 @@ from airflow.utils.dates import days_ago
 from dataverk_airflow import python_operator
 
 
-with DAG('DataverkAirflowPython', start_date=days_ago(1), schedule=None, catchup=False) as dag:
+with DAG('DataverkAwareSchedulingUpdate', start_date=days_ago(1), schedule=None, catchup=False) as dag:
     write_to_bucket = python_operator(
         dag=dag,
         name="data-aware-scheduling-upload",

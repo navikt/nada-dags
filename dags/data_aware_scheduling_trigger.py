@@ -3,7 +3,7 @@ from airflow.utils.dates import days_ago
 from dataverk_airflow import python_operator
 
 
-with DAG('DataverkAirflowPython', start_date=days_ago(1), schedule=[Dataset("gs://local-flyte-test/file.txt")], catchup=False) as dag:
+with DAG('DataAwareSchedulingTrigger', start_date=days_ago(1), schedule=[Dataset("gs://local-flyte-test/file.txt")], catchup=False) as dag:
     trigger_from_data_aware_scheduling = python_operator(
         dag=dag,
         name="data-aware-scheduling-trigger",
