@@ -29,9 +29,5 @@ def trigger_test():
     )
     def transfer():
         print("triggered by data aware scheduling")
-
-    t = transfer.override()
-
-    t
-
-trigger_test()
+  
+    transfer()
