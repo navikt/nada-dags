@@ -13,4 +13,5 @@ with DAG('DataverkAirflowPython', start_date=days_ago(1), schedule="10 8 * * 1-5
         retries=0,
         do_xcom_push=True,
         slack_channel="{{ var.value.get('SLACK_ALERT_CHANNEL') }}",
+   
     )
