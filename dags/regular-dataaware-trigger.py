@@ -8,7 +8,7 @@ from airflow.decorators import dag, task
     dag_id="RegularDataAware",
     dag_display_name="RegularDataAware",
     start_date=days_ago(1),
-    schedule_interval=None,
+    #schedule_interval=None,
     schedule=[Dataset("gs://local-flyte-test/file.txt")],
     catchup=False,
 )
