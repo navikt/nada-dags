@@ -1,7 +1,7 @@
 from airflow import DAG, Dataset
 from airflow.utils.dates import days_ago
 from dataverk_airflow import python_operator
-import kubernetes as k8s
+from kubernetes import client as k8s
 
 
 with DAG('DataAwareSchedulingTrigger', start_date=days_ago(1), schedule=[Dataset("gs://local-flyte-test/file.txt")], catchup=False) as dag:
