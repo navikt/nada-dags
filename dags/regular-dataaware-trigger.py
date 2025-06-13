@@ -13,7 +13,7 @@ from airflow.decorators import dag, task
     catchup=False,
 )
 def trigger_test():
-    @task(
+    @task()
         # executor_config={
         #     "pod_override": k8s.V1Pod(
         #         spec=k8s.V1PodSpec(
@@ -26,8 +26,10 @@ def trigger_test():
         #         ),
         #     )
         # },
-    )
+    # )
     def transfer():
         print("triggered by data aware scheduling")
   
     transfer()
+
+trigger_test()
