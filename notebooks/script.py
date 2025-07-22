@@ -6,3 +6,5 @@ print("hello")
 
 with open("/airflow/xcom/return.json", "w") as f:
     f.write(json.dumps({"hei": "hei"}))
+
+print(1/0)
