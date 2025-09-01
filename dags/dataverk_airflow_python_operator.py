@@ -8,7 +8,6 @@ with DAG('DataverkAirflowPython', start_date=days_ago(1), schedule="10 8 * * 1-5
         dag=dag,
         name="python-op",
         repo="navikt/nada-dags",
-        branch="finnes-ikke",
         delete_on_finish=False,
         script_path="notebooks/script.py",
         requirements_path="notebooks/requirements.txt",
