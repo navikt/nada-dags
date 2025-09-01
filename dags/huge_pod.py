@@ -1,7 +1,7 @@
 import pendulum
 from kubernetes.client import models as k8s
 from airflow import DAG
-from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
+from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from airflow.providers.slack.notifications.slack import send_slack_notification
 
 default_args = {
