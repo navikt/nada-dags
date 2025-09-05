@@ -15,6 +15,7 @@ with DAG('DataverkAirflowQuartoDashboard', start_date=days_ago(1), schedule="5 1
         dag=dag,
         name="quarto-op",
         repo="navikt/nada-dags",
+        image="europe-north1-docker.pkg.dev/knada-gcp/knada-north/dataverk-airflow-python-3.12-man:v2",
         quarto={
             "folder": "notebooks/quarto",
             "env": "dev",
