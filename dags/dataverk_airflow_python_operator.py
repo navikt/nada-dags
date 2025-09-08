@@ -9,7 +9,6 @@ with DAG('DataverkAirflowPython', start_date=days_ago(1), schedule="10 8 * * 1-5
         name="python-op",
         repo="navikt/nada-dags",
         script_path="notebooks/script.py",
-        image="europe-north1-docker.pkg.dev/knada-gcp/knada-north/dataverk-airflow-python-3.12-man:v2",
         requirements_path="notebooks/requirements.txt",
         retries=0,
         do_xcom_push=True,
