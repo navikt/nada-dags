@@ -29,6 +29,6 @@ with DAG('DataverkAirflowPythonOracleClient', start_date=days_ago(1), schedule="
             "ORACLE_DB_SERVICE_NAME": oracle_service_name,
         },
         retries=0,
-        #slack_channel="#nada-alerts-dev",
+        slack_channel="#nada-alerts-dev",
         use_uv_pip_install=True,
     )
