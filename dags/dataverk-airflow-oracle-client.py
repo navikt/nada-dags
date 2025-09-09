@@ -19,6 +19,7 @@ with DAG('DataverkAirflowPythonOracleClient', start_date=days_ago(1), schedule="
         repo="navikt/nada-dags",
         script_path="notebooks/connectorx-script.py",
         requirements_path="notebooks/requirements-connectorx.txt",
+        allowlist=["dmv04-scan.adeo.no:1521"],
         extra_envs={
             "ORACLE_DB_USER": oracle_user,
             "ORACLE_DB_PASSWORD": oracle_pass,
