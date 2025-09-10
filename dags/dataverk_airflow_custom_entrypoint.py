@@ -8,7 +8,7 @@ with DAG('DataverkAirflowPythonEntrypointOverride', start_date=days_ago(1), sche
         dag=dag,
         name="dataverk-airflow-entrypoint-override",
         repo="navikt/nada-dags",
-        branch="dev"
+        branch="dev",
         image="europe-north1-docker.pkg.dev/knada-gcp/knada-north/dataverk-airflow-python-3.11-man:v128",
         entrypoint=[
             "dbt",
