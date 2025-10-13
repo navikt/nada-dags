@@ -16,6 +16,7 @@ with DAG('DataverkAirflowQuartoBook', start_date=days_ago(1), schedule="15 8 * *
         name="quarto-op",
         repo="navikt/nada-dags",
         python_version="3.10",
+        image="europe-north1-docker.pkg.dev/knada-gcp/knada-north/dv-airflow:128",
         use_uv_pip_install=True,
         quarto={
             "folder": "notebooks/quartobook",
