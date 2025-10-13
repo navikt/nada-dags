@@ -3,5 +3,6 @@
 This is a book created from markdown and executable code.
 
 ```{python}
-1/0
+#1/0
+print("hello")
 ```
