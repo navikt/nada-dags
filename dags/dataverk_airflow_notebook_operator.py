@@ -18,7 +18,6 @@ with DAG('DataverkAirflowNotebook', start_date=days_ago(1), schedule="0 8 * * 1-
               "memory": "1Gi",
             },
             limits={
-              "cpu": "1",
               "memory": "2Gi",
             }
         ),
