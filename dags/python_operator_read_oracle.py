@@ -33,10 +33,9 @@ with DAG(
     schedule_interval = '15 0 * * *', 
     start_date= datetime(2022, 9, 1, tzinfo=pendulum.timezone("Europe/Oslo")),
     catchup = False, 
-    tags =["syfo_kandidakter_enhet", "slack", "oracle", "postgres"],
     max_active_runs=1,
 ) as dag:
-  t_kandidat_enhet_lasting_1  = PythonOperator(
+  task  = PythonOperator(
     dag=dag,
     task_id='read_oracle', 
     python_callable=read_oracle,
