@@ -29,7 +29,7 @@ def read_oracle():
   
 
 with DAG(
-    'python-operator-read-oracle', 
+    'PythonOperatorReadOracle', 
     schedule_interval = '15 0 * * *', 
     start_date= datetime(2022, 9, 1, tzinfo=pendulum.timezone("Europe/Oslo")),
     catchup = False, 
