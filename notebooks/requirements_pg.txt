@@ -1,4 +1,4 @@
 cloud-sql-python-connector==1.18.4
 pandas==2.3.2
-pg8000==1.31.4
+pg8000==1.31.5
 sqlalchemy==2.0.43
